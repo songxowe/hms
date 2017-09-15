@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hms.dao.RoomCaseMapper">
+
+    <resultMap id="roomCase-result" type="com.hms.pojo.RoomCase">
+        <id property="roomCaseId" column="roomcase_id"/>
+        <result property="roomCaseName" column="roomcase_name"/>
+        <result property="payType" column="pay_type"/>
+        <result property="guestType" column="guest_type"/>
+        <result property="ordinaryPrice" column="ordinary_price"/>
+        <result property="weekendPrice" column="weekend_price"/>
+        <result property="nightPrice" column="night_price"/>
+        <result property="monthPrice" column="month_price"/>
+        <result property="priceType" column="price_type"/>
+        <result property="roomDefault" column="room_default"/>
+        <result property="priceStatus" column="price_status"/>
+        <result property="sales" column="sales"/>
+        <result property="otherOne" column="other_one"/>
+        <result property="otherTwo" column="other_two"/>
+        <result property="otherThree" column="other_three"/>
+
+        <association property="roomType" javaType="com.hms.pojo.RoomType">
+            <id property="roomTypeId" column="roomType_id"/>
+            <result property="roomTypeName" column="roomType_Name"/>
+            <result property="roomTypeRemark" column="roomType_Remark"/>
+            <result property="otherOne" column="rtother_One"/>
+            <result property="otherTwoo" column="rtther_Two"/>
+            <result property="otherThree" column="rtother_Three"/>
+        </association>
+
+    </resultMap>
+
+
+
+    <select id="findById" resultMap="roomCase-result" parameterType="INTEGER">
+        select *,rt.other_one rtother_one,rt.other_two rtother_two,rt.other_three rtother_three
+        from roomcase rc INNER JOIN  roomtype rt ON rc.roomtype_id=rt.roomtype_id
+        where roomcase_id=#{roomCaseId}
+    </select>
+
+    <sql id="whereCase">
+        <where>
+            1=1
+            <if test="roomTypeId != null and roomTypeId != ''">
+                and rc.roomtype_id = #{roomTypeId}
+            </if>
+            <if test="roomCaseName != null and roomCaseName != ''">
+                and rc.roomCase_Name LIKE concat("%",#{roomCaseName},"%")
+            </if>
+            <if test="payType != null and payType != ''">
+                and rc.pay_Type LIKE concat("%",#{payType},"%")
+            </if>
+            <if test="guestType != null and guestType != ''">
+                and rc.guest_Type LIKE concat("%",#{guestType},"%")
+            </if>
+            <if test="ordinaryPrice != null and ordinaryPrice != ''">
+                and rc.ordinary_Price LIKE concat("%",#{ordinaryPrice},"%")
+            </if>
+            <if test="weekendPrice != null and weekendPrice != ''">
+                and rc.weekend_Price LIKE concat("%",#{weekendPrice},"%")
+            </if>
+            <if test="nightPrice != null and nightPrice != ''">
+                and rc.night_Price LIKE concat("%",)#{nightPrice},"%"
+            </if>
+            <if test="monthPrice != null and monthPrice != ''">
+                and rc.month_Price LIKE concat("%",#{monthPrice},"%")
+            </if>
+            <if test="priceStatus != null and priceStatus != ''">
+                and rc.price_Status LIKE concat("%",#{priceStatus},"%")
+            </if>
+        </where>
+    </sql>
+
+    <select id="findByParam" resultMap="roomCase-result">
+        select *,rt.other_one rtother_one,rt.other_two rtother_two,rt.other_three rtother_three
+        from roomcase rc INNER JOIN  roomtype rt ON rc.roomtype_id=rt.roomtype_id
+        <include refid="whereCase"></include>
+    </select>
+
+</mapper>

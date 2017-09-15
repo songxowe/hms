@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hms.dao.BookroomMapper">
+
+    <resultMap type="com.hms.pojo.Bookroom" id="bookroom-result">
+        <id property="brId" column="br_Id"/>
+        <result property="bookId" column="book_Id"/>
+        <result property="roomAmount" column="room_Amount"/>
+        <result property="otherOne" column="other_One"/>
+        <result property="otherTwo" column="other_Two"/>
+        <result property="otherThree" column="other_Three"/>
+        <association property="roomCase" column="roomcase_id" javaType="com.hms.pojo.RoomCase">
+            <id property="roomCaseId" column="roomcase_id"/>
+        </association>
+        <association property="roomType" column="roomtype_id" javaType="com.hms.pojo.RoomType">
+            <id property="roomTypeId" column="roomtype_id"/>
+        </association>
+    </resultMap>
+
+
+    <insert id="add" useGeneratedKeys="true" keyProperty="brId" parameterType="com.hms.pojo.Bookroom">
+        INSERT INTO bookroom(
+           book_id, roomcase_id, roomtype_id, room_amount,
+           other_one, other_two, other_three)
+        VALUES (
+            #{bookId,jdbcType=INTEGER},#{roomCase.roomCaseId,jdbcType=INTEGER},#{roomType.roomTypeId,jdbcType=INTEGER},
+            #{roomAmount,jdbcType=INTEGER},
+            #{otherOne,jdbcType=VARCHAR},#{otherTwo,jdbcType=VARCHAR},#{otherThree,jdbcType=VARCHAR}
+        )
+
+    </insert>
+
+    <select id="findById" parameterType="int" resultMap="bookroom-result">
+        SELECT * FROM bookroom where br_Id=#{brId}
+    </select>
+
+    <select id="findByTime" resultMap="bookroom-result">
+        SELECT br.* FROM bookroom br,book b WHERE br.book_id=b.book_id
+        AND b.book_status LIKE '%已预定%'
+        AND br.roomtype_id = #{roomTypeId}
+        and ((b.come_time BETWEEN #{inTime} AND #{preoutTime}) OR (b.keep_time BETWEEN #{inTime} AND #{preoutTime}))
+
+    </select>
+</mapper>

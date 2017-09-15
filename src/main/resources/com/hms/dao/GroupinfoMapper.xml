@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hms.dao.GroupinfoMapper">
+    <resultMap type="com.hms.pojo.Groupinfo" id="groupinfo-result">
+        <id property="groupId" column="group_Id"/>
+        <result property="diyId" column="diy_Id"/>
+        <result property="groupName" column="group_Name"/>
+        <result property="groupLeader" column="group_Leader"/>
+        <result property="leaderPhone" column="leader_Phone"/>
+        <result property="menderId" column="mender_Id"/>
+        <result property="guestType" column="guest_Type"/>
+        <result property="inTime" column="in_Time"/>
+        <result property="stayHours" column="stay_Hours"/>
+        <result property="sumMoney" column="sum_Money"/>
+        <result property="otherOne" column="other_One"/>
+        <result property="otherTwo" column="otherTwo"/>
+        <result property="otherThree" column="other_Three"/>
+
+    </resultMap>
+
+
+    <insert id="add" useGeneratedKeys="true" keyProperty="groupId" parameterType="com.hms.pojo.Groupinfo">
+		INSERT INTO groupinfo(
+          diy_id, group_name, group_leader,
+          leader_phone, mender_id, guest_type,
+          in_time, stay_hours, sum_money,
+          other_one, other_two, other_three)
+        VALUES (
+          #{diyId,jdbcType=INTEGER},#{groupName,jdbcType=VARCHAR},#{groupLeader,jdbcType=VARCHAR},
+          #{leaderPhone,jdbcType=VARCHAR},#{menderId,jdbcType=INTEGER},#{guestType,jdbcType=VARCHAR},
+          #{inTime,jdbcType=TIMESTAMP},#{stayHours,jdbcType=INTEGER},#{sumMoney,jdbcType=DOUBLE},
+          #{otherOne,jdbcType=VARCHAR},#{otherTwo,jdbcType=VARCHAR},#{otherThree,jdbcType=VARCHAR}
+        )
+	</insert>
+
+    <select id="findById" parameterType="int" resultMap="groupinfo-result">
+        SELECT * FROM groupinfo where group_id=#{groupId}
+    </select>
+
+    <update id="modify" parameterType="com.hms.pojo.Groupinfo">
+        UPDATE groupinfo SET
+            diy_id=#{diyId,jdbcType=INTEGER}, group_name=#{groupName,jdbcType=VARCHAR}, group_leader=#{groupLeader,jdbcType=VARCHAR},
+            leader_phone=#{leaderPhone,jdbcType=VARCHAR}, mender_id=#{menderId,jdbcType=INTEGER}, guest_type=#{guestType,jdbcType=VARCHAR},
+            in_time=#{inTime,jdbcType=TIMESTAMP}, stay_hours=#{stayHours,jdbcType=INTEGER}, sum_money=#{sumMoney,jdbcType=DOUBLE},
+            other_one=#{otherOne,jdbcType=VARCHAR}, other_two=#{otherTwo,jdbcType=VARCHAR}, other_three=#{otherThree,jdbcType=VARCHAR}
+      where group_id=#{groupId}
+    </update>
+</mapper>

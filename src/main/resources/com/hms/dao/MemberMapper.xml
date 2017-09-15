@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hms.dao.MemberMapper">
+
+    <resultMap type="com.hms.pojo.Membertype" id="membertype-result">
+        <id property="membertypeId" column="membertype_id"/>
+        <result property="membertypeName" column="membertype_name"/>
+        <result property="defaultMoney" column="default_money"/>
+        <result property="defaultScore" column="default_score"/>
+        <result property="discountRate" column="discount_rate"/>
+    </resultMap>
+
+    <resultMap type="com.hms.pojo.Member" id="member-result">
+        <id property="memberId" column="member_id"/>
+        <result property="voucher" column="voucher"/>
+        <result property="voucherNo" column="voucher_no"/>
+        <result property="memberName" column="member_name"/>
+        <result property="memberSex" column="member_sex"/>
+        <result property="memberBirthdate" column="member_birthdate"/>
+        <result property="memberPhone" column="member_phone"/>
+        <result property="memberAddress" column="member_address"/>
+        <result property="memberHobby" column="member_hobby"/>
+        <result property="memberPassword" column="member_password"/>
+        <result property="operater" column="operater"/>
+        <result property="activeTime" column="active_time"/>
+        <result property="memberScore" column="member_score"/>
+        <result property="memberStatus" column="member_status"/>
+        <result property="memberRemaining" column="member_remaining"/>
+        <result property="memberConsume" column="member_consume"/>
+        <result property="lastchangeTime" column="lastchange_time"/>
+        <!-- N:1 关联部门信息 -->
+        <association property="membertype" column="membertype_id" javaType="com.hms.pojo.Membertype"
+                     resultMap="membertype-result"/>
+    </resultMap>
+
+
+    <sql id="WhereCase">
+        <where>
+            m.membertype_id=t.membertype_id
+            <if test="memberId!=null and memberId>0">
+                AND member_id =#{memberId}
+            </if>
+            <if test="membertypeId!=null and membertypeId>0">
+                AND m.membertype_id=#{membertypeId}
+            </if>
+            <if test="memberName != null and memberName != ''">
+                AND member_name LIKE CONCAT('%',#{memberName},'%')
+            </if>
+            <if test="memberPhone!=null and memberPhone!=''">
+                AND member_phone LIKE CONCAT('%',#{memberPhone},'%')
+            </if>
+            <if test="memberStatus != null and memberStatus!= ''">
+                AND member_status LIKE CONCAT('%',#{memberStatus},'%')
+            </if>
+            <if test="memberStatus==null">
+                AND member_status LIKE '%正常%'
+            </if>
+        </where>
+    </sql>
+
+    <sql id="orderBy">
+        <if test="sort != null and order != null">
+            order by
+            <choose>
+                <when test="sort == 'membertypeId'">membertype_id</when>
+                <when test="sort == 'memberName'">member_name</when>
+                <when test="sort == 'activeTime'">active_time</when>
+                <when test="sort == 'memberScore'">member_score</when>
+                <otherwise>member_id</otherwise>
+            </choose>
+            <if test="order == 'asc'">asc</if>
+            <if test="order == 'desc'">desc</if>
+        </if>
+    </sql>
+
+
+    <select id="findPager" resultMap="member-result">
+        select m.*,t.* from member m,membertype t
+        <include refid="WhereCase"/>
+        <include refid="orderBy"/>
+    </select>
+
+
+    <select id="findByParam" resultMap="member-result">
+        select m.*,t.* from member m,membertype t
+        <include refid="WhereCase"/>
+    </select>
+
+    <select id="findPagerTotal" resultType="long">
+        select count(member_id) from member m
+        <include refid="WhereCase"/>
+    </select>
+
+    <select id="findById" parameterType="Integer" resultMap="member-result">
+        select m.*,t.membertype_name
+        from member m,membertype t where m.membertype_id=t.membertype_id AND member_id=#{memberId}
+    </select>
+
+</mapper>

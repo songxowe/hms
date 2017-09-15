@@ -1,0 +1,53 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <base href="<%=basePath%>">
+
+    <title>房价方案设置</title>
+    <meta charset="utf-8">
+    <!--
+	<link rel="stylesheet" type="text/css" href="styles.css">
+	-->
+    <script type="text/javascript" src="../../easyui/jquery.min.js"></script>
+
+    <script type="text/javascript" src="../../easyui/jquery.easyui.min.js"></script>
+
+    <script type="text/javascript" src="../../easyui/locale/easyui-lang-zh_CN.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="../../easyui/themes/metro/easyui.css">
+
+    <link rel="stylesheet" type="text/css" href="../../easyui/themes/icon.css">
+    <script type="text/javascript" src="js/index.js"></script>
+</head>
+
+<body>
+    <div class="easyui-layout" fit="true">
+
+        <div data-options="region:'center'">
+            <div id="editTool">
+ <label style="margin-left: 20px;">房间类型：</label><select style="width: 80px; margin-right: 25px" id="Status"
+                    class="easyui-combobox">
+                <option value="" selected="selected">全部</option>
+                <!--<option value="0">新卡</option>
+                    <option value="1">未激活</option>-->
+                <option value="10">双人间</option>
+                <option value="20">单人间</option>
+                <option value="21">豪华双人间</option>
+            </select>
+               
+                <a href="#" class="easyui-linkbutton" iconCls="icon-search" onclick="advEmp()">查询</a>
+
+            </div>
+            <table id="dgEmp">         
+            </table>
+            
+
+            <div id="empView"></div>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

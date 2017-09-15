@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hms.dao.ExpenseMapper">
+
+    <resultMap id="expense-result" type="com.hms.pojo.Expense">
+        <id property="expenseId" column="expense_id"></id>
+        <result property="billid" column="bill_id"></result>
+        <result property="expenseName" column="expense_name"></result>
+        <result property="expensePrice" column="expense_price"></result>
+        <result property="expenseType" column="expense_type"></result>
+        <result property="expenseUnit" column="expense_unit"></result>
+        <result property="expenseStatus" column="expense_status"></result>
+    </resultMap>
+    <sql id="expense">
+        <where> 1=1
+        <if test="expenseName!=null and expenseName!=''">
+            AND expense_name LIKE concat ('%',#{expenseName},'%')</if>
+        </where>
+    </sql>
+    <select id="find"  resultMap="expense-result">
+        SELECT * from expense
+        <include refid="expense"></include>
+    </select>
+    <insert id="add" parameterType="com.hms.pojo.Expense">
+        INSERT INTO expense(bill_id,expense_name , expense_type , expense_unit , expense_price , expense_status )
+        VALUES (#{bill_id,jdbcType=INTEGER},#{expenseName,jdbcType=VARCHAR},#{expenseType,jdbcType=VARCHAR},
+        #{expenseUnit,jdbcType=VARCHAR},#{expensePrice,jdbcType=DOUBLE},#{expenseStatus,jdbcType=VARCHAR})
+    </insert>
+    <update id="modify" parameterType="com.hms.pojo.Expense">
+        UPDATE expense SET bill_id=#{bill_id,jdbcType=INTEGER}, expense_name=#{expenseName,jdbcType=VARCHAR}, expense_type=#{expenseType,jdbcType=VARCHAR},
+         expense_unit=#{expenseUnit,jdbcType=VARCHAR}, expense_price=#{expensePrice,jdbcType=DOUBLE},
+         expense_status=#{expenseStatus,jdbcType=VARCHAR}
+         WHERE expense_id=#{expenseId}
+    </update>
+    <select id="findById" parameterType="Integer" resultMap="expense-result">
+        SELECT *FROM expense WHERE expense_id=#{expenseId}
+    </select>
+</mapper>

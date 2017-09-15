@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hms.dao.SupplierMapper">
+    <resultMap id="supplier-result" type="com.hms.pojo.Supplier">
+        <id property="supplierId"     column="supplier_id"/>
+        <result property="supplierName"  column="supplier_name"/>
+        <result property="supplierContacter" column="supplier_Contacter"/>
+        <result property="supplierPhone" column="supplier_phone"/>
+        <result property="supplierAddress" column="supplier_Address"/>
+        <result property="supplierFax" column="supplier_Fax"/>
+        <result property="supplierStatus" column="supplier_status"/>
+    </resultMap>
+    <sql id="supplier">
+        <where>
+            1=1
+            <if test="supplierName!=null and supplierName!=''">
+                AND supplier_name LIKE concat('%',#{supplierName},'%')
+            </if>
+        </where>
+    </sql>
+    <select id="find" resultMap="supplier-result">
+        select * from supplier
+        <include refid="supplier"></include>
+    </select>
+
+    <insert id="add" parameterType="com.hms.pojo.Supplier">
+        INSERT INTO supplier(supplier_name, supplier_contacter, supplier_phone,
+        supplier_address, supplier_fax, supplier_status)
+        VALUES (#{supplierName,jdbcType=VARCHAR},#{supplierContacter,jdbcType=VARCHAR},
+        #{supplierPhone,jdbcType=INTEGER},#{supplierAddress,jdbcType=VARCHAR},
+        #{supplierFax,jdbcType=VARCHAR},#{supplierStatus,jdbcType=VARCHAR})
+    </insert>
+    <update id="modfiy" parameterType="com.hms.pojo.Supplier">
+        UPDATE supplier SET supplier_name=#{supplierName,jdbcType=VARCHAR},
+         supplier_contacter=#{supplierContacter,jdbcType=VARCHAR}, supplier_phone=#{supplierPhone,jdbcType=INTEGER},
+        supplier_address=#{supplierAddress,jdbcType=VARCHAR}, supplier_fax=#{supplierFax,jdbcType=VARCHAR},
+         supplier_status=#{supplierStatus,jdbcType=VARCHAR} WHERE supplier_id=#{supplierId}
+    </update>
+
+    <delete id="remove" parameterType="int">
+        DELETE from supplier WHERE supplier_id=#{supplierId}
+    </delete>
+    <select id="findById" parameterType="Integer" resultMap="supplier-result">
+   SELECT * from supplier where supplier_id=#{supplierId}
+</select>
+</mapper>

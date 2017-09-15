@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.softfactory.demo.dao.DeptMapper">
+	<resultMap type="com.softfactory.pojo.Dept" id="dept-result">
+		<id property="deptno" column="DEPTNO" />
+		<result property="dname" column="DNAME" />
+		<result property="loc" column="LOC" />
+	</resultMap>
+
+	<sql id="pageSQLHead">
+		select DEPTNO,DNAME,LOC from
+		(select
+		row_number()
+		over(
+	</sql>
+
+	<sql id="orderBy">
+		<if test="sort != null and order != null">
+			order by
+			<choose>
+				<when test="sort == 'deptno'">DEPTNO</when>
+				<when test="sort == 'dname'">DNAME</when>
+				<when test="sort == 'loc'">LOC</when>
+				<otherwise>DEPTNO</otherwise>
+			</choose>
+
+			<if test="order == 'asc'">asc</if>
+			<if test="order == 'desc'">desc</if>
+		</if>
+	</sql>
+
+	<sql id="WhereCase">
+		<where>
+			1=1
+			<if test="dname != null and dname != ''">
+				and DNAME LIKE #{dname}
+			</if>
+			<if test="loc != null and loc != ''">
+        and LOC LIKE #{loc}
+      </if>
+		</where>
+	</sql>
+
+	<sql id="pageSQLFoot">
+    <![CDATA[ ) where rn > #{pageno} and rn <= #{pagesize} ]]>
+	</sql>
+
+	<select id="findPager" resultMap="dept-result">
+		<include refid="pageSQLHead" />
+		<include refid="orderBy" />
+		) rn,d.* from DEPT d
+		<include refid="WhereCase" />
+		<include refid="pageSQLFoot" />
+	</select>
+
+	<select id="findPagerTotal" resultType="long">
+		select count(deptno) from DEPT
+		<include refid="WhereCase" />
+	</select>
+</mapper>

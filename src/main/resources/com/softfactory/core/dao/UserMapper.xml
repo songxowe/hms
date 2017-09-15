@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.softfactory.core.dao.UserMapper">
+	<resultMap type="com.softfactory.pojo.User" id="user-result">
+		<id property="id" column="ID" />
+		<result property="username" column="USERNAME" />
+		<result property="password" column="PASSWORD" />
+		<result property="status" column="STATUS" />
+		<result property="photoPath" column="PHOTO_PATH" />
+	</resultMap>
+
+	<sql id="pageSQLHead">
+		select ID,USERNAME,PASSWORD,STATUS,PHOTO_PATH from
+		(select
+		row_number() over(
+	</sql>
+
+	<sql id="orderBy">
+		<if test="sort != null and order != null">
+			order by
+			<choose>
+				<when test="sort == 'id'">ID</when>
+				<when test="sort == 'username'">USERNAME</when>
+				<when test="sort == 'status'">STATUS</when>
+			</choose>
+
+			<if test="order == 'asc'">asc</if>
+			<if test="order == 'desc'">desc</if>
+		</if>
+	</sql>
+
+	<sql id="WhereCase">
+		<where>
+			1=1
+			<if test="username != null and username != ''">
+				and USERNAME LIKE #{username}
+			</if>
+			<if test="status != null and status != ''">
+				and STATUS LIKE #{status}
+			</if>
+		</where>
+	</sql>
+
+	<sql id="pageSQLFoot">
+    <![CDATA[ ) where rn > #{pageno} and rn <= #{pagesize} ]]>
+	</sql>
+
+	<select id="findPager" resultMap="user-result">
+		<include refid="pageSQLHead" />
+		<include refid="orderBy" />
+		) rn,u.* from SYS_USERS u
+		<include refid="WhereCase" />
+		<include refid="pageSQLFoot" />
+	</select>
+
+	<select id="findPagerTotal" resultType="long">
+		select count(id) from SYS_USERS
+		<include refid="WhereCase" />
+	</select>
+</mapper>

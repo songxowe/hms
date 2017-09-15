@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hms.dao.RoomMapper">
+    <!--外键floor需要-->
+    <resultMap id="floor-result" type="com.hms.pojo.Floor">
+        <id property="floorId" column="floor_id"/>
+        <result property="otherOne" column="fother_one"/>
+        <result property="otherTwo" column="fother_two"/>
+        <result property="otherThree" column="fother_three"/>
+    </resultMap>
+
+    <!--外键roomtype需要-->
+    <resultMap id="roomtype-result" type="com.hms.pojo.RoomType">
+        <id property="roomTypeId" column="roomType_id"/>
+        <result property="roomTypeName" column="roomType_Name"/>
+        <result property="roomTypeRemark" column="roomType_Remark"/>
+        <result property="otherOne" column="rtother_One"/>
+        <result property="otherTwoo" column="rtther_Two"/>
+        <result property="otherThree" column="rtother_Three"/>
+    </resultMap>
+    
+    
+    <resultMap id="room-result" type="com.hms.pojo.Room">
+        <id property="roomId" column="room_id"/>
+        <result property="roomNo" column="room_no"/>
+        <result property="roomStatus" column="room_status"/>
+        <result property="roomRemark" column="room_remark"/>
+        <result property="otherOne" column="other_one"/>
+        <result property="otherTwo" column="other_two"/>
+        <result property="otherThree" column="other_three"/>
+
+        <association property="floor" javaType="com.hms.pojo.Floor" resultMap="floor-result"></association>
+        <association property="roomType" javaType="com.hms.pojo.RoomType" resultMap="roomtype-result"></association>
+    </resultMap>
+
+    <insert id="addRoom" parameterType="com.hms.pojo.Room">
+        INSERT  INTO room(floor_id,roomType_id,room_no,room_status,room_remark,other_one,other_two,other_three) VALUES (#{room.floor.floorId},#{room.roomType.roomTypeId},#{room.roomNo},#{room.roomStatus},#{room.roomRemark},#{room.otherOne},#{room.otherTwo},#{room.otherThree})
+    </insert>
+
+    <select id="findById" parameterType="Integer" resultMap="room-result">
+        SELECT *,
+
+        f.other_one fother_one,f.other_two fother_two,f.other_three fother_three,rt.other_one rtother_one,rt.other_two rtother_two,rt.other_three rtother_three
+        FROM room r,floor f,roomtype rt
+        WHERE r.floor_id = f.floor_id and r.roomtype_id = rt.roomtype_id and room_id=#{roomId}
+    </select>
+
+    <sql id="whereCase">
+        <where>
+            1=1
+            and r.floor_id = f.floor_id and r.roomtype_id = rt.roomtype_id
+            <if test="floorId != null and floorId != ''">
+                and r.floor_Id = #{floorId}
+            </if>
+            <if test="roomTypeId != null and roomTypeId != ''">
+                and r.roomType_Id = #{roomTypeId}
+            </if>
+            <if test="roomNo != null and roomNo != ''">
+                and r.room_No = #{roomNo}
+            </if>
+            <if test="roomStatus != null and roomStatus != ''">
+                and r.room_Status LIKE concat("%",#{roomStatus},"%")
+            </if>
+        </where>
+    </sql>
+
+    <sql id="idWhereCase">
+        <where>
+            1=1
+           and r.roomtype_id = rt.roomtype_id
+            <if test="roomTypeId != null and roomTypeId != ''">
+                and r.roomType_Id = #{roomTypeId}
+            </if>
+
+            <if test="roomId != null and roomId != ''">
+                and r.room_Id = #{roomId}
+            </if>
+
+        </where>
+    </sql>
+
+    <select id="findByParam" resultMap="room-result">
+         SELECT *,
+        f.other_one fother_one,f.other_two fother_two,f.other_three fother_three,
+        rt.other_one rtother_one,rt.other_two rtother_two,rt.other_three rtother_three
+         FROM room r,floor f,roomtype rt
+        <include refid="whereCase"></include>
+    </select>
+
+    <select id="find" resultMap="room-result">
+        SELECT *, rt.other_one rtother_one,rt.other_two rtother_two,rt.other_three rtother_three
+         FROM room r,roomtype rt
+        <include refid="idWhereCase"></include>
+    </select>
+</mapper>

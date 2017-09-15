@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: se.jiderhamn.classloader-leak-prevention:classloader-leak-prevention-servlet:2.1.0">
+    <CLASSES>
+      <root url="jar://$APPLICATION_HOME_DIR$/IntelliJIdeaMaven/repository/repo/se/jiderhamn/classloader-leak-prevention/classloader-leak-prevention-servlet/2.1.0/classloader-leak-prevention-servlet-2.1.0.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$APPLICATION_HOME_DIR$/IntelliJIdeaMaven/repository/repo/se/jiderhamn/classloader-leak-prevention/classloader-leak-prevention-servlet/2.1.0/classloader-leak-prevention-servlet-2.1.0-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$APPLICATION_HOME_DIR$/IntelliJIdeaMaven/repository/repo/se/jiderhamn/classloader-leak-prevention/classloader-leak-prevention-servlet/2.1.0/classloader-leak-prevention-servlet-2.1.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

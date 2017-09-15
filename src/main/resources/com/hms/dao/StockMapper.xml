@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hms.dao.StockMapper">
+
+
+  <resultMap type="com.hms.pojo.Product" id="product-result">
+    <id property="productId" column="product_Id" />
+    <result property="productName" column="product_Name" />
+    <result property="productType" column="product_type" />
+    <result property="productUnit" column="product_Unit" />
+    <result property="productPrice" column="product_Price" />
+    <result property="productStatus" column="product_Status" />
+
+  </resultMap>
+
+  <resultMap type="com.hms.pojo.Warehouse" id="warehouse-result">
+    <id property="warehouseId" column="warehouse_Id" />
+    <result property="warehouseName" column="warehouse_name"/>
+    <result property="warehouseStatus" column="warehouse_Status"/>
+  </resultMap>
+
+  <resultMap type="com.hms.pojo.Supplier" id="supplier-result">
+    <id property="supplierId" column="supplier_Id" />
+    <result property="supplierName" column="supplier_Name"/>
+    <result property="supplierContacter" column="supplier_Contacter"/>
+    <result property="supplierPhone" column="supplier_phone"/>
+    <result property="supplierAddress" column="supplier_Address"/>
+    <result property="supplierFax" column="supplier_fax"/>
+    <result property="supplierStatus" column="supplier_status"/>
+
+  </resultMap>
+
+  <resultMap type="com.hms.pojo.Stock" id="stock-result">
+
+    <id property="stockId" column="stock_Id" />
+    <result property="stockRemark" column="stock_Remark"/>
+    <result property="stockAbstract" column="stock_Abstract"/>
+    <result property="stockIntroduction" column="stock_Introduction"/>
+    <result property="stockQuantity" column="stock_Quantity"/>
+    <result property="stockSumprice" column="stock_Sumprice"/>
+    <result property="stockDate" column="stock_Date"/>
+    <result property="stockPrice" column="stock_Price"/>
+
+    <association property="supplier" column="supplier_id" javaType="com.hms.pojo.Supplier"
+                 resultMap="supplier-result" />
+    <association property="warehouse" column="warehouse_id" javaType="com.hms.pojo.Warehouse"
+                 resultMap="warehouse-result" />
+    <association property="product" column="product_id" javaType="com.hms.pojo.Product"
+                 resultMap="product-result" />
+  </resultMap>
+
+  <select id="find" resultMap="stock-result">
+    select s.*,w.*,p.*,su.* from stock s,warehouse w,product p,supplier su
+    where s.product_id=p.product_id
+    and s.supplier_id = su.supplier_id and s.warehouse_id = w.warehouse_id
+    <if test="stockId != null">
+      and s.stock_id=7
+    </if>
+
+  </select>
+
+<insert id="add"  parameterType="com.hms.pojo.Stock">
+  INSERT into stock(supplier_id, warehouse_id, product_id,stock_price, stock_remark, stock_abstract, stock_introduction,
+   stock_quantity, stock_sumprice, stock_date)
+  VALUES (#{stock.supplier.supplierId,jdbcType=INTEGER},#{stock.warehouse.warehouseId,jdbcType=INTEGER}
+   ,#{stock.product.productId,jdbcType=INTEGER},#{stock.stockPrice,jdbcType=DOUBLE},#{stock.stockRemark,jdbcType=VARCHAR},#{stock.stockAbstract,jdbcType=VARCHAR},#{stock.stockIntroduction,jdbcType=VARCHAR},#{stock.stockQuantity,jdbcType=INTEGER}
+   ,#{stock.stockSumprice,jdbcType=DOUBLE},#{stock.stockDate,jdbcType=DATE}
+   )
+</insert>
+  <update id="modfiy" parameterType="com.hms.pojo.Stock">
+    UPDATE stock SET supplier_id=#{stock.supplier.supplierId,jdbcType=INTEGER}, warehouse_id=#{stock.warehouse.warehouseId,jdbcType=INTEGER}, product_id=#{stock.product.productId,jdbcType=INTEGER},
+    stock_remark=#{stock.stockRemark,jdbcType=VARCHAR}, stock_abstract=#{stock.stockAbstract,jdbcType=VARCHAR}, stock_introduction=#{stock.stockIntroduction,jdbcType=VARCHAR},stock_price=#{stock.stockPrice,jdbcType=DOUBLE},
+    stock_quantity=#{stock.stockQuantity,jdbcType=INTEGER}, stock_sumprice=#{stock.stockSumprice,jdbcType=DOUBLE}, stock_date=#{stock.stockDate,jdbcType=DATE} WHERE stock_id=#{stock.stockId,jdbcType=INTEGER}
+  </update>
+</mapper>

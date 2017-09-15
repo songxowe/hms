@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: org.postgresql:postgresql:9.4.1211.jre6">
+    <CLASSES>
+      <root url="jar://$APPLICATION_HOME_DIR$/IntelliJIdeaMaven/repository/repo/org/postgresql/postgresql/9.4.1211.jre6/postgresql-9.4.1211.jre6.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$APPLICATION_HOME_DIR$/IntelliJIdeaMaven/repository/repo/org/postgresql/postgresql/9.4.1211.jre6/postgresql-9.4.1211.jre6-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$APPLICATION_HOME_DIR$/IntelliJIdeaMaven/repository/repo/org/postgresql/postgresql/9.4.1211.jre6/postgresql-9.4.1211.jre6-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

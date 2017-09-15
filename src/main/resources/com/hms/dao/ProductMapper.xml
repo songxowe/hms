@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hms.dao.ProductMapper">
+
+    <resultMap id="product-result" type="com.hms.pojo.Product">
+        <id property="productId" column="product_id"></id>
+        <result property="productName" column="product_name"></result>
+        <result property="productPrice" column="product_price"></result>
+        <result property="productType" column="product_type"></result>
+        <result property="productUnit" column="product_unit"></result>
+        <result property="productStatus" column="product_status"></result>
+    </resultMap>
+
+    <sql id="product">
+        <where> 1=1
+        <if test="productName!=null and productName!=''">
+            AND product_Name LIKE concat ('%',#{productName},'%')</if>
+        </where>
+    </sql>
+
+    <select id="find"  resultMap="product-result">
+        SELECT * from product
+        <include refid="product"></include>
+    </select>
+
+    <insert id="add" parameterType="com.hms.pojo.Product">
+        INSERT INTO product(product_name, product_type, product_unit, product_price, product_status)
+          VALUES (#{productName,jdbcType=VARCHAR},#{productType,jdbcType=VARCHAR},#{productUnit,jdbcType=VARCHAR}
+          ,#{productPrice,jdbcType=DOUBLE},#{productStatus,jdbcType=VARCHAR})
+    </insert>
+
+    <update id="modfiy" parameterType="com.hms.pojo.Product">
+        UPDATE product SET product_name=#{productName,jdbcType=VARCHAR}, product_type=#{productType,jdbcType=VARCHAR},
+         product_unit=#{productUnit,jdbcType=VARCHAR}, product_price=#{productPrice,jdbcType=DOUBLE},
+         product_status=#{productStatus,jdbcType=VARCHAR}
+         WHERE product_id=#{productId}
+    </update>
+
+    <select id="findById" parameterType="Integer" resultMap="product-result">
+        SELECT *FROM product WHERE product_id=#{productId}
+    </select>
+
+</mapper>

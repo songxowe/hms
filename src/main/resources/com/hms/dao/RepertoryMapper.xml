@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hms.dao.RepertoryMapper">
+
+  <resultMap type="com.hms.pojo.Product" id="product-result">
+    <id property="productId" column="product_Id" />
+    <result property="productName" column="product_Name" />
+    <result property="productType" column="product_type" />
+    <result property="productUnit" column="product_Unit" />
+    <result property="productPrice" column="product_Price" />
+    <result property="productStatus" column="product_Status" />
+
+  </resultMap>
+
+  <resultMap type="com.hms.pojo.Warehouse" id="warehouse-result">
+    <id property="warehouseId" column="warehouse_Id" />
+    <result property="warehouseName" column="warehouse_name"/>
+    <result property="warehouseStatus" column="warehouse_Status"/>
+  </resultMap>
+
+
+  <resultMap type="com.hms.pojo.Repertory" id="repertory-result">
+    <id property="repertoryId" column="repertory_Id" />
+    <result column="product_total" property="productTotal"></result>
+
+    <association property="warehouse" column="warehouse_id" javaType="com.hms.pojo.Warehouse"
+                 resultMap="warehouse-result" />
+    <association property="product" column="product_id" javaType="com.hms.pojo.Product"
+                 resultMap="product-result" />
+  </resultMap>
+
+  <select id="find" resultMap="repertory-result">
+    select r.*,w.*,p.* from repertory r ,warehouse w,product p where r.product_id=p.product_id
+    and r.warehouse_id = w.warehouse_id
+    and r.repertory_id=#{repertoryId}
+  </select>
+
+  <insert id="add" parameterType="com.hms.pojo.Repertory">
+      INSERT INTO repertory(warehouse_id,product_id, product_total)VALUES (#{repertory.warehouse.warehouseId,jdbcType=INTEGER}
+      ,#{repertory.product.productId,jdbcType=INTEGER},#{repertory.productTotal,jdbcType=INTEGER})
+  </insert>
+
+  <update id="modfiy" parameterType="com.hms.pojo.Repertory">
+    UPDATE repertory SET warehouse_id=#{repertory.warehouse.warehouseId,jdbcType=INTEGER} ,product_total=#{repertory.productTotal,jdbcType=INTEGER}
+    WHERE product_id=#{repertory.product.productId,jdbcType=INTEGER}
+  </update>
+  <select id="Pfindbyid" resultMap="repertory-result">
+ select r.*,w.*,p.* from repertory r ,warehouse w,product p where r.product_id=p.product_id
+ and r.warehouse_id = w.warehouse_id
+ and r.product_id=#{productId}
+ and r.warehouse_id=#{warehouseId}
+  </select>
+</mapper>

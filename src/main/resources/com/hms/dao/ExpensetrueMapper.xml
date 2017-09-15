@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hms.dao.ExpensetrueMapper">
+    <resultMap type="com.hms.pojo.Expensetrue" id="expensetrue-result">
+        <id property="expensetrueId" column="expensetrue_Id"/>
+        <result property="expensetrueName" column="expensetrue_Name"/>
+        <result property="expensetrueType" column="expensetrue_Type"/>
+        <result property="expensetrueUnit" column="expensetrue_Unit"/>
+        <result property="expensetruePrice" column="expensetrue_Price"/>
+        <result property="expensetrueStatus" column="expensetrue_Status"/>
+        <result property="billId" column="bill_Id"/>
+
+    </resultMap>
+
+
+    <insert id="add" useGeneratedKeys="true" keyProperty="expensetrueId" parameterType="com.hms.pojo.Expensetrue">
+        INSERT INTO expensetrue(
+        expensetrue_name, expensetrue_type,
+        expensetrue_unit, expensetrue_price, expensetrue_status, bill_Id)
+        VALUES (
+        #{expensetrueName,jdbcType=VARCHAR},#{expensetrueType,jdbcType=VARCHAR},
+        #{expensetrueUnit,jdbcType=INTEGER},#{expensetruePrice,jdbcType=DOUBLE},#{expensetrueStatus,jdbcType=VARCHAR},#{billId,jdbcType=INTEGER}
+        )
+
+    </insert>
+    <update id="modify" parameterType="com.hms.pojo.Expensetrue">
+        UPDATE expensetrue SET
+        expensetrue_name=#{expensetrueName,jdbcType=VARCHAR}, expensetrue_type=#{expensetrueType,jdbcType=VARCHAR}, expensetrue_unit=#{expensetrueUnit,jdbcType=INTEGER},
+        expensetrue_price=#{expensetruePrice,jdbcType=DOUBLE}, expensetrue_status=#{expensetrueStatus,jdbcType=VARCHAR}, bill_Id=#{billId,jdbcType=INTEGER}
+        where expensetrue_id = #{expensetrueId}
+    </update>
+    <select id="findById" parameterType="int" resultMap="expensetrue-result">
+        SELECT * FROM expensetrue where expensetrue_id=#{expensetrueId}
+    </select>
+
+    <select id="findByBillId" parameterType="int" resultMap="expensetrue-result">
+        SELECT * FROM expensetrue where bill_Id=#{billId}
+    </select>
+</mapper>

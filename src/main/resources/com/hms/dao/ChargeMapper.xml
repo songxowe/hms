@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hms.dao.ChargeMapper">
+
+    <resultMap type="com.hms.pojo.Member" id="member-result">
+        <id property="memberId" column="member_id"/>
+        <result property="voucher" column="voucher"/>
+        <result property="voucherNo" column="voucher_no"/>
+        <result property="memberName" column="member_name"/>
+        <result property="memberSex" column="member_sex"/>
+        <result property="memberBirthdate" column="member_birthdate"/>
+        <result property="memberPhone" column="member_phone"/>
+        <result property="memberAddress" column="member_address"/>
+        <result property="memberHobby" column="member_hobby"/>
+        <result property="memberPassword" column="member_password"/>
+        <result property="operater" column="operater"/>
+        <result property="activeTime" column="active_time"/>
+        <result property="memberScore" column="member_score"/>
+        <result property="memberStatus" column="member_status"/>
+        <result property="memberRemaining" column="member_remaining"/>
+        <result property="memberConsume" column="member_consume"/>
+        <result property="lastchangeTime" column="lastchange_time"/>
+    </resultMap>
+
+    <resultMap type="com.hms.pojo.Chargecase" id="chargecase-result">
+        <id property="chargecaseId" column="chargecase_id"/>
+        <result property="chargecaseName" column="chargecase_name"/>
+        <result property="chargecaseMoney" column="chargecase_money"/>
+        <result property="chargecaseExtra" column="chargecase_extra"/>
+        <result property="chargecaseScore" column="chargecase_score"/>
+        <result property="chargecaseStatus" column="chargecase_status"/>
+    </resultMap>
+
+    <resultMap type="com.hms.pojo.Charge" id="charge-result">
+        <id property="chargeId" column="charge_id"/>
+        <result property="payType" column="pay_type"/>
+        <result property="chargeTime" column="charge_time"/>
+        <result property="lastMoney" column="last_money"/>
+        <result property="chargeMoney" column="charge_money"/>
+        <result property="operater" column="operater"/>
+        <association property="member" column="member_id" javaType="com.hms.pojo.Member"
+                     resultMap="member-result"/>
+        <association property="chargecase" column="chargecase_id" javaType="com.hms.pojo.Chargecase"
+                     resultMap="chargecase-result"/>
+    </resultMap>
+
+
+</mapper>

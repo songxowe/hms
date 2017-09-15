@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hms.dao.BookMapper">
+    <resultMap type="com.hms.pojo.Book" id="book-result">
+        <id property="bookId" column="book_Id"/>
+        <result property="booker" column="booker"/>
+        <result property="bookPhone" column="book_Phone"/>
+        <result property="webbookId" column="webbook_Id"/>
+        <result property="assureType" column="assure_Type"/>
+        <result property="memberId" column="member_Id"/>
+        <result property="comeTime" column="come_Time"/>
+        <result property="leaveTime" column="leave_Time"/>
+        <result property="keepTime" column="keep_Time"/>
+        <result property="checkType" column="check_Type"/>
+        <result property="guestType" column="guest_Type"/>
+        <result property="payType" column="pay_Type"/>
+        <result property="operater" column="operater"/>
+        <result property="subscription" column="subscription"/>
+        <result property="diyId" column="diy_Id"/>
+        <result property="bookRemark" column="book_Remark"/>
+        <result property="bookStatus" column="book_Status"/>
+        <result property="otherOne" column="other_One"/>
+        <result property="otherTwo" column="other_Two"/>
+        <result property="otherThree" column="other_Three"/>
+    </resultMap>
+
+
+    <insert id="add" useGeneratedKeys="true" keyProperty="bookId" parameterType="com.hms.pojo.Book">
+        INSERT INTO book(
+           booker, book_phone,
+           webbook_id, assure_type, member_id,
+           come_time, leave_time, keep_time,
+           check_type, guest_type, pay_type,
+           operater, subscription, diy_id,
+           book_remark, book_status,
+           other_one, other_two, other_three)
+        VALUES (
+            #{booker,jdbcType=VARCHAR},#{bookPhone,jdbcType=VARCHAR},
+            #{webbookId,jdbcType=INTEGER},#{assureType,jdbcType=VARCHAR},#{memberId,jdbcType=INTEGER},
+            #{comeTime,jdbcType=TIMESTAMP},#{leaveTime,jdbcType=TIMESTAMP},#{keepTime,jdbcType=TIMESTAMP},
+            #{checkType,jdbcType=VARCHAR},#{guestType,jdbcType=VARCHAR},#{payType,jdbcType=VARCHAR},
+            #{operater,jdbcType=VARCHAR},#{subscription,jdbcType=DOUBLE},#{diyId,jdbcType=VARCHAR},
+            #{bookRemark,jdbcType=VARCHAR},#{bookStatus,jdbcType=VARCHAR},
+            #{otherOne,jdbcType=VARCHAR},#{otherTwo,jdbcType=VARCHAR},#{otherThree,jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <select id="findById" parameterType="int" resultMap="book-result">
+        SELECT * FROM book where book_id=#{bookId}
+    </select>
+
+    <select id="findWhenCheckin" parameterType="int" resultMap="book-result">
+        SELECT * FROM book where book_id=#{bookId} OR diy_id=#{bookId}
+    </select>
+</mapper>

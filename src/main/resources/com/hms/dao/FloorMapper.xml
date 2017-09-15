@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hms.dao.FloorMapper">
+    <resultMap id="floor-result" type="com.hms.pojo.Floor">
+        <id property="floorId" column="floor_id"/>
+        <result property="otherOne" column="other_one"/>
+        <result property="otherTwo" column="other_two"/>
+        <result property="otherThree" column="other_three"/>
+    </resultMap>
+
+    <select id="find" resultMap="floor-result">
+        SELECT * FROM floor
+    </select>
+</mapper>

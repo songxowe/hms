@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.softfactory.core.dao.MenuMapper">
+
+	<resultMap type="com.softfactory.pojo.Menu" id="menu-result">
+		<id property="id" column="ID" />
+		<result property="parentId" column="PARENT_ID" />
+		<result property="seq" column="SEQ" />
+		<result property="name" column="NAME" />
+		<result property="descn" column="DESCN" />
+		<result property="linkUrl" column="LINK_URL" />
+		<result property="status" column="STATUS" />
+	</resultMap>
+
+	<sql id="pageSQLHead">
+		select ID,PARENT_ID parentId,SEQ,NAME,DESCN,LINK_URL
+		linkUrl,STATUS from
+		(select row_number() over(
+	</sql>
+
+	<sql id="orderBy">
+		<if test="sort != null and order != null">
+			order by
+			<choose>
+				<when test="sort == 'id'">ID</when>
+				<when test="sort == 'name'">NAME</when>
+				<when test="sort == 'seq'">SEQ</when>
+				<when test="sort == 'descn'">DESCN</when>
+			</choose>
+
+			<if test="order == 'asc'">asc</if>
+			<if test="order == 'desc'">desc</if>
+		</if>
+	</sql>
+
+	<sql id="WhereCase">
+		<where>
+			1=1
+			<if test="name != null and name != ''">
+				and NAME LIKE #{name}
+			</if>
+			<if test="descn != null and descn != ''">
+				and DESCN LIKE #{descn}
+			</if>
+			<if test="parentId != null and parentId > 0">
+				and PARENT_ID = #{parentId}
+			</if>
+		</where>
+	</sql>
+
+	<sql id="pageSQLFoot">
+    <![CDATA[ ) where rn > #{pageno} and rn <= #{pagesize} ]]>
+	</sql>
+
+	<select id="findPager" resultMap="menu-result">
+		<include refid="pageSQLHead" />
+		<include refid="orderBy" />
+		) rn,m.* from SYS_MENUS m
+		<include refid="WhereCase" />
+		<include refid="pageSQLFoot" />
+	</select>
+
+
+	<select id="findPagerTotal" resultType="long">
+		select count(id) from SYS_MENUS
+		<include refid="WhereCase" />
+	</select>
+</mapper>

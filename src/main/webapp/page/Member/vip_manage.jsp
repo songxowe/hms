@@ -1,0 +1,78 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: the one
+  Date: 2017/8/14 0014
+  Time: 16:56
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title>会员列表</title>
+    <meta charset="utf-8">
+    <!--
+	<link rel="stylesheet" type="text/css" href="styles.css">
+	-->
+    <%@ include file="../../commons/meta.jsp"%>
+    <script type="text/javascript" src="${pageContext.request.contextPath }/resources/page/Member/js/index.js"></script>
+</head>
+
+<body>
+<div class="easyui-layout" fit="true">
+
+    <div data-options="region:'center'">
+        <div id="editTool">
+            <label style="margin-left: 20px;">卡类型：</label><select style="width: 80px; margin-right: 25px" id="Status"
+                                                                  class="easyui-combobox">
+            <option value="" selected="selected">全部</option>
+            <!--<option value="0">新卡</option>
+                <option value="1">未激活</option>-->
+            <option value="10">金卡</option>
+            <option value="20">银卡</option>
+            <option value="21">铜卡</option>
+        </select>
+            <label>条件：</label><input type="text" class="easyui-textbox" style="width: 180px" id="KeyStr" placeholder="请输入卡号/电话/新姓名/证件号码"
+        />
+            <label>最近</label><input type="text" class="easyui-textbox" id="Days" style="width: 35px; margin-right: 3px;" /><label>天将要过生日的会员信息</label>
+            <label style="margin-left: 20px;">卡状态：</label><select style="width: 80px; margin-right: 25px" id="Status"
+                                                                  class="easyui-combobox">
+            <option value="">全部</option>
+            <!--<option value="0">新卡</option>
+                <option value="1">未激活</option>-->
+            <option value="10" selected="selected">正常</option>
+            <option value="20">挂失</option>
+            <option value="21">过期</option>
+            <option value="30">作废</option>
+        </select>
+            <label>余额为负:</label><input type="checkbox" class="easyui-checkbox" style="width:18px;height:18px" id="NegativeAmount" />
+
+            <a href="#" class="easyui-linkbutton" iconCls="icon-search" onclick="advEmp()">查询</a>
+
+        </div>
+        <table id="dgEmp">
+        </table>
+        <table cellpadding="0" cellspacing="0" class="vip_member" id="Table1" style="width: 100%">
+            <tr>
+                <td colspan="5" width="33%" style="text-align: right">当前合计：</td>
+                <td width="7%" style="text-align: right" id="pointsPage">0.00</td>
+                <td width="7%" style="text-align: right" id="amountPage">0.00</td>
+                <td colspan="7" width="53%">&nbsp;</td>
+            </tr>
+            <tr>
+                <td colspan="5" width="33%" style="text-align: right">总合计：</td>
+                <td width="7%" style="text-align: right" id="points">0.00</td>
+                <td width="7%" style="text-align: right" id="amount">0.00</td>
+                <td colspan="7" width="53%">&nbsp;</td>
+            </tr>
+        </table>
+
+        <div id="empView"></div>
+    </div>
+
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,440 @@
+span.note{float:left;line-height:18px;padding-left:25px;background:url(../images/prompt.png) 0px -25px no-repeat; min-width:20px;margin-left:20px;margin-top:5px;display:inline}
+span.prompt{float:left;line-height:18px;padding-left:25px;background:url(../images/prompt.png) 0px -5px no-repeat; min-width:20px;margin-left:20px;margin-top:5px;display:inline; color:#666;}
+span.note_no{float:left;line-height:18px;padding-left:25px;background:url(../images/prompt.png) 0px -48px no-repeat; min-width:20px;margin-left:20px;margin-top:5px;display:inline;color:#F00 !important;}
+span.formTips{}
+
+.jia{text-align:center; padding:0px; border:1px solid #dddddd;background:#eee;width:26px !important;height:26px; cursor:pointer;font-family:"Microsoft YaHei"; font-size:22px !important; color:#000; padding:0px 0px 2px 0px !important}
+/**弹出窗口**/
+.black_overlay{display: none; position: absolute; top: 0%; left: 0%; width: 100%; height: 100%; background-color: #000; z-index:1001;-moz-opacity: 0.5; opacity:.50; filter: alpha(opacity=50);} 
+.white_content { display: none; position: absolute; top: 20%;left: 20%; padding: 20px; background-color: #fff; border:5px solid rgba(0, 0, 0, 0.2); z-index:1002; height:auto; max-width:1000px;} 
+.white_content .close{ width:100%; height:3px; position:relative}
+.white_content .close a{ position:absolute; right:-35px; top:-37px; background:url(../images/tk_close.png) no-repeat; width:30px; height:30px; z-index:9999}
+.white_content .close a:hover{ background-position:0px -35px}
+
+
+/**楼层弹出**/
+.louceng{ width: auto; float:left; background:#fff}
+.louceng .line{border-bottom:1px dotted #ddd;width:100%; float:left; margin-top:0px; padding-bottom:0px;font-family: "Microsoft YaHei"; font-size:16px; padding-bottom:5px; color:#0788bd}
+.louceng ul li{ width:100%; float:left; *float:none;  margin-top:10px}/**修改楼层弹窗错位IE7 去掉float:left;----king修改**/
+.louceng ul li input{ width:100px; float:left; background:#FFF; border:1px solid #ddd; height:24px; padding-left:10px; font-size:14px; line-height:24px}
+.louceng ul li label{ float:left; width:80px; text-align:right; line-height:24px; color:#333; font-size:12px}
+.louceng ul li input.butn{ background:#70b236;border: 0 none; border-radius:0px;color: #fff;cursor: pointer;float: left;font-size: 22px;font-weight: bold;height: 28px;margin-left: 0px;padding: 0 8px;width: 30px;}
+.louceng ul li textarea{background:#FFF; border:1px solid #ccc; width:400px; height:120px; line-height:28px; float:left; font-size:14px}
+.louceng ul li .lines{ color:#FFF; background:#999; padding:0px 10px; line-height:28px; float:left; margin-right:0px 5px 5px 0px; cursor:pointer;margin:0px 4px 4px 0px}
+.louceng ul li .lines span{ float:left;margin-left:5px; margin-right:10px; font-weight:lighter}
+.louceng ul li .lines em{ background:url(../images/edit.png) 0px -16px no-repeat; width:11px; height:11px; float:left; margin-left:10px; margin-top:8px;}
+.louceng ul li .lines em:hover{filter:alpha(opacity=100); -moz-opacity:1; opacity:1;}
+.louceng ul li .lines:hover{ background:#0e95cc}
+.louceng ul li input.tijiao{background:#0788BD;border:0px; font-size:14px; color:#FFF; cursor:pointer; width:120px; height:38px; float:left; line-height:38px; border-radius:2px}
+.louceng ul li.floorlist{margin-left:80px; display: inline;width: 540px}
+
+/**房型弹出**/
+.fangxing{ width: auto; float:left; background:#fff}
+.fangxing .line{border-bottom:1px dotted #ddd;width:100%; float:left; margin-top:0px; padding-bottom:0px;font-family: "Microsoft YaHei"; font-size:16px; padding-bottom:5px; color:#0788bd}
+.fangxing ul li{ width:100%; float:left; *float:none; margin-top:10px;}/**修改房型弹窗错位IE7 hack设置IE7 下float:none;----king修改**/
+.fangxing ul li input{ width:180px; float:left; background:#FFF; border:1px solid #ccc; height:24px; padding-left:10px; font-size:14px; line-height:24px}
+.fangxing ul li label{ float:left; width:100px; text-align:right; line-height:26px; color:#333; font-size:12px}
+.fangxing ul li input.butn{background:#EEA12B;border:0px; font-size:14px; color:#FFF; cursor:pointer; width:60px; height:32px; float:left; margin-left:0px;border-radius:2px}
+.fangxing ul li textarea{background:#FFF; border:1px solid #ccc; width:500px; height:84px; line-height:28px; float:left; font-size:14px; resize:none}
+.fangxing ul li input.radio{ width:16px; height:16px; float:left; margin-top:8px;margin-top:6px\9; display:inline; margin-right:5px; border:0px;margin-left:0px}
+.fangxing ul li label.em{ color: #666;float: left;font-size: 12px;font-style: normal;line-height: 32px;text-align: left;width: 80px;}
+.fangxing ul li .lines{ color:#FFF; background:#999; padding:0px 10px; line-height:28px; float:left; margin:10px 10px 10px 0px; cursor:pointer}
+.fangxing ul li .lines span{ float:left;margin-left:5px; margin-right:10px; font-weight:lighter}
+.fangxing ul li .lines em{ background:url(../images/edit.png) 0px -16px no-repeat; width:11px; height:11px; float:left; margin-left:10px; margin-top:8px;}
+.fangxing ul li .lines em:hover{filter:alpha(opacity=100); -moz-opacity:1; opacity:1;}
+.fangxing ul li .lines:hover{ background:#0e95cc}
+.fangxing ul li input.tijiao{background:#0788BD;border:0px; font-size:14px; color:#FFF; cursor:pointer; width:120px; height:38px; float:left; line-height:38px; border-radius:2px}
+
+
+/**房间弹出**/
+.fangjian{ width: auto; float:left; background:#fff}
+.fangjian .line{border-bottom:1px dotted #ddd;width:100%; float:left; margin-top:0px; padding-bottom:0px;font-family: "Microsoft YaHei"; font-size:16px; padding-bottom:5px; color:#0788bd}
+.fangjian ul li{ width:100%; float:left;*float:none;  margin-top:10px}/**修改房间弹窗错位IE7 hack设置IE7 下float:none;----king修改**/
+.fangjian ul li input{ width:180px; float:left; background:#FFF; border:1px solid #ccc; height:24px; padding-left:10px; font-size:14px; line-height:24px}
+.fangjian ul li label{ float:left; width:60px; text-align:right; line-height:26px; color:#333; font-size:12px}
+.fangjian ul li input.butn{background:#70b236;border: 0 none; border-radius:0px;color: #fff;cursor: pointer;float: left;font-size: 22px;font-weight: bold;height: 28px;margin-left: 00px;padding: 0 8px;width: 30px;}
+.fangjian ul li input.radio{ width:16px; height:16px; float:left; margin-top:6px;margin-top:2px\9; display:inline; margin-right:5px; border:0px}
+.fangjian ul li em{ font-style:normal; float:left; line-height:26px; color:#666; font-size:12px}
+.fangjian ul li select{width:180px; float:left; background:#FFF; border:1px solid #ccc; height:30px; padding-left:5px; font-size:14px}
+.fangjian ul li textarea{background:#FFF; border:1px solid #ccc; width:400px; height:120px; line-height:28px; float:left; font-size:14px}
+.fangjian ul li .lines{ color:#FFF; background:#999; padding:0px 10px; line-height:28px; float:left; margin:10px 4px 4px 0; cursor:pointer}
+.fangjian ul li .lines span{ float:left;margin-left:5px; margin-right:10px; font-weight:lighter}
+.fangjian ul li .lines em{ background:url(../images/edit.png) 0px -16px no-repeat; width:11px; height:11px; float:left; margin-left:10px; margin-top:8px;}
+.fangjian ul li .lines em:hover{filter:alpha(opacity=100); -moz-opacity:1; opacity:1;}
+.fangjian ul li .lines:hover{ background:#0e95cc}
+.fangjian ul li input.tijiao{background:#0788BD;border:0px; font-size:14px; color:#FFF; cursor:pointer; width:120px; height:38px; float:left; line-height:38px; border-radius:2px}
+.fangjian ul li.roomlist{margin-left:60px; display: inline;width: 500px;margin-top:0px}
+.fangjian ul li#liFeature span{ margin-left:10px;}
+.fangjian ul li#liFeature span a{background:url(../images/xz.jpg)left center no-repeat; color:#0788BD; padding-left:20px}
+.fangjian ul li#liFeature span a:hover{ color:#f60; text-decoration:underline}
+
+
+
+/**权限、账号管、费用、商品 弹出**/
+.quanxian{ width: auto; float:left; background:#fff}
+.quanxian .line{border-bottom:1px dotted #ddd;width:100%; float:left; margin-top:0px; padding-bottom:0px;font-family: "Microsoft YaHei"; font-size:16px; padding-bottom:5px; color:#0788bd}
+.quanxian ul li{ width:100%; float:left; *float:none; margin-top:10px}/**修改弹窗错位IE7 hack设置IE7 下float:none;----king修改**/
+.quanxian ul li input{ width:160px; float:left; background:#FFF; border:1px solid #ccc; height:24px; padding-left:10px; font-size:14px; line-height:24px}
+.quanxian ul li select{ width:175px; float:left; background:#FFF; border:1px solid #ccc; height:30px; padding-left:5px; font-size:14px}
+.quanxian ul li label{ float:left; width:80px; text-align:right; line-height:26px; color:#333; font-size:12px}
+.quanxian ul li input.butn{background:#EEA12B;border:0px; font-size:14px; color:#FFF; cursor:pointer; width:60px; height:32px; float:left; margin-left:10px;border-radius:2px}
+.quanxian ul li textarea{background:#FFF; border:1px solid #ddd; width:400px; height:120px; line-height:28px; float:left; font-size:14px}
+.quanxian ul li input.radio{ width:14px; height:14px; float:left; margin-top:6px; margin-top:2px\9; display:inline; margin-right:5px; border:0px}
+.quanxian ul li em{ font-style:normal; float:left; line-height:26px; color:#666; font-size:12px; margin-right:20px; display:inline}
+.quanxian ul li .lines{ color:#FFF; background:#999; padding:0px 10px; line-height:28px; float:left; margin:10px 10px 10px 0px; cursor:pointer}
+.quanxian ul li .lines span{ float:left;margin-left:5px; margin-right:10px; font-weight:lighter}
+.quanxian ul li .lines em{ background:url(../images/edit.png) 0px -16px no-repeat; width:11px; height:11px; float:left; margin-left:10px; margin-top:8px;}
+.quanxian ul li .lines em:hover{filter:alpha(opacity=100); -moz-opacity:1; opacity:1;}
+.quanxian ul li .lines:hover{ background:#0e95cc}
+.quanxian ul li input.tijiao{background:#0788BD;border:0px; font-size:14px; color:#FFF; cursor:pointer; width:120px; height:38px; float:left; line-height:38px; border-radius:2px}
+
+
+
+/**操作员折扣设置**/
+.account_discount{ width:100%; float:left; background:#fff}
+.account_discount .line{border-bottom:1px dotted #ddd;width:100%; float:left; margin-top:0px; margin-bottom:10px;font-family: "Microsoft YaHei"; font-size:16px; padding-bottom:5px; color:#0788bd;}
+.account_discount .line .fl {color: #0788bd;float:left;font-family: "Microsoft YaHei";font-size: 16px;font-weight: lighter;padding-bottom: 2px;}
+.account_discount .line .fr span {color: #0788bd;font-size: 14px;font-weight: bold;}
+.account_discount ul.discount_left{ float:left; width:150px; margin-top:0px; border-bottom:1px solid #DDD; border-left:1px solid #ddd;background:#D0F2FF;}
+.account_discount ul.discount_left li.title{font-size:14px; border-bottom:1px #DA8A12 solid;height:32px;line-height:32px; background:#EEA12B; color: #FFF; font-weight:bold; border-top:0px}
+.account_discount ul.discount_left li.title:hover{background:#EEA12B;}
+.account_discount ul.discount_left li{ float:left; width:100%; text-align:left; line-height:31px; color:#333;border-top:1px solid #AAE8FF;border-bottom:1px solid #FFF; cursor:pointer; position:relative;height:31px; text-indent:15px}
+.account_discount ul.discount_left li.end{border-top:1px solid #AAE8FF; border-top:0px; height:2px}
+.account_discount ul.discount_left li.select,.account_discount ul.discount_left li:hover{  background: none repeat scroll 0 0 #e5ffd2;}
+.account_discount ul.discount_left li input[type="text"]{ border:1px solid #ddd; width:60px; height:22px; line-height:22px; text-align:center}
+.account_discount .table_discount{ margin-left:151px}
+.account_discount .table_discount table input{ border:1px solid #ddd; width:120px; height:22px; line-height:22px; text-align:center}
+.account_discount .table_discount .fr{ text-align:right}
+.account_discount .protocol_db{ width:100%; float:left; margin-top:10px;}
+.account_discount .protocol_db input{ float:right}
+
+
+
+/**房价方案设置 弹出**/
+.hotel_price{ width: auto; float:left; background:#fff}
+.hotel_price .line{border-bottom:1px dotted #ddd;width:100%; float:left; margin-top:0px; padding-bottom:0px;font-family: "Microsoft YaHei"; font-size:16px; padding-bottom:5px; color:#0788bd}
+.hotel_price ul li{ width:100%; float:left;*float:none;  margin-bottom:10px; font-size:12px; line-height:22px; color:#333}/**修改房价设置弹窗错位IE7 hack设置IE7 下float:none;----king修改**/
+.hotel_price ul li em{ font-style:normal; font-size:12px; float:left; line-height:28px; margin-top:0px}
+.hotel_price ul li input{width:14px; height:14px; float:left;  margin-top:4px;margin-top:2px\9; margin-left:0px; display:inline; margin-right:5px; font-size:12px}
+.hotel_price ul li input.text{ border:1px solid #ccc; height:20px; line-height:20px; width:120px}
+.hotel_price ul li select{ width:170px; float:left; background:#FFF; border:1px solid #ddd; height:30px; padding-left:10px; font-size:14px}
+.hotel_price ul li label{ float:left;text-align:left; line-height:24px; color:#333; font-size:14px; width:82px; font-size:12px}
+.hotel_price ul li label.ls{ text-align:right; width:60px; padding-right:10px}
+.hotel_price ul li input.butn{background:#70b236; padding:0px 8px; line-height:26px; height:28px; overflow:hidden; float:left; border:0px; font-size:22px; color:#FFF; cursor:pointer; font-weight:bold; border-radius:1px;width:30px;height:24px;margin-top:2px;margin-left:0px}
+.hotel_price ul li textarea{background:#FFF; border:1px solid #ddd; width:400px; height:120px; line-height:28px; float:left; font-size:14px; }
+.hotel_price ul li input.tijiao{background:#0788BD;border:0px; font-size:14px; color:#FFF; cursor:pointer; width:120px; height:38px; float:left; line-height:38px; border-radius:2px}
+.hotel_price ul li.Source span a{background:url(../images/xz.jpg)left center no-repeat; color:#0788BD; padding-left:20px}
+.hotel_price ul li.Source span a:hover{ color:#f60; text-decoration:underline}
+
+.hotel_price ul li strong{  font-size:12px; padding-top:5px; font-weight:lighter; float:left}
+.hotel_price ul li label.em{ font-style:normal; float:left; line-height:32px; color:#666; font-size:14px; width:auto}
+
+.search_hotel_price{ position: absolute;right: 30px;top: 50px;}
+.search_hotel_price label{ float:left; line-height:26px;color:#333; font-size:12px}
+.search_hotel_price input{width:50px; float:left;border:1px solid #ddd; height:24px; padding-left:10px; font-size:12px; float:left; margin-right:15px}
+.search_hotel_price input.bus_search{ margin-top:1px}
+.search_hotel_price_line {border-bottom:1px dotted #ddd;width:100%; float:left; margin-top:0px; margin-bottom:10px; padding-bottom:0px;font-family: "Microsoft YaHei"; font-size:16px; padding-bottom:5px; color:#0788bd}
+.search_hotel_price select{float:left;height:24px;  cursor: pointer;margin-right:5px;}
+
+
+/**入住信息**/
+.ruzhu_infor{ width: auto; float:left; overflow-x:hidden}
+.ruzhu_infor ul { width:100%; float:left}
+.ruzhu_infor ul li{ width: auto; float:left; margin-top:10px; margin-right:10px}
+.ruzhu_infor ul li input{ width:120px; float:left; border:1px solid #ccc; height:20px; padding-left:5px; font-size:12px; line-height:20px}
+.ruzhu_infor ul li label{ float:left; width:70px; text-align:right; line-height:22px; color:#333; font-size:12px}
+.ruzhu_infor input.butn{background:#70b236;border:0px;color:#FFF; cursor:pointer; width:30px; height:26px; float:right;line-height:24px; font-size:24px; text-align:center; padding-left:6px;}
+.ruzhu_infor ul li input.radio{ width:16px; height:16px; float:left; margin-top:8px; margin-left:25px; display:inline; margin-right:10px}
+.ruzhu_infor ul li em{ font-style:normal; float:left; line-height:32px; color:#666; font-size:14px}
+.ruzhu_infor ul li select{width:auto; float:left; background:#FFF; border:1px solid #ddd; height:24px; padding-left:0px; font-size:12px}
+.ruzhu_infor ul li textarea{background:#FFF; border:1px solid #ccc; width:760px; height:60px; float:left; font-size:14px; resize:none}
+.ruzhu_infor ul li .lines{ color:#FFF; background:#999; padding:0px 10px; line-height:28px; float:left; margin:10px 10px 10px 0px; cursor:pointer}
+.ruzhu_infor ul li .lines span{ float:left;margin-left:5px; margin-right:10px; font-weight:lighter}
+.ruzhu_infor ul li .lines em{ background:url(../images/edit.png) 0px -16px no-repeat; width:11px; height:11px; float:left; margin-left:10px; margin-top:8px;}
+.ruzhu_infor ul li .lines em:hover{filter:alpha(opacity=100); -moz-opacity:1; opacity:1;}
+.ruzhu_infor ul li .lines:hover{background:#0e95cc}
+.ruzhu_infor ul li input.tijiao{background:#0788BD;border:0px; font-size:12px; font-weight:bold; color:#FFF; cursor:pointer; width:80px; height:32px; float:left; line-height:32px; border-radius:2px}
+.ruzhu_infor ul li input.tijs_left{ margin-left:20px; display:inline}
+.ruzhu_infor ul li a{color:#0788BD}
+.ruzhu_infor ul li a:hover{ text-decoration:underline; color:#0788BD}
+.ruzhu_infor ul li span{ line-height:24px; color:#999}
+.ruzhu_infor ul li span b{ padding:0px 5px; color: #0789BE}
+.ruzhu_infor ul li a.history{position:absolute; right:10px; line-height:24px}
+
+.ruzhu_infor ul li .roomlist, .ruzhu_infor ul li .roomlist1, .ruzhu_infor ul li .roomlist2{ float:left}
+.ruzhu_infor ul li .roomlist .lines,.ruzhu_infor ul li .roomlist1 .lines,.ruzhu_infor ul li .roomlist2 .lines{ margin:0px 10px}
+.ruzhu_infor ul li .roomlist .lines span,.ruzhu_infor ul li .roomlist1 .lines span,.ruzhu_infor ul li .roomlist2 .lines span{color:#fff}
+.ruzhu_infor ul li .roomlist .lines em,.ruzhu_infor ul li .roomlist1 .lines em,.ruzhu_infor ul li .roomlist2 .lines em{ margin-top:6px}
+
+
+table.ruzhu tr td input{ width:60px; height:20px; line-height:20px; border:1px solid #ccc}
+table.ruzhu tr td select{ width:auto;height:22px; line-height:22px; border:1px solid #ccc }
+.ruzhu_infor .types{width:100%; float:left; margin-top:10px;  padding-bottom:5px}
+.ruzhu_infor .types h1{ width:100%; font-size:16px; color:#333; padding-bottom:0px; font-weight:lighter;font-family: "Microsoft YaHei";margin-bottom:0px; float:left; color:#0788BD}
+.ruzhu_infor .types h1 .fl{ float:left; color:#0788BD}
+.ruzhu_infor .types h1 .fr{ float:right; color:#333}
+.ruzhu_infor .types h1 .fr label{ font-size:12px;}
+.ruzhu_infor .types h1 .fr label.riqi{ font-size:14px; padding-right:20px; font-weight:bold}
+.ruzhu_infor .types h1 .fr a.sss{ color:#0788BD; padding-top:4px; font-size:12px; text-decoration:underline}
+.ruzhu_infor .types h1 .fr input{ border:1px solid #ccc; width:90px; font-size:12px; height:19px}
+.ruzhu_infor .types p{ width:110px; line-height:26px; color:#333; font-size:12px; padding-left:5px; display:block;border-bottom:1px solid #ddd; float:left; margin-top:-5px}
+
+.ruzhu_infor .line{border-bottom:1px dotted #ddd;width:100%; float:left; margin-top:0px; padding-bottom:0px}
+.ruzhu_infor .line .fl{ float:left;font-size:16px; color:#0788bd; padding-bottom:2px; font-weight:lighter;font-family: "Microsoft YaHei";}
+.ruzhu_infor .line .fr{ float:right; font-size:12px; color:#666; padding-top:3px; padding-bottom:3px}
+.ruzhu_infor .line .fr span{ color:#0788BD; font-size:14px; font-weight:bold}
+
+.ruzhu_infor .types .jia{text-align:center; padding:0px; border:1px solid #ccc;background:#eee;width:26px;height:24px; cursor:pointer; font-size:20px; font-weight:bold;font-family: "Microsoft YaHei";}
+.ruzhu_infor .types .jia_1{width:23px !important; text-align:center; padding:0px; border:1px solid #dddddd; height:23px !important; background:#eee; cursor:pointer}
+
+table.ruzhu_table{ border-top:1px solid #ddd;}
+table.ruzhu_table td{ padding:8px 20px; text-align:left}
+table.ruzhu_table tr td input{ width:60px; height:22px; line-height:22px; border:1px solid #ccc}
+table.ruzhu_table tr td select{ width:auto;height:22px; line-height:22px; border:1px solid #ccc }
+
+
+
+/**住客信息**/
+.ruzhu_infor ul li .input_radio{ width:12px; height:12px; line-height:15px; border:0px solid #ddd; margin-top:5px;}
+.ruzhu_infor ul li .dh{ width:90px; font-size:12px;}
+.ruzhu_infor ul li .fh{ width:50px; font-size:12px;}
+.ruzhu_infor ul li .xm{ width:40px; font-size:12px;}
+.ruzhu_infor ul li .time{ width:150px; font-size:12px;}
+.ruzhu_infor ul li label{ font-size:12px; color:#333}
+.ruzhu_infor ul li .label{ text-align:left; width:100px; color:#333; font-size:12px}
+.ruzhu_infor ul li input.search{background:#0788BD;border:0px; font-size:14px; color:#FFF; cursor:pointer; width:70px; height:28px; float:left; line-height:28px; border-radius:2px}
+
+.ruzhu_infor .credit{background:url(../images/credit.jpg) no-repeat;border:0px !important; font-size:12px;  color:#fff !important; cursor:pointer; width:50px !important; height:25px !important; float:left; margin-right:10px !important; padding:0px !important;  }
+
+.zhuke_db{width:100%; float:right; margin-top:20px}
+.zhuke_db .fl{ float:left}
+.zhuke_db .fr{ float:right}
+.zhuke_btn{background:#999;border:0px; font-size:12px; color:#FFF; cursor:pointer; width:80px; height:28px; float:left; line-height:28px; border-radius:2px; margin:0 1px;}
+.zhuke_xz{background:#0788BD;}
+
+
+
+/**table滚动**/
+.gundong{height:200px; overflow-y:scroll; position:relative; width:100%}
+.gundong tr td{ height:20px; line-height:20px}
+.gundong tr.select{background:#FBE889; color:#333}
+
+
+/**结账明细**/
+
+
+
+
+
+
+
+
+
+
+
+
+
+/**会员信息**/
+.vip_infor{ width: auto; float:left; background:#fff}
+.vip_infor ul { width:100%; float:left}
+.vip_infor ul li{ width: auto; float:left; padding:4px 0px; line-height:22px}
+.vip_infor ul li span{ display:block; float:left; line-height:22px; border:1px solid #ddd; background:#EFEFEF; padding-left:5px; width:150px}
+.vip_infor ul li input{float:left; border:1px solid #ccc; padding-left:5px !important;}
+.vip_infor ul li input.inps{ height:20px; line-height:20px}
+.vip_infor ul li label{ float:left;text-align:right; line-height:22px; color:#333; font-size:12px; padding:0 5px}
+.vip_infor input.butn{background:#70b236;border:0px;color:#FFF; cursor:pointer; width:30px; height:26px; float:right;line-height:24px; font-size:24px; text-align:center; padding-left:6px;}
+.vip_infor ul li input.radio{ width:16px; height:16px; float:left; margin-top:8px; margin-left:25px; display:inline; margin-right:10px}
+.vip_infor ul li input.checkbox{ margin-top:5px}
+.vip_infor ul li .txt{margin-right:40px; display:inline}
+.vip_infor ul li em{ font-style:normal; float:left; line-height:32px; color:#666; font-size:14px}
+.vip_infor ul li select{width:auto; float:left; background:#FFF; border:1px solid #ccc; height:24px; padding-left:5px; font-size:12px}
+.vip_infor ul li textarea{background:#FFF; border:1px solid #ccc; width:760px; height:60px; float:left; font-size:14px}
+.vip_infor ul li .lines{ color:#FFF; background:#999; padding:0px 10px; line-height:28px; float:left; margin:10px 10px 10px 0px; cursor:pointer}
+.vip_infor ul li .lines span{ float:left;margin-left:5px; margin-right:10px; font-weight:lighter}
+.vip_infor ul li .lines em{ background:url(../images/edit.png) 0px -16px no-repeat; width:11px; height:11px; float:left; margin-left:10px; margin-top:8px;}
+.vip_infor ul li .lines em:hover{filter:alpha(opacity=100); -moz-opacity:1; opacity:1;}
+.vip_infor ul li .lines:hover{background:#0e95cc}
+.vip_infor ul li input.tijiao{background:#0788BD;border:0px; font-size:12px; font-weight:bold; color:#FFF; cursor:pointer; width:80px; height:32px; float:left; line-height:32px; border-radius:2px}
+.vip_infor ul li input.tijs_left{ margin-left:20px; display:inline}
+.vip_infor ul li a{color:#0788BD}
+.vip_infor ul li a:hover{ text-decoration:underline; color:#0788BD}
+.vip_infor .credit{background:url(../images/credit.jpg) no-repeat;border:0px !important; font-size:12px;  color:#fff !important; cursor:pointer; width:50px !important; height:25px !important; float:left; margin-right:10px !important; padding:0px !important;  }
+
+table.vip tr td input{ width:60px; height:20px; line-height:20px; border:1px solid #ccc}
+table.vip tr td select{ width:auto;height:22px; line-height:22px; border:1px solid #ccc }
+.vip_infor .types{width:100%; float:left; margin-top:10px;  padding:5px 0px}
+.vip_infor .types h1{ width:100%; font-size:16px; color:#333; padding-bottom:0px; font-weight:lighter;font-family: "Microsoft YaHei";margin-bottom:0px; float:left; color:#0788BD}
+.vip_infor .types h1 .fl{ float:left; color:#0788BD}
+.vip_infor .types h1 .fr{ float:right; color:#333}
+.vip_infor .types h1 .fr label{ font-size:12px;}
+.vip_infor .types h1 .fr label.riqi{ font-size:14px; padding-right:20px; font-weight:bold}
+.vip_infor .types h1 .fr a.sss{ color:#0788BD; padding-top:4px; font-size:12px; text-decoration:underline}
+.vip_infor .types h1 .fr input{ border:1px solid #dddddd; width:90px; font-size:12px; height:19px}
+.vip_infor .types p{ width:110px; line-height:26px; color:#333; font-size:12px; padding-left:5px; display:block;border-bottom:1px solid #ddd; float:left; margin-top:-5px}
+
+.vip_infor .line{border-bottom:1px dotted #ddd;width:100%; float:left; margin-top:0px; padding-bottom:0px}
+.vip_infor .line .fl{ float:left;font-size:16px; color:#333; padding-bottom:2px; font-weight:lighter;font-family: "Microsoft YaHei";}
+.vip_infor .line .fr{ float:right; font-size:12px; color:#666; padding-top:3px; padding-bottom:3px}
+.vip_infor .line .fr span{ color:#0788BD; font-size:14px; font-weight:bold}
+
+.vip_infor .types .jia{text-align:center; padding:0px; border:1px solid #dddddd;background:#eee;width:26px;height:24px; cursor:pointer}
+.vip_infor .types .jia_1{width:23px !important; text-align:center; padding:0px; border:1px solid #dddddd; height:23px !important; background:#eee; cursor:pointer}
+/*tab开始*/
+.vip_infor ul.list{ width:100%; float:left;}
+.vip_infor ul.list li{ float:left; width:100px; height:36px; line-height:36px; position:relative; text-align:center; font-size:14px; font-weight:bold; cursor:pointer}
+.vip_infor ul.list li.ok{ border:1px solid #ddd; border-bottom:0px;background:#f1f1f1; margin-bottom:-1px}
+.vip_infor .select_two{padding:20px 0px 20px 0px; border:1px solid #ddd; width:100%; float:left; background:#f1f1f1}
+.vip_infor .select_two table{ width:98%; margin-left:1%; float:left; background:#fff}
+/*tab结束*/
+table.vip_table{ border-top:1px solid #ddd;}
+table.vip_table td{ padding:8px 20px; text-align:left}
+table.vip_table tr td input{ width:60px; height:22px; line-height:22px; border:1px solid #ddd}
+table.vip_table tr td select{ width:auto;height:22px; line-height:22px; border:1px solid #ddd }
+
+
+
+
+/**批量修改**/
+.all_edit{ width: auto; float:left; }
+.all_edit ul { width:100%; float:left}
+.all_edit ul li{ width: 100%; float:left; padding-top:10px}
+.all_edit ul li input{ width:120px; float:left; border:1px solid #ddd; height:20px; padding-left:5px; font-size:12px; line-height:20px}
+.all_edit ul li label{ float:left; text-align:right; line-height:22px; color:#333; font-size:12px}
+.all_edit input.butn{background:#70b236;border:0px;color:#FFF; cursor:pointer; width:30px; height:26px; float:right;line-height:24px; font-size:24px; text-align:center; padding-left:6px;}
+.all_edit ul li input.radio{ width:16px; height:16px; float:left;display:inline; margin-right:10px}
+.all_edit ul li em{ font-style:normal; float:left; line-height:32px; color:#666; font-size:14px}
+.all_edit ul li select{width:auto; float:left; background:#FFF; border:1px solid #ddd; height:24px; padding-left:5px; font-size:12px}
+.all_edit ul li textarea{background:#FFF; border:1px solid #ccc; width:760px; height:60px; float:left; font-size:14px}
+.all_edit ul li .lines{ color:#FFF; background:#999; padding:0px 10px; line-height:28px; float:left; margin:10px 10px 10px 0px; cursor:pointer}
+.all_edit ul li .lines span{ float:left;margin-left:5px; margin-right:10px; font-weight:lighter}
+.all_edit ul li .lines em{ background:url(../images/edit.png) 0px -16px no-repeat; width:11px; height:11px; float:left; margin-left:10px; margin-top:8px;}
+.all_edit ul li .lines em:hover{filter:alpha(opacity=100); -moz-opacity:1; opacity:1;}
+.all_edit ul li .lines:hover{background:#0e95cc}
+.all_edit ul li input.tijiao{background:#0788BD;border:0px; font-size:12px; font-weight:bold; color:#FFF; cursor:pointer; width:80px; height:32px; float:left; line-height:32px; border-radius:2px}
+.all_edit ul li input.tijs_left{ margin-left:20px; display:inline}
+.all_edit ul li a{color:#0788BD}
+.all_edit ul li a:hover{ text-decoration:underline; color:#0788BD}
+
+.all_edit .line{border-bottom:1px dotted #ddd;width:100%; float:left; margin-top:0px; padding-bottom:0px;}
+.all_edit .line .fl{ float:left;font-size:16px; color:#333; padding-bottom:6px; font-weight:lighter;font-family: "Microsoft YaHei";}
+.all_edit .line .fr{ float:right; font-size:12px; color:#666; padding-top:3px; padding-bottom:3px}
+.all_edit .line .fr span{ color:#0788BD; font-size:14px; font-weight:bold}
+
+#roomPrice{ width:110px}
+
+
+
+
+/**记事本**/
+.notebook{ width: 100%; float:left; background:#fff; font-size:12px}
+.notebook .title_abs{ width:100%; float:left; border-bottom:1px solid #ddd;position:relative}
+.notebook .title_abs p{float:left;display:block; width:80px; height:30px; line-height:30px; text-align:center; margin-left:10px; display:inline;cursor:pointer}
+.notebook .title_abs p.select_a{border:1px solid #ddd; border-bottom:0px; background:#fff; margin-bottom:-2px; color:#0788bd; font-weight:bold}
+.notebook ul{ width:100%; float:left}
+.notebook ul li{ width:100%; float:left; margin-top:12px}
+.notebook ul li .fr{ width:40px; float:right; margin-top:20px}
+.notebook ul li .fr a{ width:60px; float:right; background:#00ADEF; border:1px solid #008FC7; color:#FFF; text-align:center; height:26px; line-height:26px; margin-top:5px}
+.notebook ul li .fr a:hover{background:#008FC7;}
+.notebook ul li .fr a:active{background:#00ADEF;}
+.notebook ul li .fl{ margin-right:80px;}
+.notebook ul li .fl ul{ width:100%; float:left; background:#efefef; border:1px solid #ddd; padding:10px 0px 5px 0px}
+.notebook ul li .fl ul li{ width:100%; float:left; margin-top:0px; margin-bottom:5px}
+.notebook ul li .fl ul li label{ width:40px; color:#333; float:left; line-height:24px; padding-left:15px}
+.notebook ul li .fl ul li input{ width:160px; background:#fff; border:1px solid #ddd; height:22px; line-height:22px; float:left; margin-right:40px; display:inline}
+.notebook ul li .fl ul li select{background:#fff; border:1px solid #ddd; height:26px; line-height:26px; float:left; margin-right:10px; display:inline; padding-left:0px}
+.notebook ul li .fl ul li textarea{ width:450px; background:#fff; border:1px solid #ddd; height:40px; line-height:16px; float:left; resize:none; font-size:12px; padding:5px}
+.notebook ul li .fl ul li p{ display:block; float:left; line-height:24px; padding-left:20px; color:#666}
+.notebook .divPage{ width:100%; float:left; margin-top:10px}
+.notebook .divPage p{ float:left; line-height:30px;padding-right:10px}
+.notebook .divPage p b{ padding:0px 5px;color:#0788bd }
+.notebook .divPage .page{ float:none;}
+.notebook .note_bos{ position:relative}
+.notebook .note_bos a.adds{ background:url(../images/notebooks.png) no-repeat;font-size:12px; position:absolute; right:5px; top:-5px; color:#fff; line-height:50px; width:56px; height:48px; display:block; font-weight:bold; text-align:center}
+.notebook .note_bos a.adds:hover{filter:alpha(opacity=80);-moz-opacity:0.8;opacity:0.8;}
+.notebook .note_bos a.adds:active{filter:alpha(opacity=100);-moz-opacity:1;opacity:1;}
+.notebook .note_bos .search_note{ width:100%; float:left; margin-top:10px; margin-bottom:-3px}
+.notebook .note_bos .search_note label{ float:left; line-height:24px;}
+.notebook .note_bos .search_note input{ border:1px solid #ddd; height:22px; line-height:22px; float:left; width:120px}
+
+
+/**积分明细**/
+.point_chager{width:auto;float:left;}
+.point_chager .tops{width:100%;float:left;padding-bottom:15px;border-bottom:1px solid #ddd}
+.point_chager .tops .fl{width:120px;float:left}
+.point_chager .tops .fl img{width:116px;height:96px;background:#E6E6E6;border:1px solid #ccc;padding:3px}
+.point_chager .tops .fr{margin-left:140px}
+.point_chager .tops .fr h1{width:100%;float:left;font-size:22px;color:#000;font-family:"Microsoft YaHei";padding-bottom:5px;font-weight:lighter}
+.point_chager .tops .fr .cos{width:100%;float:left;}
+.point_chager .tops .fr .cos .lefs{float:left}
+.point_chager .tops .fr .cos .lefs p{display:block;width:100%;float:left;font-size:12px;line-height:30px}
+.point_chager .tops .fr .cos .lefs p b{padding:0px 5px;font-size:14px;color:#f00}
+.point_chager .tops .fr .cos .lefs p span{display:block;float:left}
+.point_chager .tops .fr .cos .lefs p input{border:1px solid #ddd;width:30px;float:left}
+.point_chager .tops .fr .cos .rigs{float:right;width:160px;line-height:22px;}
+.point_chager .tops .fr .cos .rigs p{display:block;width:100%;float:left;font-size:12px;color:#666}
+.point_chager .tops .fr .cos .rigs p span{width:100px;text-align:right;display:block;float:left}
+.point_chager .tops .fr .cos .rigs p b{font-size:14px;color:#0789be;float:left;}
+.point_chager .bottoms{width:100%;float:left;}
+.point_chager .bottoms li{width:100%;float:left;margin-bottom:10px}
+.point_chager .bottoms li label{width:80px;float:left;line-height:26px;text-align:right;float:left}
+.point_chager .bottoms li input{border:1px solid #ddd;height:22px;line-height:22px;width:180px;float:left}
+.point_chager .bottoms li select{border:1px solid #ddd;height:26px;line-height:26px;padding:0px;float:left;margin-right:10px;display:inline}
+.point_chager .bottoms li textarea{border:1px solid #ddd;height:20px;line-height:20px;padding:5px;float:left;resize:none; width:500px;height:46px}
+.point_chager .bottoms li a.yzm{background:#00adef;color:#fff;width:78px;height:24px;border:1px solid #008fc7;margin-left:10px; display:block; float:left;line-height:24px; text-align:center}
+.point_chager .bottoms li a.yzm:hover{background:#008fc7}
+.point_chager .bottoms li span{float:left;display:block;margin-left:55px;color:#48B83B;display:inline}
+.point_chager .bottoms li.tis{font-size:14px;color:#000;font-weight:bold;padding:20px 0px 10px 0px}
+
+.point_chager .tops .noimg{width:100%; float:left;}
+.point_chager .tops .noimg h1{width:100%;float:left;font-size:22px;color:#000;font-family:"Microsoft YaHei"; padding-bottom:0px;font-weight:lighter}
+.point_chager .tops .noimg p{display:block;float:left;font-size:12px;color:#666;padding-right:35px;padding-top:10px}
+.point_chager .tops .noimg p span{text-align:left;display:block;float:left}
+.point_chager .tops .noimg p b{font-size:14px; color:#0789be; float:left; }
+.point_chager a.copy{background:#00adef;color:#FFF;height:30px;line-height:30px;border-radius:5px;text-align:center; padding:5px 10px;font-size:12px;transition:0.5s ease;-o-transition:0.5s ease;-webkit-transition: 0.5s ease;}
+.point_chager a.copy:hover{background:#0789be}
+.point_chager a.copy:active{background:#00adef}
+.point_chager .suces{ float:left; margin:50px 0px 0px 50px;font-family:"Microsoft YaHei"; }
+.point_chager .suces h1{background:url(../images/check32.png) left center no-repeat; text-indent:40px; font-size:26px; font-weight:lighter; line-height:50px}
+.point_chager .suces p{ font-size:14px; color:#666; display:block; width:100%; text-indent:40px}
+.point_chager .suces p b{ padding:0px 5px; color:#00adef; font-weight:lighter}
+.point_chager .suces input{float:left; margin:20px 0px 50px 40px; display:inline;background:url(../Images/poing_1.jpg) no-repeat; width:100px; height:32px; line-height:30px; text-align:center; border:0px; font-size:14px;font-family:"Microsoft YaHei"; color:#FFF}
+.point_chager .suces input:hover{background:url(../Images/poing_2.jpg) no-repeat;}
+.point_chager .suces input:active{background:url(../Images/poing_1.jpg) no-repeat;}
+.point_chager .suces a{float:left;margin:28px 0px 0px 15px;text-decoration:underline; color:#666; }
+.point_chager .suces a:hover{color:#00adef;}
+
+
+/**模块设置向导**/
+.modelset{ width:90%; float:left;font-family: "Microsoft YaHei"; padding:20px 5%}
+.modelset .line{border-bottom:1px dotted #ddd;width:100%; float:left; margin-top:0px; padding-bottom:0px;font-size:18px; color:#333; padding-bottom:2px; font-weight:lighter; line-height:40px}
+.modelset .gbtags{ width:100%; float:left; position:relative; height:300px; margin-top:0px}
+.modelset .gbtags .divs{ width:100px; height:100px; border-radius:100%; background:#333; color:#fff; font-size:14px; text-align:center; line-height:100px; position:absolute; cursor:pointer;transform: scale(1);transition: all 1s ease 0s;-webkit-transform: scale(1);-webkit-transform: all 1s ease 0s;}
+.modelset .gbtags .divs:hover{transform: scale(1.2);transition: all 1s ease 0s;-webkit-transform: scale(1.2);-webkit-transform: all 1s ease 0s;}
+.modelset .gbtags .divs.l1{background:#04A1FB; left:30px;  top:50px}
+.modelset .gbtags .divs.l2{background:#A75ED9; left:210px; top:20px}
+.modelset .gbtags .divs.l3{background:#0795A5; left:340px; top:40px}
+.modelset .gbtags .divs.l4{background:#5A828E; left:420px; top:150px}
+.modelset .gbtags .divs.l5{background:#E94360; left:20px;  top:170px}
+.modelset .gbtags .divs.l6{background:#8ED335; left:140px; top:120px}
+.modelset .gbtags .divs.l7{background:#F2AA00; left:280px; top:150px}
+
+.modelset .gbtags .divs.l8{background:#04A1FB; left:250px; top:270px}
+.modelset .gbtags .divs.l9{background:#F2AA00; left:120px; top:240px}
+
+.modelset .gbtags .divs em{ width:60%; height:60%; border-radius:100%; background:#000; opacity:0.7; float:left; z-index:99; position:absolute; left:20%; top:20%; display:none}
+.modelset .gbtags .divs b{ width:100%; height:100%;float:left; z-index:999; position:absolute; left:0px; top:0px; text-align:center; font-size:40px; color:#fff; display:none; background:url(../images/banben.png) center no-repeat; font-family:Arial, Helvetica, sans-serif;}
+.modelset .gbtags .divs.set em,.modelset .gbtags .divs.set b{ display:block}
+
+
+.modelset .thirdset{ width:100%; float:left}
+.modelset .thirdset .divs{ float:left; width:27%; margin:3%}
+.modelset .thirdset .divs h1{ font-size:14px; width:100%; float:left; font-weight:lighter; line-height:20px; padding-bottom:10px}
+.modelset .thirdset .divs ul{ width:100%; float:left; border:2px solid #ddd; border-radius:5px; padding:15px 0px; cursor:pointer}
+.modelset .thirdset .divs ul li{ width:100%; float:left; margin:5px 0px}
+.modelset .thirdset .divs ul li input{ width:14px; height:14px; background:#8ED335; float:left; margin-left:15px; display:inline}
+.modelset .thirdset .divs ul li label{ margin-left:5px; font-size:14px}
+.modelset .thirdset .divs ul.select_s{ border-color:#8ED335; background:url(../images/banben1.png) right 0px no-repeat}
+
+
+.modelset .butndiv{width:100%; float:left}
+.modelset .butndiv input{ float:right}

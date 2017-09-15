@@ -1,0 +1,52 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>简单点酒店管理平台</title>
+    <link href="../styles/main.css" type="text/css" rel="stylesheet" />
+    <script type="text/javascript" src="../Scripts/easyui/jquery-1.8.0.min.js"></script>
+    <!--<script type="text/javascript" src="../Scripts/public/Base.js"></script>-->
+    <script type="text/javascript" src="../Scripts/ChainVersionBase.js"></script>
+    <script type="text/javascript" src="../Scripts/common.js"></script>
+    <script type="text/javascript" src="../Scripts/page/FrontOp/set_room.js"></script>
+</head>
+<body>
+    <div class="main">
+       <h1 class="room">房间信息<span>第一步添加楼层，第二步添加房型，第三步添加房间。</span></h1>        
+        <ul class="room">
+            <li>
+                <div class="l">楼层：</div>
+                <div class="r floorlist">
+                    <div class="lines floorAll select" data-id="0"><span>全 部</span></div>
+
+                    <div class="lines flooritem" data-id="13">
+                        <span>13</span>
+                        <em class="edit" title="编辑" onclick="alert(13)"></em>
+                        <em class="dell" title="删除"></em>
+                        </div>
+
+                    <div class="lines add">
+                        <input type="button" value="+" class="butns" onclick="FloorAdd()" /></div>
+                </div>
+            </li>
+            <li>
+                <div class="l">房型：</div>
+                <div class="r roomtypelist">
+                    <div class="lines roomtypeAll select" data-id="0"><span>全 部</span></div>
+                    <div class="lines add">
+                        <input type="button" value="+" class="butns" onclick="RoomTypeAdd()" /></div>
+                </div>
+            </li>
+            <li>
+                <div class="l">房间：</div>
+                <div class="r roomlist">
+                    <div class="rfj gray add">
+                        <div class="adds" onclick="RoomAdd()">+</div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</body>
+</html>

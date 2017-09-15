@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.softfactory.demo.dao.EmpMapper">
+
+<resultMap type="com.softfactory.pojo.Dept" id="dept-result">
+    <id property="deptno" column="DEPTNO" />
+    <result property="dname" column="DNAME" />
+    <result property="loc" column="LOC" />
+  </resultMap>
+
+	<resultMap type="com.softfactory.pojo.Emp" id="emp-result">
+		<id property="empno" column="EMPNO" />
+		<result property="ename" column="ENAME" />
+		<result property="hiredate" column="HIREDATE" javaType="java.util.Date" />
+		<result property="sal" column="SAL" />
+		
+		<!-- N:1 关联部门信息 -->
+		<association property="dept" column="DEPTNO" javaType="com.softfactory.pojo.Dept"
+      resultMap="dept-result" />
+	</resultMap>
+
+	<sql id="pageSQLHead">
+		select EMPNO,ENAME,HIREDATE,SAL,DNAME from
+		(select
+		row_number()
+		over(
+	</sql>
+
+	<sql id="orderBy">
+		<if test="sort != null and order != null">
+			order by
+			<choose>
+				<when test="sort == 'empno'">EMPNO</when>
+				<when test="sort == 'ename'">ENAME</when>
+				<when test="sort == 'hiredate'">HIREDATE</when>
+				<when test="sort == 'sal'">SAL</when>
+				<when test="sort == 'dept'">DNAME</when>
+				<otherwise>EMPNO</otherwise>
+			</choose>
+
+			<if test="order == 'asc'">asc</if>
+			<if test="order == 'desc'">desc</if>
+		</if>
+	</sql>
+
+	<sql id="WhereCase">
+		<where>
+			1=1
+			<if test="ename != null and ename != ''">
+				and ENAME LIKE #{ename}
+			</if>
+			<if test="deptno != null and deptno > 0">
+        and E.DEPTNO = #{deptno}
+      </if>
+		</where>
+	</sql>
+
+	<sql id="pageSQLFoot">
+    <![CDATA[ ) where rn > #{pageno} and rn <= #{pagesize} ]]>
+	</sql>
+
+	<select id="findPager" resultMap="emp-result">
+		<include refid="pageSQLHead" />
+		<include refid="orderBy" />
+		) rn,e.*,d.DNAME from EMP E LEFT OUTER JOIN DEPT D
+    ON E.DEPTNO=D.DEPTNO
+		<include refid="WhereCase" />
+		<include refid="pageSQLFoot" />
+	</select>
+
+	<select id="findPagerTotal" resultType="long">
+		select count(empno) from EMP e
+		<include refid="WhereCase" />
+	</select>
+	
+	<select id="findById" parameterType="int" resultMap="emp-result">
+	  select EMPNO,ENAME,HIREDATE,SAL,E.DEPTNO,DNAME
+	  from EMP E,DEPT D where E.DEPTNO=D.DEPTNO AND EMPNO=#{empno}
+	</select>
+</mapper>

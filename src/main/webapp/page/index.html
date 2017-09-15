@@ -1,0 +1,2412 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0168)file:///C:/Users/soriqe/Desktop/%E7%AE%80%E5%8D%95%E7%82%B9%E9%85%92%E5%BA%97%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%20-%20%E6%88%BF%E6%80%81%E5%9B%BE_files/RoomState.html -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <title>简单点酒店管理平台</title>
+    <link href="${pageContext.request.contextPath }/resources/soriqe/css/main(1).css" type="text/css" rel="stylesheet">
+    <script type="text/javascript" src="${pageContext.request.contextPath }/resources/soriqe/js/jquery-1.8.0.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/soriqe/css/easyui.css">
+    <script type="text/javascript" src="${pageContext.request.contextPath }/resources/soriqe/js/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath }/resources/soriqe/js/jquery.timers-1.1.2.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath }/resources/soriqe/js/Base.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath }/resources/soriqe/js/jquery.cookie.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath }/resources/soriqe/js/RoomState.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath }/resources/soriqe/js/DefineBill.js"></script>
+    <script src="${pageContext.request.contextPath }/resources/soriqe/js/PagePermission.js"></script>
+    <style type="text/css">
+        html, body {
+            -moz-user-select: none;
+            -khtml-user-select: none;
+            user-select: none;
+        }
+
+        .menu-item {
+            font-size: 14px;
+        }
+    </style>
+    <script type="text/javascript">
+        document.oncontextmenu = function (e) {
+            return false;
+        }
+    </script>
+    <script language="javascript" type="text/javascript">
+        $(document).ready(function () {
+            $(".ftt_search .fr p").click(function () {
+                $("#ftt_type").removeClass();
+                $(".ftt_search .fr p span").css("display", "none");
+                if ($(this).attr("class") == "big") {
+                    $(".ftt_search .fr .big span").css("display", "block");
+                    $("#ftt_type").addClass("ftt_big");
+                    $.cookie('size_cookie', "ftt_big", {expires: 365});
+                    $('.name').attr("style", "width:80px");
+                }
+                if ($(this).attr("class") == "small") {
+                    $(".ftt_search .fr  .small span").css("display", "block");
+                    $("#ftt_type").addClass("ftt_small");
+                    $.cookie('size_cookie', "ftt_small", {expires: 365});
+                    $('.name').attr("style", "");
+                }
+                else if ($(this).attr("class") == "middle") {
+                    $(".ftt_search .fr .middle span").css("display", "block");
+                    $("#ftt_type").addClass("ftt_middle");
+                    $.cookie('size_cookie', "ftt_middle", {expires: 365});
+                    $('.name').attr("style", "");
+                }
+            });
+        });
+    </script>
+</head>
+
+
+<body oncontextmenu="" self.event.returnvalue="false" onselectstart="return false" onkeyup="keyUp();">
+<div class="main" style="width: 98%; margin-left: 1%; margin-bottom: 0px">
+    <div class="ftt_search fontYaHei" id="divQuery">
+        <label>楼层：</label>
+        <select id="selFloor" style="width: 80px">
+            <option value="">全部</option>
+            <option value="797">1</option>
+            <option value="799">2</option>
+            <option value="798">9</option>
+            <option value="800">3</option>
+            <option value="801">8</option>
+            <option value="802">12</option>
+            <option value="803">13</option>
+        </select>
+        <label>房型：</label>
+        <select id="selRoomType" style="width: 100px">
+            <option value="">全部</option>
+            <option value="903">标准单间</option>
+            <option value="904">双人间</option>
+            <option value="905">豪华单间</option>
+            <option value="906">基本间</option>
+        </select>
+        <label>房态：</label><select id="selZT" style="width: 80px">
+        <option value="">全部</option>
+        <option value="0">空房</option>
+        <option value="1">在住</option>
+        <option value="2">打扫</option>
+        <option value="3">维修</option>
+        <option value="4">预订</option>
+    </select>
+
+        <div id="FeaturesSelect">房间特征<span class="nones">▼</span><span class="select">▲</span></div>
+        <ul id="FeaturesBox" style="top: 34px; left: 455.792px;">
+            <li><input type="checkbox" id="ckbFeatures_30434" name="ckbFeatures" value="12"><label
+                    for="ckbFeatures_30434">12</label></li>
+            <li><input type="checkbox" id="ckbFeatures_30435" name="ckbFeatures" value="1"><label
+                    for="ckbFeatures_30435">1</label></li>
+            <li style="width:100%"><input type="button" value="查找" id="FeaturesSearch" onclick="FeaturesFilter()"
+                                          class="qtantj"></li>
+        </ul>
+        <input type="text" id="txtKey" maxlength="50" style="width: 220px" placeholder="请输入会员卡号/姓名/证件号码/房号">
+        <input type="button" class="qtantj" style="margin-left: 10px;" value="查询" id="btnQueryKey">
+        <input type="hidden" id="CleaningModule" value="false"><input type="hidden" id="BusinessReport" value="false">
+        <input type="hidden" id="IsClean" value="">
+        <input type="button" class="qtantj" style="margin-left: 10px;" value="宾客查询" id="btnCustomer">
+        <input type="button" class="qtantj" style="margin-left: 10px;" value="未来房态图"
+               id="btnFutureStat">
+        <input type="button" style="display: none" value="update" id="btnStateUpdate">
+        <div class="fr">
+            <p class="big"><span id="big" style="display: none;">&nbsp;</span></p>
+            <p class="middle"><span id="middle" style="display: none;">&nbsp;</span></p>
+            <p class="small"><span id="small" style="display: block;">&nbsp;</span></p>
+            <label style="padding-right: 5px">房态图：</label>
+        </div>
+    </div>
+
+    <div class="ftt_small" id="ftt_type">
+
+        <div class="ftt_main fontYaHei " id="div_rooms" style="height: 461px;">
+            <div id="797" class="div_floor_room">
+                <div style="clear: both; display: block;" name="div_11" id="div_5400" class="divroom">
+                    <div class="divs blue" featuresval="12" zt="0" clecanstatus="0" rzid=""
+                         keystr="11000000标准单间000False0False" orderno="" bedno="" zdh="" data-roomno="11"
+                         data-roomtypeid="903" data-membercardno="" data-name="" data-floorid="797" data-cardno=""
+                         data-bookid="" data-lockcode="11111">
+                        <div class="room">11</div>
+                        <div class="type">标准单间</div>
+                        <div class="features">12</div>
+                    </div>
+                </div>
+            </div>
+            <div id="799" class="div_floor_room">
+                <div style="clear: both; display: block;" name="div_201" id="div_5402" class="divroom">
+                    <div class="divs red" featuresval="" zt="1" clecanstatus="0" rzid="59868"
+                         keystr="20122017080900010320.00的萨嘎200.0020.00标准单间2.0001636378883060000000True0False"
+                         orderno="201708090001" bedno="" zdh="201708090001" data-roomno="201" data-roomtypeid="903"
+                         data-membercardno="" data-name="的萨嘎" data-floorid="799" data-cardno="430623199108082457"
+                         data-bookid="" data-lockcode="20101">
+                        <div class="room">201</div>
+                        <div class="type">标准单间</div>
+                        <div class="name" style="">的萨嘎</div>
+                        <div class="price">200.00</div>
+                        <div class="icon"><em class="clock"></em><em class="leave"></em><em class="deposit"></em><em
+                                style="display:none;" class="contact C201708090001"></em></div>
+                        <div class="features"></div>
+                    </div>
+                </div>
+                <div name="div_202" id="div_5405" class="divroom" style="display: block;">
+                    <div class="divs blue" featuresval="" zt="0" clecanstatus="0" rzid=""
+                         keystr="202000000标准单间000False0False" orderno="" bedno="" zdh="" data-roomno="202"
+                         data-roomtypeid="903" data-membercardno="" data-name="" data-floorid="799" data-cardno=""
+                         data-bookid="" data-lockcode="">
+                        <div class="room">202</div>
+                        <div class="type">标准单间</div>
+                        <div class="features"></div>
+                    </div>
+                </div>
+            </div>
+            <div id="798" class="div_floor_room">
+                <div style="clear: both; display: block;" name="div_901" id="div_5401" class="divroom">
+                    <div class="divs blue" featuresval="" zt="0" clecanstatus="0" rzid=""
+                         keystr="901000000双人间000False0False" orderno="" bedno="" zdh="" data-roomno="901"
+                         data-roomtypeid="904" data-membercardno="" data-name="" data-floorid="798" data-cardno=""
+                         data-bookid="" data-lockcode="901901">
+                        <div class="room">901</div>
+                        <div class="type">双人间</div>
+                        <div class="features"></div>
+                    </div>
+                </div>
+            </div>
+            <div id="800" class="div_floor_room">
+                <div style="clear: both; display: block;" name="div_302" id="div_5403" class="divroom">
+                    <div class="divs gray" featuresval="" zt="2" clecanstatus="0" rzid=""
+                         keystr="302000000双人间020False0False" orderno="" bedno="" zdh="" data-roomno="302"
+                         data-roomtypeid="904" data-membercardno="" data-name="" data-floorid="800" data-cardno=""
+                         data-bookid="" data-lockcode="302302">
+                        <div class="room">302</div>
+                        <div class="type">双人间</div>
+                        <div class="features"></div>
+                    </div>
+                </div>
+            </div>
+            <div id="801" class="div_floor_room">
+                <div style="clear: both; display: block;" name="div_808" id="div_5404" class="divroom">
+                    <div class="divs red" featuresval="" zt="1" clecanstatus="0" rzid="59873"
+                         keystr="8081201708090002000.00的萨嘎468.000.00豪华单间4.0001636378917070000000False0False"
+                         orderno="201708090002" bedno="" zdh="201708090002" data-roomno="808" data-roomtypeid="905"
+                         data-membercardno="" data-name="的萨嘎" data-floorid="801" data-cardno="522730197710133142"
+                         data-bookid="" data-lockcode="80808">
+                        <div class="room">808</div>
+                        <div class="type">豪华单间</div>
+                        <div class="name" style="">的萨嘎</div>
+                        <div class="price">468.00</div>
+                        <div class="icon"><em class="deposit"></em><em style="display:none;"
+                                                                       class="contact C201708090002"></em></div>
+                        <div class="features"></div>
+                    </div>
+                </div>
+            </div>
+            <div id="802" class="div_floor_room">
+                <div style="clear: both; display: block;" name="div_1201" id="div_5406" class="divroom">
+                    <div class="divs blue" featuresval="" zt="0" clecanstatus="0" rzid=""
+                         keystr="1201000000标准单间000False0False" orderno="" bedno="" zdh="" data-roomno="1201"
+                         data-roomtypeid="903" data-membercardno="" data-name="" data-floorid="802" data-cardno=""
+                         data-bookid="" data-lockcode="">
+                        <div class="room">1201</div>
+                        <div class="type">标准单间</div>
+                        <div class="features"></div>
+                    </div>
+                </div>
+            </div>
+            <div id="803" class="div_floor_room">
+                <div style="clear: both; display: block;" name="div_1301" id="div_5407" class="divroom">
+                    <div class="divs blue" featuresval="" zt="0" clecanstatus="0" rzid=""
+                         keystr="1301000000标准单间000False0False" orderno="" bedno="" zdh="" data-roomno="1301"
+                         data-roomtypeid="903" data-membercardno="" data-name="" data-floorid="803" data-cardno=""
+                         data-bookid="" data-lockcode="">
+                        <div class="room">1301</div>
+                        <div class="type">标准单间</div>
+                        <div class="features"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--拖动层-->
+        <div id="MoveRoom" style="display: none">
+            <div class="first">
+                <div class="name" style="">李生</div>
+                <div class="room_type"><font color="#f00">1014</font>&nbsp;/&nbsp;标准双人间</div>
+            </div>
+            <div class="times">
+                <label>身份证：</label>
+                <p>432524198805048324</p>
+            </div>
+            <div class="times">
+                <label>同住房：</label>
+                <p>李四，王老五</p>
+            </div>
+        </div>
+
+        <div class="ftt_sks fontYaHei" id="divFoot">
+
+
+            <div class="colors">
+                <div class="colorpanel" style="display: none;" data-type="0" id="kf_0">
+                    <table width="253" border="0" cellspacing="0" cellpadding="0"
+                           style="border:1px #000000 solid;border-bottom:none;border-collapse: collapse;display:none"
+                           bordercolor="000000">
+                        <tbody>
+                        <tr height="30px">
+                            <td colspan="21" bgcolor="#cccccc">
+                                <table cellpadding="0" cellspacing="1" border="0" style="border-collapse: collapse;">
+                                    <tbody>
+                                    <tr>
+                                        <td width="3"></td>
+                                        <td><input type="text" id="DisColor" size="6" disabled=""
+                                                   style="border:solid 1px #000000;background-color:#ffff00"></td>
+                                        <td width="3"></td>
+                                        <td><input type="text" id="HexColor" size="7"
+                                                   style="border:inset 1px;font-family:Arial;" value="#000000"></td>
+                                        <td align="right" width="100%"><span class="spnClose"
+                                                                             style="cursor:hand;">Ⅹ</span>&nbsp;
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <table width="253" class="tblColor" border="1" cellspacing="0" cellpadding="0"
+                           style="border-collapse: collapse; margin-top: 30px" bordercolor="000000">
+                        <tbody>
+                        <tr style="height:12px;">
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#003300"></td>
+                            <td style="width=11px;height:12px;background-color:#006600"></td>
+                            <td style="width=11px;height:12px;background-color:#009900"></td>
+                            <td style="width=11px;height:12px;background-color:#00CC00"></td>
+                            <td style="width=11px;height:12px;background-color:#00FF00"></td>
+                            <td style="width=11px;height:12px;background-color:#330000"></td>
+                            <td style="width=11px;height:12px;background-color:#333300"></td>
+                            <td style="width=11px;height:12px;background-color:#336600"></td>
+                            <td style="width=11px;height:12px;background-color:#339900"></td>
+                            <td style="width=11px;height:12px;background-color:#33CC00"></td>
+                            <td style="width=11px;height:12px;background-color:#33FF00"></td>
+                            <td style="width:11px;height:12px;background-color:#660000"></td>
+                            <td style="width=11px;height:12px;background-color:#663300"></td>
+                            <td style="width=11px;height:12px;background-color:#666600"></td>
+                            <td style="width=11px;height:12px;background-color:#669900"></td>
+                            <td style="width=11px;height:12px;background-color:#66CC00"></td>
+                            <td style="width=11px;height:12px;background-color:#66FF00"></td>
+                        </tr>
+                        <tr style="height:12px;">
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#333333"></td>
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#000033"></td>
+                            <td style="width=11px;height:12px;background-color:#003333"></td>
+                            <td style="width=11px;height:12px;background-color:#006633"></td>
+                            <td style="width=11px;height:12px;background-color:#009933"></td>
+                            <td style="width=11px;height:12px;background-color:#00CC33"></td>
+                            <td style="width=11px;height:12px;background-color:#00FF33"></td>
+                            <td style="width=11px;height:12px;background-color:#330033"></td>
+                            <td style="width=11px;height:12px;background-color:#333333"></td>
+                            <td style="width=11px;height:12px;background-color:#336633"></td>
+                            <td style="width=11px;height:12px;background-color:#339933"></td>
+                            <td style="width=11px;height:12px;background-color:#33CC33"></td>
+                            <td style="width=11px;height:12px;background-color:#33FF33"></td>
+                            <td style="width=11px;height:12px;background-color:#660033"></td>
+                            <td style="width=11px;height:12px;background-color:#663333"></td>
+                            <td style="width=11px;height:12px;background-color:#666633"></td>
+                            <td style="width=11px;height:12px;background-color:#669933"></td>
+                            <td style="width=11px;height:12px;background-color:#66CC33"></td>
+                            <td style="width=11px;height:12px;background-color:#66FF33"></td>
+                        </tr>
+                        <tr style="height:12px;">
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#666666"></td>
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#000066"></td>
+                            <td style="width=11px;height:12px;background-color:#003366"></td>
+                            <td style="width=11px;height:12px;background-color:#006666"></td>
+                            <td style="width=11px;height:12px;background-color:#009966"></td>
+                            <td style="width=11px;height:12px;background-color:#00CC66"></td>
+                            <td style="width=11px;height:12px;background-color:#00FF66"></td>
+                            <td style="width=11px;height:12px;background-color:#330066"></td>
+                            <td style="width=11px;height:12px;background-color:#333366"></td>
+                            <td style="width=11px;height:12px;background-color:#336666"></td>
+                            <td style="width=11px;height:12px;background-color:#339966"></td>
+                            <td style="width=11px;height:12px;background-color:#33CC66"></td>
+                            <td style="width=11px;height:12px;background-color:#33FF66"></td>
+                            <td style="width=11px;height:12px;background-color:#660066"></td>
+                            <td style="width=11px;height:12px;background-color:#663366"></td>
+                            <td style="width:11px;height:12px;background-color:#666666"></td>
+                            <td style="width:11px;height:12px;background-color:#669966"></td>
+                            <td style="width=11px;height:12px;background-color:#66CC66"></td>
+                            <td style="width=11px;height:12px;background-color:#66FF66"></td>
+                        </tr>
+                        <tr style="height:12px;">
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#999999"></td>
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#000099"></td>
+                            <td style="width=11px;height:12px;background-color:#003399"></td>
+                            <td style="width=11px;height:12px;background-color:#006699"></td>
+                            <td style="width=11px;height:12px;background-color:#009999"></td>
+                            <td style="width=11px;height:12px;background-color:#00CC99"></td>
+                            <td style="width=11px;height:12px;background-color:#00FF99"></td>
+                            <td style="width=11px;height:12px;background-color:#330099"></td>
+                            <td style="width=11px;height:12px;background-color:#333399"></td>
+                            <td style="width=11px;height:12px;background-color:#336699"></td>
+                            <td style="width=11px;height:12px;background-color:#339999"></td>
+                            <td style="width=11px;height:12px;background-color:#33CC99"></td>
+                            <td style="width=11px;height:12px;background-color:#33FF99"></td>
+                            <td style="width=11px;height:12px;background-color:#660099"></td>
+                            <td style="width=11px;height:12px;background-color:#663399"></td>
+                            <td style="width=11px;height:12px;background-color:#666699"></td>
+                            <td style="width=11px;height:12px;background-color:#669999"></td>
+                            <td style="width=11px;height:12px;background-color:#66CC99"></td>
+                            <td style="width=11px;height:12px;background-color:#66FF99"></td>
+                        </tr>
+                        <tr style="height:12px;">
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#CCCCCC"></td>
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#0000CC"></td>
+                            <td style="width=11px;height:12px;background-color:#0033CC"></td>
+                            <td style="width=11px;height:12px;background-color:#0066CC"></td>
+                            <td style="width=11px;height:12px;background-color:#0099CC"></td>
+                            <td style="width=11px;height:12px;background-color:#00CCCC"></td>
+                            <td style="width=11px;height:12px;background-color:#00FFCC"></td>
+                            <td style="width=11px;height:12px;background-color:#3300CC"></td>
+                            <td style="width=11px;height:12px;background-color:#3333CC"></td>
+                            <td style="width=11px;height:12px;background-color:#3366CC"></td>
+                            <td style="width=11px;height:12px;background-color:#3399CC"></td>
+                            <td style="width=11px;height:12px;background-color:#33CCCC"></td>
+                            <td style="width=11px;height:12px;background-color:#33FFCC"></td>
+                            <td style="width=11px;height:12px;background-color:#6600CC"></td>
+                            <td style="width=11px;height:12px;background-color:#6633CC"></td>
+                            <td style="width=11px;height:12px;background-color:#6666CC"></td>
+                            <td style="width=11px;height:12px;background-color:#6699CC"></td>
+                            <td style="width=11px;height:12px;background-color:#66CCCC"></td>
+                            <td style="width=11px;height:12px;background-color:#66FFCC"></td>
+                        </tr>
+                        <tr style="height:12px;">
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#FFFFFF"></td>
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#0000FF"></td>
+                            <td style="width=11px;height:12px;background-color:#0033FF"></td>
+                            <td style="width=11px;height:12px;background-color:#0066FF"></td>
+                            <td style="width=11px;height:12px;background-color:#0099FF"></td>
+                            <td style="width=11px;height:12px;background-color:#00CCFF"></td>
+                            <td style="width=11px;height:12px;background-color:#00FFFF"></td>
+                            <td style="width=11px;height:12px;background-color:#3300FF"></td>
+                            <td style="width=11px;height:12px;background-color:#3333FF"></td>
+                            <td style="width=11px;height:12px;background-color:#3366FF"></td>
+                            <td style="width=11px;height:12px;background-color:#3399FF"></td>
+                            <td style="width=11px;height:12px;background-color:#33CCFF"></td>
+                            <td style="width=11px;height:12px;background-color:#33FFFF"></td>
+                            <td style="width=11px;height:12px;background-color:#6600FF"></td>
+                            <td style="width=11px;height:12px;background-color:#6633FF"></td>
+                            <td style="width=11px;height:12px;background-color:#6666FF"></td>
+                            <td style="width=11px;height:12px;background-color:#6699FF"></td>
+                            <td style="width=11px;height:12px;background-color:#66CCFF"></td>
+                            <td style="width=11px;height:12px;background-color:#66FFFF"></td>
+                        </tr>
+                        <tr style="height:12px;">
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#FF0000"></td>
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#990000"></td>
+                            <td style="width=11px;height:12px;background-color:#993300"></td>
+                            <td style="width=11px;height:12px;background-color:#996600"></td>
+                            <td style="width=11px;height:12px;background-color:#999900"></td>
+                            <td style="width=11px;height:12px;background-color:#99CC00"></td>
+                            <td style="width=11px;height:12px;background-color:#99FF00"></td>
+                            <td style="width=11px;height:12px;background-color:#CC0000"></td>
+                            <td style="width=11px;height:12px;background-color:#CC3300"></td>
+                            <td style="width=11px;height:12px;background-color:#CC6600"></td>
+                            <td style="width=11px;height:12px;background-color:#CC9900"></td>
+                            <td style="width=11px;height:12px;background-color:#CCCC00"></td>
+                            <td style="width=11px;height:12px;background-color:#CCFF00"></td>
+                            <td style="width=11px;height:12px;background-color:#FF0000"></td>
+                            <td style="width=11px;height:12px;background-color:#FF3300"></td>
+                            <td style="width:11px;height:12px;background-color:#FF6600"></td>
+                            <td style="width=11px;height:12px;background-color:#FF9900"></td>
+                            <td style="width=11px;height:12px;background-color:#FFCC00"></td>
+                            <td style="width=11px;height:12px;background-color:#FFFF00"></td>
+                        </tr>
+                        <tr style="height:12px;">
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#00FF00"></td>
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#990033"></td>
+                            <td style="width=11px;height:12px;background-color:#993333"></td>
+                            <td style="width=11px;height:12px;background-color:#996633"></td>
+                            <td style="width=11px;height:12px;background-color:#999933"></td>
+                            <td style="width=11px;height:12px;background-color:#99CC33"></td>
+                            <td style="width=11px;height:12px;background-color:#99FF33"></td>
+                            <td style="width=11px;height:12px;background-color:#CC0033"></td>
+                            <td style="width=11px;height:12px;background-color:#CC3333"></td>
+                            <td style="width=11px;height:12px;background-color:#CC6633"></td>
+                            <td style="width=11px;height:12px;background-color:#CC9933"></td>
+                            <td style="width=11px;height:12px;background-color:#CCCC33"></td>
+                            <td style="width=11px;height:12px;background-color:#CCFF33"></td>
+                            <td style="width=11px;height:12px;background-color:#FF0033"></td>
+                            <td style="width=11px;height:12px;background-color:#FF3333"></td>
+                            <td style="width=11px;height:12px;background-color:#FF6633"></td>
+                            <td style="width=11px;height:12px;background-color:#FF9933"></td>
+                            <td style="width=11px;height:12px;background-color:#FFCC33"></td>
+                            <td style="width=11px;height:12px;background-color:#FFFF33"></td>
+                        </tr>
+                        <tr style="height:12px;">
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#0000FF"></td>
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#990066"></td>
+                            <td style="width=11px;height:12px;background-color:#993366"></td>
+                            <td style="width=11px;height:12px;background-color:#996666"></td>
+                            <td style="width=11px;height:12px;background-color:#999966"></td>
+                            <td style="width=11px;height:12px;background-color:#99CC66"></td>
+                            <td style="width=11px;height:12px;background-color:#99FF66"></td>
+                            <td style="width=11px;height:12px;background-color:#CC0066"></td>
+                            <td style="width=11px;height:12px;background-color:#CC3366"></td>
+                            <td style="width=11px;height:12px;background-color:#CC6666"></td>
+                            <td style="width=11px;height:12px;background-color:#CC9966"></td>
+                            <td style="width=11px;height:12px;background-color:#CCCC66"></td>
+                            <td style="width=11px;height:12px;background-color:#CCFF66"></td>
+                            <td style="width=11px;height:12px;background-color:#FF0066"></td>
+                            <td style="width=11px;height:12px;background-color:#FF3366"></td>
+                            <td style="width=11px;height:12px;background-color:#FF6666"></td>
+                            <td style="width=11px;height:12px;background-color:#FF9966"></td>
+                            <td style="width=11px;height:12px;background-color:#FFCC66"></td>
+                            <td style="width=11px;height:12px;background-color:#FFFF66"></td>
+                        </tr>
+                        <tr style="height:12px;">
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#FFFF00"></td>
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#990099"></td>
+                            <td style="width=11px;height:12px;background-color:#993399"></td>
+                            <td style="width=11px;height:12px;background-color:#996699"></td>
+                            <td style="width=11px;height:12px;background-color:#999999"></td>
+                            <td style="width=11px;height:12px;background-color:#99CC99"></td>
+                            <td style="width=11px;height:12px;background-color:#99FF99"></td>
+                            <td style="width=11px;height:12px;background-color:#CC0099"></td>
+                            <td style="width=11px;height:12px;background-color:#CC3399"></td>
+                            <td style="width=11px;height:12px;background-color:#CC6699"></td>
+                            <td style="width=11px;height:12px;background-color:#CC9999"></td>
+                            <td style="width=11px;height:12px;background-color:#CCCC99"></td>
+                            <td style="width=11px;height:12px;background-color:#CCFF99"></td>
+                            <td style="width=11px;height:12px;background-color:#FF0099"></td>
+                            <td style="width=11px;height:12px;background-color:#FF3399"></td>
+                            <td style="width=11px;height:12px;background-color:#FF6699"></td>
+                            <td style="width=11px;height:12px;background-color:#FF9999"></td>
+                            <td style="width=11px;height:12px;background-color:#FFCC99"></td>
+                            <td style="width=11px;height:12px;background-color:#FFFF99"></td>
+                        </tr>
+                        <tr style="height:12px;">
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#00FFFF"></td>
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#9900CC"></td>
+                            <td style="width=11px;height:12px;background-color:#9933CC"></td>
+                            <td style="width=11px;height:12px;background-color:#9966CC"></td>
+                            <td style="width=11px;height:12px;background-color:#9999CC"></td>
+                            <td style="width=11px;height:12px;background-color:#99CCCC"></td>
+                            <td style="width=11px;height:12px;background-color:#99FFCC"></td>
+                            <td style="width=11px;height:12px;background-color:#CC00CC"></td>
+                            <td style="width=11px;height:12px;background-color:#CC33CC"></td>
+                            <td style="width=11px;height:12px;background-color:#CC66CC"></td>
+                            <td style="width=11px;height:12px;background-color:#CC99CC"></td>
+                            <td style="width=11px;height:12px;background-color:#CCCCCC"></td>
+                            <td style="width=11px;height:12px;background-color:#CCFFCC"></td>
+                            <td style="width=11px;height:12px;background-color:#FF00CC"></td>
+                            <td style="width=11px;height:12px;background-color:#FF33CC"></td>
+                            <td style="width=11px;height:12px;background-color:#FF66CC"></td>
+                            <td style="width=11px;height:12px;background-color:#FF99CC"></td>
+                            <td style="width=11px;height:12px;background-color:#FFCCCC"></td>
+                            <td style="width=11px;height:12px;background-color:#FFFFCC"></td>
+                        </tr>
+                        <tr style="height:12px;">
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#FF00FF"></td>
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#9900FF"></td>
+                            <td style="width=11px;height:12px;background-color:#9933FF"></td>
+                            <td style="width=11px;height:12px;background-color:#9966FF"></td>
+                            <td style="width=11px;height:12px;background-color:#9999FF"></td>
+                            <td style="width=11px;height:12px;background-color:#99CCFF"></td>
+                            <td style="width=11px;height:12px;background-color:#99FFFF"></td>
+                            <td style="width=11px;height:12px;background-color:#CC00FF"></td>
+                            <td style="width=11px;height:12px;background-color:#CC33FF"></td>
+                            <td style="width=11px;height:12px;background-color:#CC66FF"></td>
+                            <td style="width=11px;height:12px;background-color:#CC99FF"></td>
+                            <td style="width=11px;height:12px;background-color:#CCCCFF"></td>
+                            <td style="width=11px;height:12px;background-color:#CCFFFF"></td>
+                            <td style="width=11px;height:12px;background-color:#FF00FF"></td>
+                            <td style="width=11px;height:12px;background-color:#FF33FF"></td>
+                            <td style="width=11px;height:12px;background-color:#FF66FF"></td>
+                            <td style="width=11px;height:12px;background-color:#FF99FF"></td>
+                            <td style="width=11px;height:12px;background-color:#FFCCFF"></td>
+                            <td style="width=11px;height:12px;background-color:#FFFFFF"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <em class="blue" id="kf">空房</em><a href="javascript:void(0);" onclick="BtnStatus(this,&#39;0&#39;)"
+                                                   id="state1"><b>5</b> 间&nbsp;&nbsp;62.5%</a>
+            </div>
+
+
+            <div class="colors">
+                <div class="colorpanel" style="display: none;" data-type="1" id="rz_0">
+                    <table width="253" border="0" cellspacing="0" cellpadding="0"
+                           style="border:1px #000000 solid;border-bottom:none;border-collapse: collapse;display:none"
+                           bordercolor="000000">
+                        <tbody>
+                        <tr height="30px">
+                            <td colspan="21" bgcolor="#cccccc">
+                                <table cellpadding="0" cellspacing="1" border="0" style="border-collapse: collapse;">
+                                    <tbody>
+                                    <tr>
+                                        <td width="3"></td>
+                                        <td><input type="text" id="DisColor" size="6" disabled=""
+                                                   style="border:solid 1px #000000;background-color:#ffff00"></td>
+                                        <td width="3"></td>
+                                        <td><input type="text" id="HexColor" size="7"
+                                                   style="border:inset 1px;font-family:Arial;" value="#000000"></td>
+                                        <td align="right" width="100%"><span class="spnClose"
+                                                                             style="cursor:hand;">Ⅹ</span>&nbsp;
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <table width="253" class="tblColor" border="1" cellspacing="0" cellpadding="0"
+                           style="border-collapse: collapse; margin-top: 30px" bordercolor="000000">
+                        <tbody>
+                        <tr style="height:12px;">
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#003300"></td>
+                            <td style="width=11px;height:12px;background-color:#006600"></td>
+                            <td style="width=11px;height:12px;background-color:#009900"></td>
+                            <td style="width=11px;height:12px;background-color:#00CC00"></td>
+                            <td style="width=11px;height:12px;background-color:#00FF00"></td>
+                            <td style="width=11px;height:12px;background-color:#330000"></td>
+                            <td style="width=11px;height:12px;background-color:#333300"></td>
+                            <td style="width=11px;height:12px;background-color:#336600"></td>
+                            <td style="width=11px;height:12px;background-color:#339900"></td>
+                            <td style="width=11px;height:12px;background-color:#33CC00"></td>
+                            <td style="width=11px;height:12px;background-color:#33FF00"></td>
+                            <td style="width=11px;height:12px;background-color:#660000"></td>
+                            <td style="width=11px;height:12px;background-color:#663300"></td>
+                            <td style="width=11px;height:12px;background-color:#666600"></td>
+                            <td style="width=11px;height:12px;background-color:#669900"></td>
+                            <td style="width=11px;height:12px;background-color:#66CC00"></td>
+                            <td style="width=11px;height:12px;background-color:#66FF00"></td>
+                        </tr>
+                        <tr style="height:12px;">
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#333333"></td>
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#000033"></td>
+                            <td style="width=11px;height:12px;background-color:#003333"></td>
+                            <td style="width=11px;height:12px;background-color:#006633"></td>
+                            <td style="width=11px;height:12px;background-color:#009933"></td>
+                            <td style="width=11px;height:12px;background-color:#00CC33"></td>
+                            <td style="width=11px;height:12px;background-color:#00FF33"></td>
+                            <td style="width=11px;height:12px;background-color:#330033"></td>
+                            <td style="width=11px;height:12px;background-color:#333333"></td>
+                            <td style="width=11px;height:12px;background-color:#336633"></td>
+                            <td style="width=11px;height:12px;background-color:#339933"></td>
+                            <td style="width=11px;height:12px;background-color:#33CC33"></td>
+                            <td style="width=11px;height:12px;background-color:#33FF33"></td>
+                            <td style="width=11px;height:12px;background-color:#660033"></td>
+                            <td style="width=11px;height:12px;background-color:#663333"></td>
+                            <td style="width=11px;height:12px;background-color:#666633"></td>
+                            <td style="width=11px;height:12px;background-color:#669933"></td>
+                            <td style="width=11px;height:12px;background-color:#66CC33"></td>
+                            <td style="width=11px;height:12px;background-color:#66FF33"></td>
+                        </tr>
+                        <tr style="height:12px;">
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#666666"></td>
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#000066"></td>
+                            <td style="width=11px;height:12px;background-color:#003366"></td>
+                            <td style="width=11px;height:12px;background-color:#006666"></td>
+                            <td style="width=11px;height:12px;background-color:#009966"></td>
+                            <td style="width=11px;height:12px;background-color:#00CC66"></td>
+                            <td style="width=11px;height:12px;background-color:#00FF66"></td>
+                            <td style="width=11px;height:12px;background-color:#330066"></td>
+                            <td style="width=11px;height:12px;background-color:#333366"></td>
+                            <td style="width=11px;height:12px;background-color:#336666"></td>
+                            <td style="width=11px;height:12px;background-color:#339966"></td>
+                            <td style="width=11px;height:12px;background-color:#33CC66"></td>
+                            <td style="width=11px;height:12px;background-color:#33FF66"></td>
+                            <td style="width=11px;height:12px;background-color:#660066"></td>
+                            <td style="width=11px;height:12px;background-color:#663366"></td>
+                            <td style="width=11px;height:12px;background-color:#666666"></td>
+                            <td style="width=11px;height:12px;background-color:#669966"></td>
+                            <td style="width=11px;height:12px;background-color:#66CC66"></td>
+                            <td style="width=11px;height:12px;background-color:#66FF66"></td>
+                        </tr>
+                        <tr style="height:12px;">
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#999999"></td>
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#000099"></td>
+                            <td style="width=11px;height:12px;background-color:#003399"></td>
+                            <td style="width=11px;height:12px;background-color:#006699"></td>
+                            <td style="width=11px;height:12px;background-color:#009999"></td>
+                            <td style="width=11px;height:12px;background-color:#00CC99"></td>
+                            <td style="width=11px;height:12px;background-color:#00FF99"></td>
+                            <td style="width=11px;height:12px;background-color:#330099"></td>
+                            <td style="width=11px;height:12px;background-color:#333399"></td>
+                            <td style="width=11px;height:12px;background-color:#336699"></td>
+                            <td style="width=11px;height:12px;background-color:#339999"></td>
+                            <td style="width=11px;height:12px;background-color:#33CC99"></td>
+                            <td style="width=11px;height:12px;background-color:#33FF99"></td>
+                            <td style="width=11px;height:12px;background-color:#660099"></td>
+                            <td style="width=11px;height:12px;background-color:#663399"></td>
+                            <td style="width=11px;height:12px;background-color:#666699"></td>
+                            <td style="width=11px;height:12px;background-color:#669999"></td>
+                            <td style="width=11px;height:12px;background-color:#66CC99"></td>
+                            <td style="width=11px;height:12px;background-color:#66FF99"></td>
+                        </tr>
+                        <tr style="height:12px;">
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#CCCCCC"></td>
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#0000CC"></td>
+                            <td style="width=11px;height:12px;background-color:#0033CC"></td>
+                            <td style="width=11px;height:12px;background-color:#0066CC"></td>
+                            <td style="width=11px;height:12px;background-color:#0099CC"></td>
+                            <td style="width=11px;height:12px;background-color:#00CCCC"></td>
+                            <td style="width=11px;height:12px;background-color:#00FFCC"></td>
+                            <td style="width=11px;height:12px;background-color:#3300CC"></td>
+                            <td style="width=11px;height:12px;background-color:#3333CC"></td>
+                            <td style="width=11px;height:12px;background-color:#3366CC"></td>
+                            <td style="width=11px;height:12px;background-color:#3399CC"></td>
+                            <td style="width=11px;height:12px;background-color:#33CCCC"></td>
+                            <td style="width=11px;height:12px;background-color:#33FFCC"></td>
+                            <td style="width=11px;height:12px;background-color:#6600CC"></td>
+                            <td style="width=11px;height:12px;background-color:#6633CC"></td>
+                            <td style="width=11px;height:12px;background-color:#6666CC"></td>
+                            <td style="width=11px;height:12px;background-color:#6699CC"></td>
+                            <td style="width=11px;height:12px;background-color:#66CCCC"></td>
+                            <td style="width=11px;height:12px;background-color:#66FFCC"></td>
+                        </tr>
+                        <tr style="height:12px;">
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#FFFFFF"></td>
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#0000FF"></td>
+                            <td style="width=11px;height:12px;background-color:#0033FF"></td>
+                            <td style="width=11px;height:12px;background-color:#0066FF"></td>
+                            <td style="width=11px;height:12px;background-color:#0099FF"></td>
+                            <td style="width=11px;height:12px;background-color:#00CCFF"></td>
+                            <td style="width=11px;height:12px;background-color:#00FFFF"></td>
+                            <td style="width=11px;height:12px;background-color:#3300FF"></td>
+                            <td style="width=11px;height:12px;background-color:#3333FF"></td>
+                            <td style="width=11px;height:12px;background-color:#3366FF"></td>
+                            <td style="width=11px;height:12px;background-color:#3399FF"></td>
+                            <td style="width=11px;height:12px;background-color:#33CCFF"></td>
+                            <td style="width=11px;height:12px;background-color:#33FFFF"></td>
+                            <td style="width=11px;height:12px;background-color:#6600FF"></td>
+                            <td style="width=11px;height:12px;background-color:#6633FF"></td>
+                            <td style="width=11px;height:12px;background-color:#6666FF"></td>
+                            <td style="width=11px;height:12px;background-color:#6699FF"></td>
+                            <td style="width=11px;height:12px;background-color:#66CCFF"></td>
+                            <td style="width=11px;height:12px;background-color:#66FFFF"></td>
+                        </tr>
+                        <tr style="height:12px;">
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#FF0000"></td>
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#990000"></td>
+                            <td style="width=11px;height:12px;background-color:#993300"></td>
+                            <td style="width=11px;height:12px;background-color:#996600"></td>
+                            <td style="width=11px;height:12px;background-color:#999900"></td>
+                            <td style="width=11px;height:12px;background-color:#99CC00"></td>
+                            <td style="width=11px;height:12px;background-color:#99FF00"></td>
+                            <td style="width:11px;height:12px;background-color:#CC0000"></td>
+                            <td style="width=11px;height:12px;background-color:#CC3300"></td>
+                            <td style="width=11px;height:12px;background-color:#CC6600"></td>
+                            <td style="width=11px;height:12px;background-color:#CC9900"></td>
+                            <td style="width=11px;height:12px;background-color:#CCCC00"></td>
+                            <td style="width:11px;height:12px;background-color:#CCFF00"></td>
+                            <td style="width=11px;height:12px;background-color:#FF0000"></td>
+                            <td style="width=11px;height:12px;background-color:#FF3300"></td>
+                            <td style="width=11px;height:12px;background-color:#FF6600"></td>
+                            <td style="width=11px;height:12px;background-color:#FF9900"></td>
+                            <td style="width=11px;height:12px;background-color:#FFCC00"></td>
+                            <td style="width=11px;height:12px;background-color:#FFFF00"></td>
+                        </tr>
+                        <tr style="height:12px;">
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#00FF00"></td>
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#990033"></td>
+                            <td style="width=11px;height:12px;background-color:#993333"></td>
+                            <td style="width=11px;height:12px;background-color:#996633"></td>
+                            <td style="width=11px;height:12px;background-color:#999933"></td>
+                            <td style="width=11px;height:12px;background-color:#99CC33"></td>
+                            <td style="width=11px;height:12px;background-color:#99FF33"></td>
+                            <td style="width=11px;height:12px;background-color:#CC0033"></td>
+                            <td style="width=11px;height:12px;background-color:#CC3333"></td>
+                            <td style="width=11px;height:12px;background-color:#CC6633"></td>
+                            <td style="width=11px;height:12px;background-color:#CC9933"></td>
+                            <td style="width=11px;height:12px;background-color:#CCCC33"></td>
+                            <td style="width=11px;height:12px;background-color:#CCFF33"></td>
+                            <td style="width=11px;height:12px;background-color:#FF0033"></td>
+                            <td style="width=11px;height:12px;background-color:#FF3333"></td>
+                            <td style="width=11px;height:12px;background-color:#FF6633"></td>
+                            <td style="width=11px;height:12px;background-color:#FF9933"></td>
+                            <td style="width=11px;height:12px;background-color:#FFCC33"></td>
+                            <td style="width=11px;height:12px;background-color:#FFFF33"></td>
+                        </tr>
+                        <tr style="height:12px;">
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#0000FF"></td>
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#990066"></td>
+                            <td style="width=11px;height:12px;background-color:#993366"></td>
+                            <td style="width=11px;height:12px;background-color:#996666"></td>
+                            <td style="width=11px;height:12px;background-color:#999966"></td>
+                            <td style="width=11px;height:12px;background-color:#99CC66"></td>
+                            <td style="width=11px;height:12px;background-color:#99FF66"></td>
+                            <td style="width=11px;height:12px;background-color:#CC0066"></td>
+                            <td style="width=11px;height:12px;background-color:#CC3366"></td>
+                            <td style="width=11px;height:12px;background-color:#CC6666"></td>
+                            <td style="width=11px;height:12px;background-color:#CC9966"></td>
+                            <td style="width=11px;height:12px;background-color:#CCCC66"></td>
+                            <td style="width=11px;height:12px;background-color:#CCFF66"></td>
+                            <td style="width=11px;height:12px;background-color:#FF0066"></td>
+                            <td style="width=11px;height:12px;background-color:#FF3366"></td>
+                            <td style="width=11px;height:12px;background-color:#FF6666"></td>
+                            <td style="width=11px;height:12px;background-color:#FF9966"></td>
+                            <td style="width=11px;height:12px;background-color:#FFCC66"></td>
+                            <td style="width=11px;height:12px;background-color:#FFFF66"></td>
+                        </tr>
+                        <tr style="height:12px;">
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#FFFF00"></td>
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#990099"></td>
+                            <td style="width=11px;height:12px;background-color:#993399"></td>
+                            <td style="width=11px;height:12px;background-color:#996699"></td>
+                            <td style="width=11px;height:12px;background-color:#999999"></td>
+                            <td style="width=11px;height:12px;background-color:#99CC99"></td>
+                            <td style="width:11px;height:12px;background-color:#99FF99"></td>
+                            <td style="width=11px;height:12px;background-color:#CC0099"></td>
+                            <td style="width=11px;height:12px;background-color:#CC3399"></td>
+                            <td style="width=11px;height:12px;background-color:#CC6699"></td>
+                            <td style="width=11px;height:12px;background-color:#CC9999"></td>
+                            <td style="width=11px;height:12px;background-color:#CCCC99"></td>
+                            <td style="width=11px;height:12px;background-color:#CCFF99"></td>
+                            <td style="width=11px;height:12px;background-color:#FF0099"></td>
+                            <td style="width=11px;height:12px;background-color:#FF3399"></td>
+                            <td style="width=11px;height:12px;background-color:#FF6699"></td>
+                            <td style="width=11px;height:12px;background-color:#FF9999"></td>
+                            <td style="width=11px;height:12px;background-color:#FFCC99"></td>
+                            <td style="width=11px;height:12px;background-color:#FFFF99"></td>
+                        </tr>
+                        <tr style="height:12px;">
+                            <td style="width:11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#00FFFF"></td>
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#9900CC"></td>
+                            <td style="width=11px;height:12px;background-color:#9933CC"></td>
+                            <td style="width=11px;height:12px;background-color:#9966CC"></td>
+                            <td style="width=11px;height:12px;background-color:#9999CC"></td>
+                            <td style="width=11px;height:12px;background-color:#99CCCC"></td>
+                            <td style="width=11px;height:12px;background-color:#99FFCC"></td>
+                            <td style="width=11px;height:12px;background-color:#CC00CC"></td>
+                            <td style="width=11px;height:12px;background-color:#CC33CC"></td>
+                            <td style="width=11px;height:12px;background-color:#CC66CC"></td>
+                            <td style="width=11px;height:12px;background-color:#CC99CC"></td>
+                            <td style="width=11px;height:12px;background-color:#CCCCCC"></td>
+                            <td style="width=11px;height:12px;background-color:#CCFFCC"></td>
+                            <td style="width=11px;height:12px;background-color:#FF00CC"></td>
+                            <td style="width=11px;height:12px;background-color:#FF33CC"></td>
+                            <td style="width=11px;height:12px;background-color:#FF66CC"></td>
+                            <td style="width=11px;height:12px;background-color:#FF99CC"></td>
+                            <td style="width=11px;height:12px;background-color:#FFCCCC"></td>
+                            <td style="width=11px;height:12px;background-color:#FFFFCC"></td>
+                        </tr>
+                        <tr style="height:12px;">
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#FF00FF"></td>
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#9900FF"></td>
+                            <td style="width=11px;height:12px;background-color:#9933FF"></td>
+                            <td style="width=11px;height:12px;background-color:#9966FF"></td>
+                            <td style="width=11px;height:12px;background-color:#9999FF"></td>
+                            <td style="width=11px;height:12px;background-color:#99CCFF"></td>
+                            <td style="width=11px;height:12px;background-color:#99FFFF"></td>
+                            <td style="width=11px;height:12px;background-color:#CC00FF"></td>
+                            <td style="width=11px;height:12px;background-color:#CC33FF"></td>
+                            <td style="width=11px;height:12px;background-color:#CC66FF"></td>
+                            <td style="width=11px;height:12px;background-color:#CC99FF"></td>
+                            <td style="width=11px;height:12px;background-color:#CCCCFF"></td>
+                            <td style="width=11px;height:12px;background-color:#CCFFFF"></td>
+                            <td style="width=11px;height:12px;background-color:#FF00FF"></td>
+                            <td style="width=11px;height:12px;background-color:#FF33FF"></td>
+                            <td style="width=11px;height:12px;background-color:#FF66FF"></td>
+                            <td style="width=11px;height:12px;background-color:#FF99FF"></td>
+                            <td style="width=11px;height:12px;background-color:#FFCCFF"></td>
+                            <td style="width=11px;height:12px;background-color:#FFFFFF"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <em class="red" id="rz">入住</em><a href="javascript:void(0);" onclick="BtnStatus(this,&#39;1&#39;)"
+                                                  id="state2"><b>2</b> 间&nbsp;&nbsp;25%</a>
+            </div>
+
+
+            <div class="colors">
+                <div class="colorpanel" style="display: none;" data-type="2" id="ds_0">
+                    <table width="253" border="0" cellspacing="0" cellpadding="0"
+                           style="border:1px #000000 solid;border-bottom:none;border-collapse: collapse;display:none"
+                           bordercolor="000000">
+                        <tbody>
+                        <tr height="30px">
+                            <td colspan="21" bgcolor="#cccccc">
+                                <table cellpadding="0" cellspacing="1" border="0" style="border-collapse: collapse;">
+                                    <tbody>
+                                    <tr>
+                                        <td width="3"></td>
+                                        <td><input type="text" id="DisColor" size="6" disabled=""
+                                                   style="border:solid 1px #000000;background-color:#ffff00"></td>
+                                        <td width="3"></td>
+                                        <td><input type="text" id="HexColor" size="7"
+                                                   style="border:inset 1px;font-family:Arial;" value="#000000"></td>
+                                        <td align="right" width="100%"><span class="spnClose"
+                                                                             style="cursor:hand;">Ⅹ</span>&nbsp;
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <table width="253" class="tblColor" border="1" cellspacing="0" cellpadding="0"
+                           style="border-collapse: collapse; margin-top: 30px" bordercolor="000000">
+                        <tbody>
+                        <tr style="height:12px;">
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#003300"></td>
+                            <td style="width=11px;height:12px;background-color:#006600"></td>
+                            <td style="width=11px;height:12px;background-color:#009900"></td>
+                            <td style="width=11px;height:12px;background-color:#00CC00"></td>
+                            <td style="width=11px;height:12px;background-color:#00FF00"></td>
+                            <td style="width=11px;height:12px;background-color:#330000"></td>
+                            <td style="width=11px;height:12px;background-color:#333300"></td>
+                            <td style="width=11px;height:12px;background-color:#336600"></td>
+                            <td style="width=11px;height:12px;background-color:#339900"></td>
+                            <td style="width=11px;height:12px;background-color:#33CC00"></td>
+                            <td style="width=11px;height:12px;background-color:#33FF00"></td>
+                            <td style="width=11px;height:12px;background-color:#660000"></td>
+                            <td style="width=11px;height:12px;background-color:#663300"></td>
+                            <td style="width=11px;height:12px;background-color:#666600"></td>
+                            <td style="width=11px;height:12px;background-color:#669900"></td>
+                            <td style="width=11px;height:12px;background-color:#66CC00"></td>
+                            <td style="width=11px;height:12px;background-color:#66FF00"></td>
+                        </tr>
+                        <tr style="height:12px;">
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#333333"></td>
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#000033"></td>
+                            <td style="width=11px;height:12px;background-color:#003333"></td>
+                            <td style="width=11px;height:12px;background-color:#006633"></td>
+                            <td style="width=11px;height:12px;background-color:#009933"></td>
+                            <td style="width=11px;height:12px;background-color:#00CC33"></td>
+                            <td style="width=11px;height:12px;background-color:#00FF33"></td>
+                            <td style="width=11px;height:12px;background-color:#330033"></td>
+                            <td style="width=11px;height:12px;background-color:#333333"></td>
+                            <td style="width=11px;height:12px;background-color:#336633"></td>
+                            <td style="width=11px;height:12px;background-color:#339933"></td>
+                            <td style="width=11px;height:12px;background-color:#33CC33"></td>
+                            <td style="width=11px;height:12px;background-color:#33FF33"></td>
+                            <td style="width=11px;height:12px;background-color:#660033"></td>
+                            <td style="width=11px;height:12px;background-color:#663333"></td>
+                            <td style="width=11px;height:12px;background-color:#666633"></td>
+                            <td style="width=11px;height:12px;background-color:#669933"></td>
+                            <td style="width=11px;height:12px;background-color:#66CC33"></td>
+                            <td style="width=11px;height:12px;background-color:#66FF33"></td>
+                        </tr>
+                        <tr style="height:12px;">
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#666666"></td>
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#000066"></td>
+                            <td style="width=11px;height:12px;background-color:#003366"></td>
+                            <td style="width=11px;height:12px;background-color:#006666"></td>
+                            <td style="width=11px;height:12px;background-color:#009966"></td>
+                            <td style="width=11px;height:12px;background-color:#00CC66"></td>
+                            <td style="width=11px;height:12px;background-color:#00FF66"></td>
+                            <td style="width=11px;height:12px;background-color:#330066"></td>
+                            <td style="width=11px;height:12px;background-color:#333366"></td>
+                            <td style="width=11px;height:12px;background-color:#336666"></td>
+                            <td style="width=11px;height:12px;background-color:#339966"></td>
+                            <td style="width=11px;height:12px;background-color:#33CC66"></td>
+                            <td style="width=11px;height:12px;background-color:#33FF66"></td>
+                            <td style="width=11px;height:12px;background-color:#660066"></td>
+                            <td style="width=11px;height:12px;background-color:#663366"></td>
+                            <td style="width=11px;height:12px;background-color:#666666"></td>
+                            <td style="width=11px;height:12px;background-color:#669966"></td>
+                            <td style="width=11px;height:12px;background-color:#66CC66"></td>
+                            <td style="width:11px;height:12px;background-color:#66FF66"></td>
+                        </tr>
+                        <tr style="height:12px;">
+                            <td style="width:11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#999999"></td>
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#000099"></td>
+                            <td style="width=11px;height:12px;background-color:#003399"></td>
+                            <td style="width=11px;height:12px;background-color:#006699"></td>
+                            <td style="width=11px;height:12px;background-color:#009999"></td>
+                            <td style="width:11px;height:12px;background-color:#00CC99"></td>
+                            <td style="width=11px;height:12px;background-color:#00FF99"></td>
+                            <td style="width=11px;height:12px;background-color:#330099"></td>
+                            <td style="width=11px;height:12px;background-color:#333399"></td>
+                            <td style="width=11px;height:12px;background-color:#336699"></td>
+                            <td style="width=11px;height:12px;background-color:#339999"></td>
+                            <td style="width=11px;height:12px;background-color:#33CC99"></td>
+                            <td style="width=11px;height:12px;background-color:#33FF99"></td>
+                            <td style="width=11px;height:12px;background-color:#660099"></td>
+                            <td style="width=11px;height:12px;background-color:#663399"></td>
+                            <td style="width=11px;height:12px;background-color:#666699"></td>
+                            <td style="width=11px;height:12px;background-color:#669999"></td>
+                            <td style="width=11px;height:12px;background-color:#66CC99"></td>
+                            <td style="width=11px;height:12px;background-color:#66FF99"></td>
+                        </tr>
+                        <tr style="height:12px;">
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#CCCCCC"></td>
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#0000CC"></td>
+                            <td style="width=11px;height:12px;background-color:#0033CC"></td>
+                            <td style="width=11px;height:12px;background-color:#0066CC"></td>
+                            <td style="width=11px;height:12px;background-color:#0099CC"></td>
+                            <td style="width=11px;height:12px;background-color:#00CCCC"></td>
+                            <td style="width:11px;height:12px;background-color:#00FFCC"></td>
+                            <td style="width:11px;height:12px;background-color:#3300CC"></td>
+                            <td style="width=11px;height:12px;background-color:#3333CC"></td>
+                            <td style="width=11px;height:12px;background-color:#3366CC"></td>
+                            <td style="width=11px;height:12px;background-color:#3399CC"></td>
+                            <td style="width=11px;height:12px;background-color:#33CCCC"></td>
+                            <td style="width=11px;height:12px;background-color:#33FFCC"></td>
+                            <td style="width=11px;height:12px;background-color:#6600CC"></td>
+                            <td style="width=11px;height:12px;background-color:#6633CC"></td>
+                            <td style="width=11px;height:12px;background-color:#6666CC"></td>
+                            <td style="width:11px;height:12px;background-color:#6699CC"></td>
+                            <td style="width:11px;height:12px;background-color:#66CCCC"></td>
+                            <td style="width=11px;height:12px;background-color:#66FFCC"></td>
+                        </tr>
+                        <tr style="height:12px;">
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#FFFFFF"></td>
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#0000FF"></td>
+                            <td style="width=11px;height:12px;background-color:#0033FF"></td>
+                            <td style="width:11px;height:12px;background-color:#0066FF"></td>
+                            <td style="width=11px;height:12px;background-color:#0099FF"></td>
+                            <td style="width=11px;height:12px;background-color:#00CCFF"></td>
+                            <td style="width=11px;height:12px;background-color:#00FFFF"></td>
+                            <td style="width:11px;height:12px;background-color:#3300FF"></td>
+                            <td style="width=11px;height:12px;background-color:#3333FF"></td>
+                            <td style="width=11px;height:12px;background-color:#3366FF"></td>
+                            <td style="width=11px;height:12px;background-color:#3399FF"></td>
+                            <td style="width=11px;height:12px;background-color:#33CCFF"></td>
+                            <td style="width=11px;height:12px;background-color:#33FFFF"></td>
+                            <td style="width=11px;height:12px;background-color:#6600FF"></td>
+                            <td style="width=11px;height:12px;background-color:#6633FF"></td>
+                            <td style="width=11px;height:12px;background-color:#6666FF"></td>
+                            <td style="width=11px;height:12px;background-color:#6699FF"></td>
+                            <td style="width=11px;height:12px;background-color:#66CCFF"></td>
+                            <td style="width=11px;height:12px;background-color:#66FFFF"></td>
+                        </tr>
+                        <tr style="height:12px;">
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#FF0000"></td>
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#990000"></td>
+                            <td style="width=11px;height:12px;background-color:#993300"></td>
+                            <td style="width=11px;height:12px;background-color:#996600"></td>
+                            <td style="width=11px;height:12px;background-color:#999900"></td>
+                            <td style="width=11px;height:12px;background-color:#99CC00"></td>
+                            <td style="width=11px;height:12px;background-color:#99FF00"></td>
+                            <td style="width=11px;height:12px;background-color:#CC0000"></td>
+                            <td style="width=11px;height:12px;background-color:#CC3300"></td>
+                            <td style="width:11px;height:12px;background-color:#CC6600"></td>
+                            <td style="width=11px;height:12px;background-color:#CC9900"></td>
+                            <td style="width=11px;height:12px;background-color:#CCCC00"></td>
+                            <td style="width=11px;height:12px;background-color:#CCFF00"></td>
+                            <td style="width=11px;height:12px;background-color:#FF0000"></td>
+                            <td style="width=11px;height:12px;background-color:#FF3300"></td>
+                            <td style="width=11px;height:12px;background-color:#FF6600"></td>
+                            <td style="width=11px;height:12px;background-color:#FF9900"></td>
+                            <td style="width=11px;height:12px;background-color:#FFCC00"></td>
+                            <td style="width=11px;height:12px;background-color:#FFFF00"></td>
+                        </tr>
+                        <tr style="height:12px;">
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#00FF00"></td>
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#990033"></td>
+                            <td style="width=11px;height:12px;background-color:#993333"></td>
+                            <td style="width=11px;height:12px;background-color:#996633"></td>
+                            <td style="width=11px;height:12px;background-color:#999933"></td>
+                            <td style="width=11px;height:12px;background-color:#99CC33"></td>
+                            <td style="width=11px;height:12px;background-color:#99FF33"></td>
+                            <td style="width=11px;height:12px;background-color:#CC0033"></td>
+                            <td style="width=11px;height:12px;background-color:#CC3333"></td>
+                            <td style="width=11px;height:12px;background-color:#CC6633"></td>
+                            <td style="width=11px;height:12px;background-color:#CC9933"></td>
+                            <td style="width=11px;height:12px;background-color:#CCCC33"></td>
+                            <td style="width=11px;height:12px;background-color:#CCFF33"></td>
+                            <td style="width=11px;height:12px;background-color:#FF0033"></td>
+                            <td style="width=11px;height:12px;background-color:#FF3333"></td>
+                            <td style="width=11px;height:12px;background-color:#FF6633"></td>
+                            <td style="width=11px;height:12px;background-color:#FF9933"></td>
+                            <td style="width=11px;height:12px;background-color:#FFCC33"></td>
+                            <td style="width=11px;height:12px;background-color:#FFFF33"></td>
+                        </tr>
+                        <tr style="height:12px;">
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#0000FF"></td>
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#990066"></td>
+                            <td style="width=11px;height:12px;background-color:#993366"></td>
+                            <td style="width=11px;height:12px;background-color:#996666"></td>
+                            <td style="width=11px;height:12px;background-color:#999966"></td>
+                            <td style="width=11px;height:12px;background-color:#99CC66"></td>
+                            <td style="width=11px;height:12px;background-color:#99FF66"></td>
+                            <td style="width=11px;height:12px;background-color:#CC0066"></td>
+                            <td style="width=11px;height:12px;background-color:#CC3366"></td>
+                            <td style="width=11px;height:12px;background-color:#CC6666"></td>
+                            <td style="width=11px;height:12px;background-color:#CC9966"></td>
+                            <td style="width=11px;height:12px;background-color:#CCCC66"></td>
+                            <td style="width=11px;height:12px;background-color:#CCFF66"></td>
+                            <td style="width=11px;height:12px;background-color:#FF0066"></td>
+                            <td style="width=11px;height:12px;background-color:#FF3366"></td>
+                            <td style="width=11px;height:12px;background-color:#FF6666"></td>
+                            <td style="width=11px;height:12px;background-color:#FF9966"></td>
+                            <td style="width=11px;height:12px;background-color:#FFCC66"></td>
+                            <td style="width=11px;height:12px;background-color:#FFFF66"></td>
+                        </tr>
+                        <tr style="height:12px;">
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#FFFF00"></td>
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#990099"></td>
+                            <td style="width=11px;height:12px;background-color:#993399"></td>
+                            <td style="width=11px;height:12px;background-color:#996699"></td>
+                            <td style="width=11px;height:12px;background-color:#999999"></td>
+                            <td style="width=11px;height:12px;background-color:#99CC99"></td>
+                            <td style="width=11px;height:12px;background-color:#99FF99"></td>
+                            <td style="width=11px;height:12px;background-color:#CC0099"></td>
+                            <td style="width=11px;height:12px;background-color:#CC3399"></td>
+                            <td style="width=11px;height:12px;background-color:#CC6699"></td>
+                            <td style="width=11px;height:12px;background-color:#CC9999"></td>
+                            <td style="width=11px;height:12px;background-color:#CCCC99"></td>
+                            <td style="width=11px;height:12px;background-color:#CCFF99"></td>
+                            <td style="width=11px;height:12px;background-color:#FF0099"></td>
+                            <td style="width=11px;height:12px;background-color:#FF3399"></td>
+                            <td style="width=11px;height:12px;background-color:#FF6699"></td>
+                            <td style="width=11px;height:12px;background-color:#FF9999"></td>
+                            <td style="width=11px;height:12px;background-color:#FFCC99"></td>
+                            <td style="width=11px;height:12px;background-color:#FFFF99"></td>
+                        </tr>
+                        <tr style="height:12px;">
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#00FFFF"></td>
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#9900CC"></td>
+                            <td style="width=11px;height:12px;background-color:#9933CC"></td>
+                            <td style="width=11px;height:12px;background-color:#9966CC"></td>
+                            <td style="width=11px;height:12px;background-color:#9999CC"></td>
+                            <td style="width=11px;height:12px;background-color:#99CCCC"></td>
+                            <td style="width=11px;height:12px;background-color:#99FFCC"></td>
+                            <td style="width=11px;height:12px;background-color:#CC00CC"></td>
+                            <td style="width=11px;height:12px;background-color:#CC33CC"></td>
+                            <td style="width=11px;height:12px;background-color:#CC66CC"></td>
+                            <td style="width=11px;height:12px;background-color:#CC99CC"></td>
+                            <td style="width=11px;height:12px;background-color:#CCCCCC"></td>
+                            <td style="width=11px;height:12px;background-color:#CCFFCC"></td>
+                            <td style="width=11px;height:12px;background-color:#FF00CC"></td>
+                            <td style="width=11px;height:12px;background-color:#FF33CC"></td>
+                            <td style="width=11px;height:12px;background-color:#FF66CC"></td>
+                            <td style="width=11px;height:12px;background-color:#FF99CC"></td>
+                            <td style="width=11px;height:12px;background-color:#FFCCCC"></td>
+                            <td style="width=11px;height:12px;background-color:#FFFFCC"></td>
+                        </tr>
+                        <tr style="height:12px;">
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#FF00FF"></td>
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#9900FF"></td>
+                            <td style="width=11px;height:12px;background-color:#9933FF"></td>
+                            <td style="width=11px;height:12px;background-color:#9966FF"></td>
+                            <td style="width=11px;height:12px;background-color:#9999FF"></td>
+                            <td style="width=11px;height:12px;background-color:#99CCFF"></td>
+                            <td style="width=11px;height:12px;background-color:#99FFFF"></td>
+                            <td style="width=11px;height:12px;background-color:#CC00FF"></td>
+                            <td style="width=11px;height:12px;background-color:#CC33FF"></td>
+                            <td style="width=11px;height:12px;background-color:#CC66FF"></td>
+                            <td style="width=11px;height:12px;background-color:#CC99FF"></td>
+                            <td style="width=11px;height:12px;background-color:#CCCCFF"></td>
+                            <td style="width=11px;height:12px;background-color:#CCFFFF"></td>
+                            <td style="width=11px;height:12px;background-color:#FF00FF"></td>
+                            <td style="width=11px;height:12px;background-color:#FF33FF"></td>
+                            <td style="width=11px;height:12px;background-color:#FF66FF"></td>
+                            <td style="width=11px;height:12px;background-color:#FF99FF"></td>
+                            <td style="width=11px;height:12px;background-color:#FFCCFF"></td>
+                            <td style="width=11px;height:12px;background-color:#FFFFFF"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <em class="gray" id="ds">打扫</em><a href="javascript:void(0);" onclick="BtnStatus(this,&#39;2&#39;)"
+                                                   id="state3"><b>1</b> 间&nbsp;&nbsp;12.5%</a>
+            </div>
+
+
+            <div class="colors">
+                <div class="colorpanel" style="display: none;" data-type="3" id="xl_0">
+                    <table width="253" border="0" cellspacing="0" cellpadding="0"
+                           style="border:1px #000000 solid;border-bottom:none;border-collapse: collapse;display:none"
+                           bordercolor="000000">
+                        <tbody>
+                        <tr height="30px">
+                            <td colspan="21" bgcolor="#cccccc">
+                                <table cellpadding="0" cellspacing="1" border="0" style="border-collapse: collapse;">
+                                    <tbody>
+                                    <tr>
+                                        <td width="3"></td>
+                                        <td><input type="text" id="DisColor" size="6" disabled=""
+                                                   style="border:solid 1px #000000;background-color:#ffff00"></td>
+                                        <td width="3"></td>
+                                        <td><input type="text" id="HexColor" size="7"
+                                                   style="border:inset 1px;font-family:Arial;" value="#000000"></td>
+                                        <td align="right" width="100%"><span class="spnClose"
+                                                                             style="cursor:hand;">Ⅹ</span>&nbsp;
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <table width="253" class="tblColor" border="1" cellspacing="0" cellpadding="0"
+                           style="border-collapse: collapse; margin-top: 30px" bordercolor="000000">
+                        <tbody>
+                        <tr style="height:12px;">
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#003300"></td>
+                            <td style="width=11px;height:12px;background-color:#006600"></td>
+                            <td style="width=11px;height:12px;background-color:#009900"></td>
+                            <td style="width=11px;height:12px;background-color:#00CC00"></td>
+                            <td style="width=11px;height:12px;background-color:#00FF00"></td>
+                            <td style="width=11px;height:12px;background-color:#330000"></td>
+                            <td style="width=11px;height:12px;background-color:#333300"></td>
+                            <td style="width=11px;height:12px;background-color:#336600"></td>
+                            <td style="width=11px;height:12px;background-color:#339900"></td>
+                            <td style="width=11px;height:12px;background-color:#33CC00"></td>
+                            <td style="width:11px;height:12px;background-color:#33FF00"></td>
+                            <td style="width=11px;height:12px;background-color:#660000"></td>
+                            <td style="width=11px;height:12px;background-color:#663300"></td>
+                            <td style="width=11px;height:12px;background-color:#666600"></td>
+                            <td style="width=11px;height:12px;background-color:#669900"></td>
+                            <td style="width=11px;height:12px;background-color:#66CC00"></td>
+                            <td style="width=11px;height:12px;background-color:#66FF00"></td>
+                        </tr>
+                        <tr style="height:12px;">
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#333333"></td>
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#000033"></td>
+                            <td style="width=11px;height:12px;background-color:#003333"></td>
+                            <td style="width=11px;height:12px;background-color:#006633"></td>
+                            <td style="width=11px;height:12px;background-color:#009933"></td>
+                            <td style="width=11px;height:12px;background-color:#00CC33"></td>
+                            <td style="width=11px;height:12px;background-color:#00FF33"></td>
+                            <td style="width=11px;height:12px;background-color:#330033"></td>
+                            <td style="width=11px;height:12px;background-color:#333333"></td>
+                            <td style="width=11px;height:12px;background-color:#336633"></td>
+                            <td style="width=11px;height:12px;background-color:#339933"></td>
+                            <td style="width=11px;height:12px;background-color:#33CC33"></td>
+                            <td style="width=11px;height:12px;background-color:#33FF33"></td>
+                            <td style="width=11px;height:12px;background-color:#660033"></td>
+                            <td style="width=11px;height:12px;background-color:#663333"></td>
+                            <td style="width=11px;height:12px;background-color:#666633"></td>
+                            <td style="width=11px;height:12px;background-color:#669933"></td>
+                            <td style="width=11px;height:12px;background-color:#66CC33"></td>
+                            <td style="width=11px;height:12px;background-color:#66FF33"></td>
+                        </tr>
+                        <tr style="height:12px;">
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#666666"></td>
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#000066"></td>
+                            <td style="width=11px;height:12px;background-color:#003366"></td>
+                            <td style="width=11px;height:12px;background-color:#006666"></td>
+                            <td style="width=11px;height:12px;background-color:#009966"></td>
+                            <td style="width=11px;height:12px;background-color:#00CC66"></td>
+                            <td style="width=11px;height:12px;background-color:#00FF66"></td>
+                            <td style="width=11px;height:12px;background-color:#330066"></td>
+                            <td style="width=11px;height:12px;background-color:#333366"></td>
+                            <td style="width=11px;height:12px;background-color:#336666"></td>
+                            <td style="width=11px;height:12px;background-color:#339966"></td>
+                            <td style="width=11px;height:12px;background-color:#33CC66"></td>
+                            <td style="width=11px;height:12px;background-color:#33FF66"></td>
+                            <td style="width=11px;height:12px;background-color:#660066"></td>
+                            <td style="width=11px;height:12px;background-color:#663366"></td>
+                            <td style="width=11px;height:12px;background-color:#666666"></td>
+                            <td style="width=11px;height:12px;background-color:#669966"></td>
+                            <td style="width=11px;height:12px;background-color:#66CC66"></td>
+                            <td style="width=11px;height:12px;background-color:#66FF66"></td>
+                        </tr>
+                        <tr style="height:12px;">
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#999999"></td>
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#000099"></td>
+                            <td style="width=11px;height:12px;background-color:#003399"></td>
+                            <td style="width=11px;height:12px;background-color:#006699"></td>
+                            <td style="width=11px;height:12px;background-color:#009999"></td>
+                            <td style="width=11px;height:12px;background-color:#00CC99"></td>
+                            <td style="width:11px;height:12px;background-color:#00FF99"></td>
+                            <td style="width=11px;height:12px;background-color:#330099"></td>
+                            <td style="width=11px;height:12px;background-color:#333399"></td>
+                            <td style="width=11px;height:12px;background-color:#336699"></td>
+                            <td style="width=11px;height:12px;background-color:#339999"></td>
+                            <td style="width=11px;height:12px;background-color:#33CC99"></td>
+                            <td style="width=11px;height:12px;background-color:#33FF99"></td>
+                            <td style="width=11px;height:12px;background-color:#660099"></td>
+                            <td style="width=11px;height:12px;background-color:#663399"></td>
+                            <td style="width=11px;height:12px;background-color:#666699"></td>
+                            <td style="width:11px;height:12px;background-color:#669999"></td>
+                            <td style="width=11px;height:12px;background-color:#66CC99"></td>
+                            <td style="width=11px;height:12px;background-color:#66FF99"></td>
+                        </tr>
+                        <tr style="height:12px;">
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#CCCCCC"></td>
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#0000CC"></td>
+                            <td style="width=11px;height:12px;background-color:#0033CC"></td>
+                            <td style="width=11px;height:12px;background-color:#0066CC"></td>
+                            <td style="width=11px;height:12px;background-color:#0099CC"></td>
+                            <td style="width=11px;height:12px;background-color:#00CCCC"></td>
+                            <td style="width=11px;height:12px;background-color:#00FFCC"></td>
+                            <td style="width=11px;height:12px;background-color:#3300CC"></td>
+                            <td style="width=11px;height:12px;background-color:#3333CC"></td>
+                            <td style="width=11px;height:12px;background-color:#3366CC"></td>
+                            <td style="width=11px;height:12px;background-color:#3399CC"></td>
+                            <td style="width=11px;height:12px;background-color:#33CCCC"></td>
+                            <td style="width=11px;height:12px;background-color:#33FFCC"></td>
+                            <td style="width=11px;height:12px;background-color:#6600CC"></td>
+                            <td style="width=11px;height:12px;background-color:#6633CC"></td>
+                            <td style="width=11px;height:12px;background-color:#6666CC"></td>
+                            <td style="width=11px;height:12px;background-color:#6699CC"></td>
+                            <td style="width=11px;height:12px;background-color:#66CCCC"></td>
+                            <td style="width=11px;height:12px;background-color:#66FFCC"></td>
+                        </tr>
+                        <tr style="height:12px;">
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width:11px;height:12px;background-color:#FFFFFF"></td>
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#0000FF"></td>
+                            <td style="width=11px;height:12px;background-color:#0033FF"></td>
+                            <td style="width=11px;height:12px;background-color:#0066FF"></td>
+                            <td style="width=11px;height:12px;background-color:#0099FF"></td>
+                            <td style="width=11px;height:12px;background-color:#00CCFF"></td>
+                            <td style="width=11px;height:12px;background-color:#00FFFF"></td>
+                            <td style="width=11px;height:12px;background-color:#3300FF"></td>
+                            <td style="width=11px;height:12px;background-color:#3333FF"></td>
+                            <td style="width:11px;height:12px;background-color:#3366FF"></td>
+                            <td style="width=11px;height:12px;background-color:#3399FF"></td>
+                            <td style="width=11px;height:12px;background-color:#33CCFF"></td>
+                            <td style="width=11px;height:12px;background-color:#33FFFF"></td>
+                            <td style="width=11px;height:12px;background-color:#6600FF"></td>
+                            <td style="width=11px;height:12px;background-color:#6633FF"></td>
+                            <td style="width=11px;height:12px;background-color:#6666FF"></td>
+                            <td style="width=11px;height:12px;background-color:#6699FF"></td>
+                            <td style="width=11px;height:12px;background-color:#66CCFF"></td>
+                            <td style="width=11px;height:12px;background-color:#66FFFF"></td>
+                        </tr>
+                        <tr style="height:12px;">
+                            <td style="width:11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#FF0000"></td>
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#990000"></td>
+                            <td style="width=11px;height:12px;background-color:#993300"></td>
+                            <td style="width=11px;height:12px;background-color:#996600"></td>
+                            <td style="width=11px;height:12px;background-color:#999900"></td>
+                            <td style="width:11px;height:12px;background-color:#99CC00"></td>
+                            <td style="width=11px;height:12px;background-color:#99FF00"></td>
+                            <td style="width=11px;height:12px;background-color:#CC0000"></td>
+                            <td style="width=11px;height:12px;background-color:#CC3300"></td>
+                            <td style="width=11px;height:12px;background-color:#CC6600"></td>
+                            <td style="width:11px;height:12px;background-color:#CC9900"></td>
+                            <td style="width=11px;height:12px;background-color:#CCCC00"></td>
+                            <td style="width=11px;height:12px;background-color:#CCFF00"></td>
+                            <td style="width=11px;height:12px;background-color:#FF0000"></td>
+                            <td style="width=11px;height:12px;background-color:#FF3300"></td>
+                            <td style="width=11px;height:12px;background-color:#FF6600"></td>
+                            <td style="width=11px;height:12px;background-color:#FF9900"></td>
+                            <td style="width=11px;height:12px;background-color:#FFCC00"></td>
+                            <td style="width=11px;height:12px;background-color:#FFFF00"></td>
+                        </tr>
+                        <tr style="height:12px;">
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#00FF00"></td>
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#990033"></td>
+                            <td style="width=11px;height:12px;background-color:#993333"></td>
+                            <td style="width=11px;height:12px;background-color:#996633"></td>
+                            <td style="width=11px;height:12px;background-color:#999933"></td>
+                            <td style="width=11px;height:12px;background-color:#99CC33"></td>
+                            <td style="width=11px;height:12px;background-color:#99FF33"></td>
+                            <td style="width=11px;height:12px;background-color:#CC0033"></td>
+                            <td style="width=11px;height:12px;background-color:#CC3333"></td>
+                            <td style="width=11px;height:12px;background-color:#CC6633"></td>
+                            <td style="width=11px;height:12px;background-color:#CC9933"></td>
+                            <td style="width=11px;height:12px;background-color:#CCCC33"></td>
+                            <td style="width=11px;height:12px;background-color:#CCFF33"></td>
+                            <td style="width=11px;height:12px;background-color:#FF0033"></td>
+                            <td style="width=11px;height:12px;background-color:#FF3333"></td>
+                            <td style="width=11px;height:12px;background-color:#FF6633"></td>
+                            <td style="width=11px;height:12px;background-color:#FF9933"></td>
+                            <td style="width=11px;height:12px;background-color:#FFCC33"></td>
+                            <td style="width=11px;height:12px;background-color:#FFFF33"></td>
+                        </tr>
+                        <tr style="height:12px;">
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#0000FF"></td>
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#990066"></td>
+                            <td style="width=11px;height:12px;background-color:#993366"></td>
+                            <td style="width=11px;height:12px;background-color:#996666"></td>
+                            <td style="width=11px;height:12px;background-color:#999966"></td>
+                            <td style="width=11px;height:12px;background-color:#99CC66"></td>
+                            <td style="width=11px;height:12px;background-color:#99FF66"></td>
+                            <td style="width=11px;height:12px;background-color:#CC0066"></td>
+                            <td style="width:11px;height:12px;background-color:#CC3366"></td>
+                            <td style="width:11px;height:12px;background-color:#CC6666"></td>
+                            <td style="width=11px;height:12px;background-color:#CC9966"></td>
+                            <td style="width=11px;height:12px;background-color:#CCCC66"></td>
+                            <td style="width=11px;height:12px;background-color:#CCFF66"></td>
+                            <td style="width:11px;height:12px;background-color:#FF0066"></td>
+                            <td style="width=11px;height:12px;background-color:#FF3366"></td>
+                            <td style="width=11px;height:12px;background-color:#FF6666"></td>
+                            <td style="width=11px;height:12px;background-color:#FF9966"></td>
+                            <td style="width=11px;height:12px;background-color:#FFCC66"></td>
+                            <td style="width=11px;height:12px;background-color:#FFFF66"></td>
+                        </tr>
+                        <tr style="height:12px;">
+                            <td style="width:11px;height:12px;background-color:#000000"></td>
+                            <td style="width:11px;height:12px;background-color:#FFFF00"></td>
+                            <td style="width:11px;height:12px;background-color:#000000"></td>
+                            <td style="width:11px;height:12px;background-color:#990099"></td>
+                            <td style="width:11px;height:12px;background-color:#993399"></td>
+                            <td style="width:11px;height:12px;background-color:#996699"></td>
+                            <td style="width:11px;height:12px;background-color:#999999"></td>
+                            <td style="width:11px;height:12px;background-color:#99CC99"></td>
+                            <td style="width:11px;height:12px;background-color:#99FF99"></td>
+                            <td style="width:11px;height:12px;background-color:#CC0099"></td>
+                            <td style="width:11px;height:12px;background-color:#CC3399"></td>
+                            <td style="width:11px;height:12px;background-color:#CC6699"></td>
+                            <td style="width:11px;height:12px;background-color:#CC9999"></td>
+                            <td style="width:11px;height:12px;background-color:#CCCC99"></td>
+                            <td style="width:11px;height:12px;background-color:#CCFF99"></td>
+                            <td style="width:11px;height:12px;background-color:#FF0099"></td>
+                            <td style="width:11px;height:12px;background-color:#FF3399"></td>
+                            <td style="width:11px;height:12px;background-color:#FF6699"></td>
+                            <td style="width:11px;height:12px;background-color:#FF9999"></td>
+                            <td style="width:11px;height:12px;background-color:#FFCC99"></td>
+                            <td style="width:11px;height:12px;background-color:#FFFF99"></td>
+                        </tr>
+                        <tr style="height:12px;">
+                            <td style="width:11px;height:12px;background-color:#000000"></td>
+                            <td style="width:11px;height:12px;background-color:#00FFFF"></td>
+                            <td style="width:11px;height:12px;background-color:#000000"></td>
+                            <td style="width:11px;height:12px;background-color:#9900CC"></td>
+                            <td style="width:11px;height:12px;background-color:#9933CC"></td>
+                            <td style="width:11px;height:12px;background-color:#9966CC"></td>
+                            <td style="width:11px;height:12px;background-color:#9999CC"></td>
+                            <td style="width:11px;height:12px;background-color:#99CCCC"></td>
+                            <td style="width:11px;height:12px;background-color:#99FFCC"></td>
+                            <td style="width:11px;height:12px;background-color:#CC00CC"></td>
+                            <td style="width:11px;height:12px;background-color:#CC33CC"></td>
+                            <td style="width:11px;height:12px;background-color:#CC66CC"></td>
+                            <td style="width:11px;height:12px;background-color:#CC99CC"></td>
+                            <td style="width:11px;height:12px;background-color:#CCCCCC"></td>
+                            <td style="width:11px;height:12px;background-color:#CCFFCC"></td>
+                            <td style="width:11px;height:12px;background-color:#FF00CC"></td>
+                            <td style="width:11px;height:12px;background-color:#FF33CC"></td>
+                            <td style="width:11px;height:12px;background-color:#FF66CC"></td>
+                            <td style="width:11px;height:12px;background-color:#FF99CC"></td>
+                            <td style="width:11px;height:12px;background-color:#FFCCCC"></td>
+                            <td style="width:11px;height:12px;background-color:#FFFFCC"></td>
+                        </tr>
+                        <tr style="height:12px;">
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#FF00FF"></td>
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#9900FF"></td>
+                            <td style="width=11px;height:12px;background-color:#9933FF"></td>
+                            <td style="width=11px;height:12px;background-color:#9966FF"></td>
+                            <td style="width=11px;height:12px;background-color:#9999FF"></td>
+                            <td style="width=11px;height:12px;background-color:#99CCFF"></td>
+                            <td style="width=11px;height:12px;background-color:#99FFFF"></td>
+                            <td style="width=11px;height:12px;background-color:#CC00FF"></td>
+                            <td style="width=11px;height:12px;background-color:#CC33FF"></td>
+                            <td style="width=11px;height:12px;background-color:#CC66FF"></td>
+                            <td style="width=11px;height:12px;background-color:#CC99FF"></td>
+                            <td style="width=11px;height:12px;background-color:#CCCCFF"></td>
+                            <td style="width=11px;height:12px;background-color:#CCFFFF"></td>
+                            <td style="width=11px;height:12px;background-color:#FF00FF"></td>
+                            <td style="width=11px;height:12px;background-color:#FF33FF"></td>
+                            <td style="width=11px;height:12px;background-color:#FF66FF"></td>
+                            <td style="width:11px;height:12px;background-color:#FF99FF"></td>
+                            <td style="width=11px;height:12px;background-color:#FFCCFF"></td>
+                            <td style="width=11px;height:12px;background-color:#FFFFFF"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <em class="black" id="xl">修理</em><a href="javascript:void(0);" onclick="BtnStatus(this,&#39;3&#39;)"
+                                                    id="state4"><b>0</b> 间&nbsp;&nbsp;0%</a>
+            </div>
+
+
+            <div class="colors">
+                <div class="colorpanel" style="display: none;" data-type="4" id="yl_0">
+                    <table width="253" border="0" cellspacing="0" cellpadding="0"
+                           style="border:1px #000000 solid;border-bottom:none;border-collapse: collapse;display:none"
+                           bordercolor="000000">
+                        <tbody>
+                        <tr height="30px">
+                            <td colspan="21" bgcolor="#cccccc">
+                                <table cellpadding="0" cellspacing="1" border="0" style="border-collapse: collapse;">
+                                    <tbody>
+                                    <tr>
+                                        <td width="3"></td>
+                                        <td><input type="text" id="DisColor" size="6" disabled=""
+                                                   style="border:solid 1px #000000;background-color:#ffff00"></td>
+                                        <td width="3"></td>
+                                        <td><input type="text" id="HexColor" size="7"
+                                                   style="border:inset 1px;font-family:Arial;" value="#000000"></td>
+                                        <td align="right" width="100%"><span class="spnClose"
+                                                                             style="cursor:hand;">Ⅹ</span>&nbsp;
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <table width="253" class="tblColor" border="1" cellspacing="0" cellpadding="0"
+                           style="border-collapse: collapse; margin-top: 30px" bordercolor="000000">
+                        <tbody>
+                        <tr style="height:12px;">
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#003300"></td>
+                            <td style="width=11px;height:12px;background-color:#006600"></td>
+                            <td style="width=11px;height:12px;background-color:#009900"></td>
+                            <td style="width=11px;height:12px;background-color:#00CC00"></td>
+                            <td style="width=11px;height:12px;background-color:#00FF00"></td>
+                            <td style="width=11px;height:12px;background-color:#330000"></td>
+                            <td style="width=11px;height:12px;background-color:#333300"></td>
+                            <td style="width=11px;height:12px;background-color:#336600"></td>
+                            <td style="width=11px;height:12px;background-color:#339900"></td>
+                            <td style="width=11px;height:12px;background-color:#33CC00"></td>
+                            <td style="width=11px;height:12px;background-color:#33FF00"></td>
+                            <td style="width=11px;height:12px;background-color:#660000"></td>
+                            <td style="width=11px;height:12px;background-color:#663300"></td>
+                            <td style="width=11px;height:12px;background-color:#666600"></td>
+                            <td style="width=11px;height:12px;background-color:#669900"></td>
+                            <td style="width=11px;height:12px;background-color:#66CC00"></td>
+                            <td style="width=11px;height:12px;background-color:#66FF00"></td>
+                        </tr>
+                        <tr style="height:12px;">
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#333333"></td>
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#000033"></td>
+                            <td style="width=11px;height:12px;background-color:#003333"></td>
+                            <td style="width=11px;height:12px;background-color:#006633"></td>
+                            <td style="width=11px;height:12px;background-color:#009933"></td>
+                            <td style="width=11px;height:12px;background-color:#00CC33"></td>
+                            <td style="width=11px;height:12px;background-color:#00FF33"></td>
+                            <td style="width=11px;height:12px;background-color:#330033"></td>
+                            <td style="width=11px;height:12px;background-color:#333333"></td>
+                            <td style="width=11px;height:12px;background-color:#336633"></td>
+                            <td style="width=11px;height:12px;background-color:#339933"></td>
+                            <td style="width=11px;height:12px;background-color:#33CC33"></td>
+                            <td style="width=11px;height:12px;background-color:#33FF33"></td>
+                            <td style="width=11px;height:12px;background-color:#660033"></td>
+                            <td style="width=11px;height:12px;background-color:#663333"></td>
+                            <td style="width=11px;height:12px;background-color:#666633"></td>
+                            <td style="width=11px;height:12px;background-color:#669933"></td>
+                            <td style="width=11px;height:12px;background-color:#66CC33"></td>
+                            <td style="width=11px;height:12px;background-color:#66FF33"></td>
+                        </tr>
+                        <tr style="height:12px;">
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#666666"></td>
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#000066"></td>
+                            <td style="width=11px;height:12px;background-color:#003366"></td>
+                            <td style="width=11px;height:12px;background-color:#006666"></td>
+                            <td style="width=11px;height:12px;background-color:#009966"></td>
+                            <td style="width=11px;height:12px;background-color:#00CC66"></td>
+                            <td style="width=11px;height:12px;background-color:#00FF66"></td>
+                            <td style="width=11px;height:12px;background-color:#330066"></td>
+                            <td style="width=11px;height:12px;background-color:#333366"></td>
+                            <td style="width=11px;height:12px;background-color:#336666"></td>
+                            <td style="width=11px;height:12px;background-color:#339966"></td>
+                            <td style="width=11px;height:12px;background-color:#33CC66"></td>
+                            <td style="width=11px;height:12px;background-color:#33FF66"></td>
+                            <td style="width=11px;height:12px;background-color:#660066"></td>
+                            <td style="width=11px;height:12px;background-color:#663366"></td>
+                            <td style="width=11px;height:12px;background-color:#666666"></td>
+                            <td style="width=11px;height:12px;background-color:#669966"></td>
+                            <td style="width=11px;height:12px;background-color:#66CC66"></td>
+                            <td style="width=11px;height:12px;background-color:#66FF66"></td>
+                        </tr>
+                        <tr style="height:12px;">
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#999999"></td>
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#000099"></td>
+                            <td style="width=11px;height:12px;background-color:#003399"></td>
+                            <td style="width=11px;height:12px;background-color:#006699"></td>
+                            <td style="width=11px;height:12px;background-color:#009999"></td>
+                            <td style="width=11px;height:12px;background-color:#00CC99"></td>
+                            <td style="width=11px;height:12px;background-color:#00FF99"></td>
+                            <td style="width=11px;height:12px;background-color:#330099"></td>
+                            <td style="width=11px;height:12px;background-color:#333399"></td>
+                            <td style="width=11px;height:12px;background-color:#336699"></td>
+                            <td style="width=11px;height:12px;background-color:#339999"></td>
+                            <td style="width=11px;height:12px;background-color:#33CC99"></td>
+                            <td style="width=11px;height:12px;background-color:#33FF99"></td>
+                            <td style="width=11px;height:12px;background-color:#660099"></td>
+                            <td style="width=11px;height:12px;background-color:#663399"></td>
+                            <td style="width=11px;height:12px;background-color:#666699"></td>
+                            <td style="width=11px;height:12px;background-color:#669999"></td>
+                            <td style="width=11px;height:12px;background-color:#66CC99"></td>
+                            <td style="width=11px;height:12px;background-color:#66FF99"></td>
+                        </tr>
+                        <tr style="height:12px;">
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#CCCCCC"></td>
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#0000CC"></td>
+                            <td style="width=11px;height:12px;background-color:#0033CC"></td>
+                            <td style="width=11px;height:12px;background-color:#0066CC"></td>
+                            <td style="width=11px;height:12px;background-color:#0099CC"></td>
+                            <td style="width=11px;height:12px;background-color:#00CCCC"></td>
+                            <td style="width=11px;height:12px;background-color:#00FFCC"></td>
+                            <td style="width=11px;height:12px;background-color:#3300CC"></td>
+                            <td style="width=11px;height:12px;background-color:#3333CC"></td>
+                            <td style="width=11px;height:12px;background-color:#3366CC"></td>
+                            <td style="width=11px;height:12px;background-color:#3399CC"></td>
+                            <td style="width=11px;height:12px;background-color:#33CCCC"></td>
+                            <td style="width=11px;height:12px;background-color:#33FFCC"></td>
+                            <td style="width=11px;height:12px;background-color:#6600CC"></td>
+                            <td style="width=11px;height:12px;background-color:#6633CC"></td>
+                            <td style="width=11px;height:12px;background-color:#6666CC"></td>
+                            <td style="width=11px;height:12px;background-color:#6699CC"></td>
+                            <td style="width=11px;height:12px;background-color:#66CCCC"></td>
+                            <td style="width=11px;height:12px;background-color:#66FFCC"></td>
+                        </tr>
+                        <tr style="height:12px;">
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#FFFFFF"></td>
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#0000FF"></td>
+                            <td style="width=11px;height:12px;background-color:#0033FF"></td>
+                            <td style="width=11px;height:12px;background-color:#0066FF"></td>
+                            <td style="width=11px;height:12px;background-color:#0099FF"></td>
+                            <td style="width=11px;height:12px;background-color:#00CCFF"></td>
+                            <td style="width=11px;height:12px;background-color:#00FFFF"></td>
+                            <td style="width=11px;height:12px;background-color:#3300FF"></td>
+                            <td style="width=11px;height:12px;background-color:#3333FF"></td>
+                            <td style="width=11px;height:12px;background-color:#3366FF"></td>
+                            <td style="width=11px;height:12px;background-color:#3399FF"></td>
+                            <td style="width=11px;height:12px;background-color:#33CCFF"></td>
+                            <td style="width=11px;height:12px;background-color:#33FFFF"></td>
+                            <td style="width=11px;height:12px;background-color:#6600FF"></td>
+                            <td style="width=11px;height:12px;background-color:#6633FF"></td>
+                            <td style="width=11px;height:12px;background-color:#6666FF"></td>
+                            <td style="width=11px;height:12px;background-color:#6699FF"></td>
+                            <td style="width=11px;height:12px;background-color:#66CCFF"></td>
+                            <td style="width=11px;height:12px;background-color:#66FFFF"></td>
+                        </tr>
+                        <tr style="height:12px;">
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#FF0000"></td>
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#990000"></td>
+                            <td style="width:11px;height:12px;background-color:#993300"></td>
+                            <td style="width:11px;height:12px;background-color:#996600"></td>
+                            <td style="width=11px;height:12px;background-color:#999900"></td>
+                            <td style="width=11px;height:12px;background-color:#99CC00"></td>
+                            <td style="width=11px;height:12px;background-color:#99FF00"></td>
+                            <td style="width=11px;height:12px;background-color:#CC0000"></td>
+                            <td style="width=11px;height:12px;background-color:#CC3300"></td>
+                            <td style="width=11px;height:12px;background-color:#CC6600"></td>
+                            <td style="width=11px;height:12px;background-color:#CC9900"></td>
+                            <td style="width=11px;height:12px;background-color:#CCCC00"></td>
+                            <td style="width=11px;height:12px;background-color:#CCFF00"></td>
+                            <td style="width=11px;height:12px;background-color:#FF0000"></td>
+                            <td style="width=11px;height:12px;background-color:#FF3300"></td>
+                            <td style="width=11px;height:12px;background-color:#FF6600"></td>
+                            <td style="width=11px;height:12px;background-color:#FF9900"></td>
+                            <td style="width=11px;height:12px;background-color:#FFCC00"></td>
+                            <td style="width=11px;height:12px;background-color:#FFFF00"></td>
+                        </tr>
+                        <tr style="height:12px;">
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#00FF00"></td>
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#990033"></td>
+                            <td style="width=11px;height:12px;background-color:#993333"></td>
+                            <td style="width=11px;height:12px;background-color:#996633"></td>
+                            <td style="width=11px;height:12px;background-color:#999933"></td>
+                            <td style="width=11px;height:12px;background-color:#99CC33"></td>
+                            <td style="width=11px;height:12px;background-color:#99FF33"></td>
+                            <td style="width=11px;height:12px;background-color:#CC0033"></td>
+                            <td style="width=11px;height:12px;background-color:#CC3333"></td>
+                            <td style="width=11px;height:12px;background-color:#CC6633"></td>
+                            <td style="width=11px;height:12px;background-color:#CC9933"></td>
+                            <td style="width=11px;height:12px;background-color:#CCCC33"></td>
+                            <td style="width=11px;height:12px;background-color:#CCFF33"></td>
+                            <td style="width=11px;height:12px;background-color:#FF0033"></td>
+                            <td style="width=11px;height:12px;background-color:#FF3333"></td>
+                            <td style="width=11px;height:12px;background-color:#FF6633"></td>
+                            <td style="width=11px;height:12px;background-color:#FF9933"></td>
+                            <td style="width=11px;height:12px;background-color:#FFCC33"></td>
+                            <td style="width=11px;height:12px;background-color:#FFFF33"></td>
+                        </tr>
+                        <tr style="height:12px;">
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#0000FF"></td>
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#990066"></td>
+                            <td style="width=11px;height:12px;background-color:#993366"></td>
+                            <td style="width=11px;height:12px;background-color:#996666"></td>
+                            <td style="width=11px;height:12px;background-color:#999966"></td>
+                            <td style="width=11px;height:12px;background-color:#99CC66"></td>
+                            <td style="width=11px;height:12px;background-color:#99FF66"></td>
+                            <td style="width=11px;height:12px;background-color:#CC0066"></td>
+                            <td style="width=11px;height:12px;background-color:#CC3366"></td>
+                            <td style="width=11px;height:12px;background-color:#CC6666"></td>
+                            <td style="width=11px;height:12px;background-color:#CC9966"></td>
+                            <td style="width=11px;height:12px;background-color:#CCCC66"></td>
+                            <td style="width=11px;height:12px;background-color:#CCFF66"></td>
+                            <td style="width=11px;height:12px;background-color:#FF0066"></td>
+                            <td style="width=11px;height:12px;background-color:#FF3366"></td>
+                            <td style="width=11px;height:12px;background-color:#FF6666"></td>
+                            <td style="width=11px;height:12px;background-color:#FF9966"></td>
+                            <td style="width=11px;height:12px;background-color:#FFCC66"></td>
+                            <td style="width=11px;height:12px;background-color:#FFFF66"></td>
+                        </tr>
+                        <tr style="height:12px;">
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#FFFF00"></td>
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#990099"></td>
+                            <td style="width=11px;height:12px;background-color:#993399"></td>
+                            <td style="width=11px;height:12px;background-color:#996699"></td>
+                            <td style="width=11px;height:12px;background-color:#999999"></td>
+                            <td style="width=11px;height:12px;background-color:#99CC99"></td>
+                            <td style="width=11px;height:12px;background-color:#99FF99"></td>
+                            <td style="width=11px;height:12px;background-color:#CC0099"></td>
+                            <td style="width=11px;height:12px;background-color:#CC3399"></td>
+                            <td style="width=11px;height:12px;background-color:#CC6699"></td>
+                            <td style="width=11px;height:12px;background-color:#CC9999"></td>
+                            <td style="width=11px;height:12px;background-color:#CCCC99"></td>
+                            <td style="width=11px;height:12px;background-color:#CCFF99"></td>
+                            <td style="width=11px;height:12px;background-color:#FF0099"></td>
+                            <td style="width=11px;height:12px;background-color:#FF3399"></td>
+                            <td style="width=11px;height:12px;background-color:#FF6699"></td>
+                            <td style="width=11px;height:12px;background-color:#FF9999"></td>
+                            <td style="width=11px;height:12px;background-color:#FFCC99"></td>
+                            <td style="width=11px;height:12px;background-color:#FFFF99"></td>
+                        </tr>
+                        <tr style="height:12px;">
+                            <td style="width:11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#00FFFF"></td>
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#9900CC"></td>
+                            <td style="width=11px;height:12px;background-color:#9933CC"></td>
+                            <td style="width=11px;height:12px;background-color:#9966CC"></td>
+                            <td style="width=11px;height:12px;background-color:#9999CC"></td>
+                            <td style="width=11px;height:12px;background-color:#99CCCC"></td>
+                            <td style="width=11px;height:12px;background-color:#99FFCC"></td>
+                            <td style="width=11px;height:12px;background-color:#CC00CC"></td>
+                            <td style="width=11px;height:12px;background-color:#CC33CC"></td>
+                            <td style="width=11px;height:12px;background-color:#CC66CC"></td>
+                            <td style="width=11px;height:12px;background-color:#CC99CC"></td>
+                            <td style="width=11px;height:12px;background-color:#CCCCCC"></td>
+                            <td style="width=11px;height:12px;background-color:#CCFFCC"></td>
+                            <td style="width=11px;height:12px;background-color:#FF00CC"></td>
+                            <td style="width=11px;height:12px;background-color:#FF33CC"></td>
+                            <td style="width=11px;height:12px;background-color:#FF66CC"></td>
+                            <td style="width=11px;height:12px;background-color:#FF99CC"></td>
+                            <td style="width=11px;height:12px;background-color:#FFCCCC"></td>
+                            <td style="width=11px;height:12px;background-color:#FFFFCC"></td>
+                        </tr>
+                        <tr style="height:12px;">
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#FF00FF"></td>
+                            <td style="width=11px;height:12px;background-color:#000000"></td>
+                            <td style="width=11px;height:12px;background-color:#9900FF"></td>
+                            <td style="width=11px;height:12px;background-color:#9933FF"></td>
+                            <td style="width=11px;height:12px;background-color:#9966FF"></td>
+                            <td style="width=11px;height:12px;background-color:#9999FF"></td>
+                            <td style="width=11px;height:12px;background-color:#99CCFF"></td>
+                            <td style="width=11px;height:12px;background-color:#99FFFF"></td>
+                            <td style="width=11px;height:12px;background-color:#CC00FF"></td>
+                            <td style="width=11px;height:12px;background-color:#CC33FF"></td>
+                            <td style="width=11px;height:12px;background-color:#CC66FF"></td>
+                            <td style="width=11px;height:12px;background-color:#CC99FF"></td>
+                            <td style="width=11px;height:12px;background-color:#CCCCFF"></td>
+                            <td style="width=11px;height:12px;background-color:#CCFFFF"></td>
+                            <td style="width=11px;height:12px;background-color:#FF00FF"></td>
+                            <td style="width=11px;height:12px;background-color:#FF33FF"></td>
+                            <td style="width=11px;height:12px;background-color:#FF66FF"></td>
+                            <td style="width=11px;height:12px;background-color:#FF99FF"></td>
+                            <td style="width=11px;height:12px;background-color:#FFCCFF"></td>
+                            <td style="width=11px;height:12px;background-color:#FFFFFF"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <em class="purple" id="yl">预留</em><a href="javascript:void(0);" onclick="BtnStatus(this,&#39;4&#39;)"
+                                                     id="state5"><b>0</b> 间&nbsp;&nbsp;0%</a>
+            </div>
+
+
+            <div class="colors">
+                <em id="restore" style="color: black">颜色还原</em>
+            </div>
+
+
+        </div>
+        <div class="ftt_type">
+                <span class="mores">
+                    <img src="index/span_more.jpg" id="span_more" alt="">
+                    <div id="span_content" style="width: 480px;">
+                        <img src="index/span_more_1.jpg" alt="">
+                        <!-- 协议单位处理 -->
+                        <span><a href="javascript:void(0);" onclick="BtnIcon(this,&#39;co&#39;)"><em class="co"></em>协议单位</a> </span>
+                        <span><a href="javascript:void(0);" onclick="BtnIcon(this,&#39;night&#39;)"><em
+                                class="night"></em>午夜房</a></span>
+                        <span><a href="javascript:void(0);" onclick="BtnIcon(this,&#39;month&#39;)"><em
+                                class="month"></em>月租房</a></span>
+                        <span><a href="javascript:void(0);" onclick="BtnIcon(this,&#39;pin&#39;)"><em class="pin"></em>拼房</a></span>
+                        <span><a href="javascript:void(0);" onclick="BtnIcon(this,&#39;qian&#39;)"><em
+                                class="qian"></em>欠费房</a></span>
+                        <span><a href="javascript:void(0);" onclick="BtnIcon(this,&#39;zu&#39;)"><em class="zu"></em>租借未还</a></span>
+						<span><a href="javascript:void(0);" onclick="BtnIcon(this,&#39;yudi&#39;)"><em
+                                class="yudi"></em>预抵</a></span>
+                    </div>
+                </span>
+            <span><a href="javascript:void(0);" onclick="BtnIcon(this,&#39;cleans&#39;)"><em class="cleans"></em>打扫</a></span>
+            <span><a href="javascript:void(0);" onclick="BtnIcon(this,&#39;vip&#39;)"><em class="vip"></em>会员</a></span>
+            <span><a href="javascript:void(0);" onclick="BtnIcon(this,&#39;me&#39;)"><em class="me"></em>自用房</a></span>
+            <span style="display: none"><em class="secret"></em>保密</span>
+            <span><a href="javascript:void(0);"><em class="contact"></em>联房</a></span>
+            <span><a href="javascript:void(0);" onclick="BtnIcon(this,&#39;leave&#39;)"><em
+                    class="leave"></em>预离</a></span>
+            <span><a href="javascript:void(0);" onclick="BtnIcon(this,&#39;clock&#39;)"><em
+                    class="clock"></em>钟点房</a></span>
+            <span style="display: none"><em class="team"></em>团队</span>
+        </div>
+    </div>
+
+
+    <!--拼房结账-->
+    <div class="ping_open" style="display: none;">
+        <h1>此房有拼房，请选择要<font class="chooseopttitle" style="color: red;"></font>的入住单：</h1>
+        <table cellpadding="0" cellspacing="0" class="tbchooseorder">
+            <thead>
+            <tr>
+                <th>姓名</th>
+                <th>单号</th>
+                <th width="78">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>许诺</td>
+                <td>20146532654</td>
+                <td><span class="qtantj">结账</span></td>
+            </tr>
+            <tr>
+                <td>许诺</td>
+                <td>20146532654</td>
+                <td><span class="qtantj">结账</span></td>
+            </tr>
+            <tr>
+                <td>许诺</td>
+                <td>20146532654</td>
+                <td><span class="qtantj">结账</span></td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="close" onclick="javascript:$(&quot;.ping_open&quot;).hide();">&nbsp;</div>
+    </div>
+
+
+    <!--拼房结账-->
+    <div class="read_door" style="display: none;">
+        <h1>当前房卡为：【<font class="chooseopttitle" id="read_door_fh" style="color: red;">1001</font>】房号</h1>
+        <div class="types" style="margin-top:15px;">
+            <ul>
+                <li style="margin-left: 60px;">
+                    <input type="button" class="bus_add" data_orderid="" id="btn_Continue" value="续住">
+                    <input type="button" class="bus_add " data_orderid="" id="btn_Bill" value="退房"></li>
+            </ul>
+        </div>
+        <div class="close" onclick="javascript:$(&quot;.read_door&quot;).hide();">&nbsp;</div>
+    </div>
+
+
+    <!--泡泡-->
+    <div class="company_infor" id="pp" style="display: none;">
+        <div class="infor">
+            <h1 class="fontYaHei" id="Name">&nbsp;&nbsp;</h1>
+            <a class="nextorder" href="javascript:void(0);" title="下一个入住单">NEXT»</a>
+            <h2><em id="RoomNo">&nbsp;&nbsp;</em>/<em id="RoomType">&nbsp;&nbsp;</em></h2>
+            <p><em id="StartDate">&nbsp;&nbsp;</em>&nbsp;至&nbsp;<em id="EndDate">&nbsp;&nbsp;</em></p>
+        </div>
+        <div class="days">
+            <em id="OpenType">&nbsp;&nbsp;</em><em id="Status">&nbsp;&nbsp;</em>
+        </div>
+        <div class="prices">
+            <div class="every">
+                <em class="one" id="Consumption">0.00</em>
+                <p class="two">消费</p>
+            </div>
+            <div class="every">
+                <em class="three" id="YSC">0.00</em>
+                <p class="three">预授权</p>
+            </div>
+            <div class="every">
+                <em class="two" id="Deposit">0.00</em>
+                <p class="two">收款</p>
+            </div>
+            <div class="every">
+                <em class="four" id="Balance">0.00</em>
+                <p class="four" id="Yue">余额</p>
+            </div>
+            <div class="remarks" id="show" style="display: none; border-top: 0px; margin-top: -10px">
+                <em>说明：</em>
+                <span>以上金额统计包含所有联房房间</span>
+            </div>
+        </div>
+        <div class="remarks" id="TogetherLive">
+            <em style="width: 60px">同住客人：</em>
+            <span id="Cohabit" style="width: 340px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        </div>
+        <div class="remarks" id="div_Phone">
+            <em style="width: 20%">手机号码：</em>
+            <span id="CusPhone" style="width: 80%; text-align: left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        </div>
+        <div class="remarks" id="div_Contract">
+            <em style="width: 20%">协议单位：</em>
+            <span id="spanContract"
+                  style="width: 80%; text-align: left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        </div>
+        <div class="remarks" id="div_BedNo" style="width: 50%">
+            <em style="width: 40%">床号：</em>
+            <span id="spanBedNo" style="width: 60%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        </div>
+        <div class="remarks">
+            <em>备注：</em>
+            <span id="Remark">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        </div>
+
+
+        <div class="close">&nbsp;</div>
+    </div>
+
+
+    <!--显示维修原因-->
+    <div class="company_infor" id="room" style="display: none; width: 300px;">
+        <div class="infor">
+            <h1 class="fontYaHei" id="LogRoomNo">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h1>
+        </div>
+        <div class="remarks" style="border-top: 0px;">
+            <em>备注：</em>
+            <span style="min-height: 60px; width: 260px" id="LogRemark">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        </div>
+        <div class="infor">
+            <label>创建时间：</label><span id="CreateDate"></span>
+        </div>
+        <div class="close">&nbsp;</div>
+    </div>
+
+</div>
+<script language="javascript" type="text/javascript">
+    $("#span_more").click(function () {
+        $("#span_content").slideToggle();
+    });
+
+    var ids = "";
+    $(document).ready(function () {
+        $("#divFoot .colors em").click(function () {
+            $(".colorpanel").css("display", "none");
+            var id = $(this).siblings(".colorpanel").attr("id");
+            if (ids != id) {
+                $(this).siblings(".colorpanel").css("display", "block");
+                ids = id;
+            }
+            else {
+                ids = "";
+            }
+        });
+        $(".colorpanel").click(function () {
+            $(".colorpanel").css("display", "none");
+            ids = "";
+            var colors = $("#DisColor").css("background-color");
+            var value = $(this).attr("data-type");
+            $.cookie('color_cookie_' + value, colors, {expires: 365});
+            var check = false;
+            $("#div_rooms .divroom").each(function () {
+                check = true;
+                var zt = $(this).find(".divs").attr("zt");
+                if (zt == value) {
+                    switch (value) {
+                        case "0":
+                            $(this).find(".divs").removeClass("blue");
+                            break;
+                        case "1":
+                            $(this).find(".divs").removeClass("red");
+                            break;
+                        case "2":
+                            $(this).find(".divs").removeClass("gray");
+                            break;
+                        case "3":
+                            $(this).find(".divs").removeClass("black");
+                            break;
+                        case "4":
+                            $(this).find(".divs").removeClass("purple");
+                            break;
+                    }
+
+                    $(this).find(".divs").css("background-color", colors);
+                }
+            });
+
+            switch (value) {
+                case "0":
+                    $("#kf").removeClass("blue");
+                    $("#kf").css("background-color", colors);
+                    break;
+                case "1":
+                    $("#rz").removeClass("red");
+                    $("#rz").css("background-color", colors);
+                    break;
+                case "2":
+                    $("#ds").removeClass("gray");
+                    $("#ds").css("background-color", colors);
+                    break;
+                case "3":
+                    $("#xl").removeClass("black");
+                    $("#xl").css("background-color", colors);
+                    break;
+                case "4":
+                    $("#yl").removeClass("purple");
+                    $("#yl").css("background-color", colors);
+                    break;
+            }
+            var a = Number(value) + 1;//$("#state" + a).attr("style") != undefined ||
+            if ($("#state" + a).hasClass("select_" + value)) {
+                $("#state" + a).css("background-color", colors);
+            }
+        });
+        ShowColorControl("txtBackgroundColor");
+    });
+    //txtBackgroundColor 为添加调色板功能的控件ID实现方法：
+    //绑定控件 调用此函数实现调用调色板
+    function ShowColorControl(controlId) {
+        $("#" + controlId).bind("click", OnDocumentClick);
+    }
+
+    var ColorHex = new Array('00', '33', '66', '99', 'CC', 'FF')
+    var SpColorHex = new Array('FF0000', '00FF00', '0000FF', 'FFFF00', '00FFFF', 'FF00FF')
+    var current = null
+
+    //初始化调色板
+    function initPanel() {
+        var colorTable = ''
+        for (i = 0; i < 2; i++) {
+            for (j = 0; j < 6; j++) {
+                colorTable = colorTable + '<tr style="height:12px;">'
+                colorTable = colorTable + '<td style="width=11px;height:12px;background-color:#000000">'
+                if (i == 0) {
+                    colorTable = colorTable + '<td style="width=11px;height:12px;background-color:#' + ColorHex[j] + ColorHex[j] + ColorHex[j] + '">'
+                }
+                else {
+                    colorTable = colorTable + '<td style="width=11px;height:12px;background-color:#' + SpColorHex[j] + '">'
+                }
+                colorTable = colorTable + '<td style="width=11px;height:12px;background-color:#000000">'
+                for (k = 0; k < 3; k++) {
+                    for (l = 0; l < 6; l++) {
+                        colorTable = colorTable + '<td style="width=11px;height:12px;background-color:#' + ColorHex[k + i * 3] + ColorHex[l] + ColorHex[j] + '">'
+                    }
+                }
+            }
+        }
+        colorTable = '<table width=253 border="0" cellspacing="0" cellpadding="0" style="border:1px #000000 solid;border-bottom:none;border-collapse: collapse;display:none" bordercolor="000000">' +
+            '<tr height="30px"><td colspan=21 bgcolor=#cccccc>' +
+            '<table cellpadding="0" cellspacing="1" border="0" style="border-collapse: collapse;">' + '<tr><td width="3"><td><input type="text" id="DisColor" size="6" disabled style="border:solid 1px #000000;background-color:#ffff00"></td>' +
+            '<td width="3"><td><input type="text" id="HexColor" size="7" style="border:inset 1px;font-family:Arial;" value="#000000"></td><td align="right" width="100%"><span class="spnClose" style="cursor:hand;">Ⅹ</span>&nbsp;</td></tr></table></td></table>' +
+            '<table width=253 class="tblColor" border="1" cellspacing="0" cellpadding="0" style="border-collapse: collapse; margin-top: 30px" bordercolor="000000" style="cursor:hand;">' + colorTable + '</table>';
+        $(".colorpanel").html(colorTable);
+        $(".tblColor").bind("mouseover", doOver);
+        $(".tblColor").bind("mouseout", doOut);
+        $(".tblColor").bind("click", doclick);
+        $(".spnClose").bind("click", function () {
+            $(".colorpanel").css("display", "none");
+        });
+    }
+
+    //鼠标覆盖事件
+    function doOver(event) {
+        var e = $.event.fix(event);
+        var element = e.target;
+        if ((element.tagName == "TD") && (current != element)) {
+            if (current != null) {
+                current.style.backgroundColor =
+                    current.style.background;
+            }
+            element.style.background = element.style.backgroundColor;
+            $("#DisColor").css("backgroundColor",
+                element.style.backgroundColor);
+            var clr = element.style.backgroundColor.toUpperCase();
+            if (clr.indexOf('RGB') > -1) {
+                clr = clr.substring(clr.length - 18);
+                clr = rgb2hex(clr);
+            }
+            $("#HexColor").val(clr);
+            //element.style.backgroundColor = "white";
+            current = element;
+        }
+    }
+
+    //鼠标移开事件
+    function doOut(event) {
+        if (current != null) current.style.backgroundColor =
+            current.style.background.toUpperCase();
+    }
+
+    //鼠标点击事件
+    function doclick(event) {
+        var e = $.event.fix(event);
+        if (e.target.tagName == "TD") {
+            var clr = e.target.style.background;
+            clr = clr.toUpperCase();
+            if (targetElement) {
+                if (clr.indexOf('RGB') > -1) {
+                    clr = clr.substring(clr.length - 18);
+                    clr = rgb2hex(clr);
+                }
+                targetElement.value = clr;
+            }
+            DisplayClrDlg(false, e);
+            return clr;
+        }
+    }
+
+    var targetElement = null;
+
+    function OnDocumentClick(event) {
+        var e = $.event.fix(event);
+        var srcElement = e.target;
+        targetElement = srcElement;
+        DisplayClrDlg(true, e);
+    }
+
+    //显示颜色对话框
+    //display 决定显示还是隐藏
+    //自动确定显示位置
+    function DisplayClrDlg(display, event) {
+        var clrPanel = $(".colorpanel");
+        if (display) {
+            var left = document.body.scrollLeft + event.clientX;
+            var top = document.body.scrollTop + event.clientY;
+            if (event.clientX + clrPanel.width > document.body.clientWidth) {
+                //对话框显示在鼠标右方时，会出现遮挡，将其显示在鼠标左方 left -= clrPanel.width;
+            }
+            if (event.clientY + clrPanel.height > document.body.clientHeight) {
+                //对话框显示在鼠标下方时，会出现遮挡，将其显示在鼠标上方 top -= clrPanel.height;
+            }
+            clrPanel.css("left", left);
+            clrPanel.css("top", top);
+            clrPanel.css("display", "block");
+        }
+        else {
+            clrPanel.css("display", "none");
+        }
+    }
+
+    $(document).ready(function () {
+        initPanel();
+    });
+
+    //RGB转十六进制颜色值
+    function zero_fill_hex(num, digits) {
+        var s = num.toString(16);
+        while (s.length < digits)
+            s = "0" + s;
+        return s;
+    }
+
+    function rgb2hex(rgb) {
+        if (rgb.charAt(0) == '#')
+            return rgb;
+        var n = Number(rgb);
+        var ds = rgb.split(/\D+/);
+        var decimal = Number(ds[1]) * 65536 + Number(ds[2]) * 256 + Number(ds[3]);
+        return "#" + zero_fill_hex(decimal, 6);
+    }
+</script>
+
+
+<!--慧评弹出框-->
+<!--<div class="swing_02div" style="position:fixed; bottom:30px; right:50px;display:none">
+<a href="javascript:void(0);" ><img class="swing" src="../images/swing_02.png" alt="" /></a>
+<a href="javascript:void(0);" class="swing_02a" style="position:absolute; top:0px; right:0px; display:block; width:30px; height:30px;">&nbsp;</a>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var IsRoomState = $.cookie("IsRoomState");
+        if (IsRoomState != null && IsRoomState != "" && IsRoomState != undefined) {
+            $(".swing_02div").show();
+        }
+        $(".swing_02a").click(function () {
+            $(".swing_02div").hide();
+            $.cookie("IsRoomState", "");
+        });
+        $(".swing").click(function () {
+            top.openTab('/APPMarketRequest.aspx?DetialId=13&r=' + Math.random(), "应用市场", true);
+            $.cookie("IsRoomState", "");
+        })
+    });
+</script>-->
+
+
+<div style="width: 150px; height: 180px; display: none;" class="menu">
+    <div id="div_book" class="RoomStateMenu menu-item" name="" href="" style="height: 20px;">
+        <div class="menu-text">预订</div>
+    </div>
+    <!--   <div id="div_member" class="RoomStateMenu" >转为会员</div>-->
+    <div id="div_editcustomer" class="RoomStateMenu menu-item" name="" href="" style="height: 20px;">
+        <div class="menu-text">修改客人信息</div>
+    </div>
+    <div id="div_groupnoedit" class="RoomStateMenu menu-item" name="" href="" style="height: 20px;">
+        <div class="menu-text">修改主账房号</div>
+    </div>
+    <!--<div id="div_black" class="RoomStateMenu">一键转黑名单</div>-->
+    <div id="div_wakeup" class="RoomStateMenu menu-item" name="" href="" style="height: 20px;">
+        <div class="menu-text">添加叫醒</div>
+    </div>
+    <div id="div_leaseitem" class="RoomStateMenu menu-item" name="" href="" style="height: 20px;">
+        <div class="menu-text">租借物品</div>
+    </div>
+    <div id="div_revoke_occupancy" class="RoomStateMenu menu-item" name="" href="" style="height: 20px;">
+        <div class="menu-text">撤销入住</div>
+    </div>
+    <div id="div_print_checkin" class="RoomStateMPrintCheckout menu-item" name="" href="" style="height: 20px;">
+        <div class="menu-text">补打入住单</div>
+    </div>
+    <div id="div_print_continue" class="RoomStateMPrintContinue menu-item" name="" href="" style="height: 20px;">
+        <div class="menu-text">补打续住单</div>
+    </div>
+</div>
+<div style="width: 150px; height: 178px; display: none;" class="menu">
+    <div id="div_blank" class="RoomStateMenu menu-item" name="" href="" style="height: 20px;">
+        <div class="menu-text">空房</div>
+    </div>
+    <div id="div_reserve" class="RoomStateMenu menu-item" name="" href="" style="height: 20px;">
+        <div class="menu-text">预留</div>
+    </div>
+    <div id="div_waitclear" class="RoomStateMenu menu-item" name="" href="" style="height: 20px;">
+        <div class="menu-text">打扫</div>
+    </div>
+    <div id="div_making" class="RoomStateMenu menu-item" name="" href="" style="height: 20px;">
+        <div class="menu-text">维修</div>
+    </div>
+    <div id="div_cleans" class="RoomStateMenu menu-item" name="" href="" style="height: 20px;">
+        <div class="menu-text">请即打扫</div>
+    </div>
+    <div id="div_cleansout" class="RoomStateMenu menu-item" name="" href="" style="height: 20px;">
+        <div class="menu-text">打扫完毕</div>
+    </div>
+    <div id="div_linenchange" class="RoomStateMenu menu-item" name="" href="" style="height: 20px;">
+        <div class="menu-text">布草换洗</div>
+    </div>
+    <div id="div_batch" class="RoomStateMenu menu-item" name="" href="" style="height: 20px;">
+        <div class="menu-text">批量修改</div>
+    </div>
+</div>
+<div style="width: 150px; height: 130px; display: none;" class="menu">
+    <div id="div_feeadd" class="RoomStateMenu menu-item" name="" href="" style="height: 20px;">
+        <div class="menu-text">费用入账</div>
+    </div>
+    <div id="div_consume" class="RoomStateMenu menu-item" name="" href="" style="height: 20px;">
+        <div class="menu-text">商品入账</div>
+    </div>
+    <div id="div_deposit" class="RoomStateMenu menu-item" name="" href="" style="height: 20px;">
+        <div class="menu-text">退押金</div>
+    </div>
+    <div id="div_turndeposit" class="RoomStateMenu menu-item" name="" href="" style="height: 20px;">
+        <div class="menu-text">转押金</div>
+    </div>
+    <div id="div_turnbook" class="RoomStateMenu menu-item" name="" href="" style="height: 20px;">
+        <div class="menu-text">转账</div>
+    </div>
+    <div id="div_partbill" class="RoomStateMenu menu-item" name="" href="" style="height: 20px;">
+        <div class="menu-text">部分结账</div>
+    </div>
+</div>
+<div style="width: 150px; height: 45px; display: none;" class="menu">
+    <div id="div_doorcard" class="RoomStateMenu menu-item" name="" href="" style="height: 20px;">
+        <div class="menu-text">发卡</div>
+    </div>
+    <div id="div_doorclear" class="RoomStateMenu menu-item" name="" href="" style="height: 20px;">
+        <div class="menu-text">清卡</div>
+    </div>
+</div>
+<div id="mm" class="easyui-menu menu-top menu" style="width: 120px; height: 280px; display: none; left: 0px; top: 0px;">
+    <div id="div_open" class="RoomStateMenu menu-item" name="" href="" style="height: 20px;">
+        <div class="menu-text"></div>
+        <div class="menu-rightarrow"></div>
+    </div>
+    <div id="div_team_open" class="RoomStateMenu menu-item" name="" href="" style="height: 20px;">
+        <div class="menu-text"></div>
+        <div class="menu-rightarrow"></div>
+    </div>
+    <div id="div_out" class="RoomStateMenu menu-item" name="" href="" style="height: 20px;">
+        <div class="menu-text"></div>
+        <div class="menu-rightarrow"></div>
+    </div>
+    <div id="div_book_enter" class="RoomStateMenu menu-item" name="" href="" style="height: 20px;">
+        <div class="menu-text"></div>
+        <div class="menu-rightarrow"></div>
+    </div>
+    <!--<span class="top_line">&nbsp;</span>
+    <span class="bottom_line">&nbsp;</span>-->
+
+    <span style="border-bottom: 1px solid #ddd; width: 90%; line-height: 1px; height: 1px; float: left; margin-left: 23px; display: inline; margin-top: 5px">&nbsp;</span>
+    <span style="border-top: 1px solid #fff; width: 90%; line-height: 1px; height: 1px; float: left; margin-left: 23px; display: inline; margin-bottom: 5px">&nbsp;</span>
+    <div name="" href="" class="menu-item" style="height: 20px;">
+        <div class="menu-text"></div>
+        <div class="menu-rightarrow"></div>
+    </div>
+    <div id="div_adjust" class="RoomStateMenu menu-item" name="" href="" style="height: 20px;">
+        <div class="menu-text"></div>
+        <div class="menu-rightarrow"></div>
+    </div>
+    <div id="div_change" class="RoomStateMenu menu-item" name="" href="" style="height: 20px;">
+        <div class="menu-text"></div>
+        <div class="menu-rightarrow"></div>
+    </div>
+    <div id="div_transfer" class="RoomStateMenu menu-item" name="" href="" style="height: 20px;">
+        <div class="menu-text"></div>
+        <div class="menu-rightarrow"></div>
+    </div>
+    <div name="" href="" class="menu-item" style="height: 20px;">
+        <div class="menu-text"></div>
+        <div class="menu-rightarrow"></div>
+    </div>
+    <span style="border-bottom: 1px solid #ddd; width: 90%; line-height: 1px; height: 1px; float: left; margin-left: 23px; display: inline; margin-top: 5px">&nbsp;</span>
+    <div id="div_multi" class="RoomStateMenu menu-item" style="display: none; height: 20px;" name="" href="">
+        <div class="menu-text"></div>
+        <div class="menu-rightarrow"></div>
+    </div>
+    <div id="div_torz" class="RoomStateMenu menu-item" style="display: none; height: 20px;" name="" href="">
+        <div class="menu-text"></div>
+        <div class="menu-rightarrow"></div>
+    </div>
+    <div id="div_cancelyt" class="RoomStateMenu menu-item" style="display: none; height: 20px;" name="" href="">
+        <div class="menu-text"></div>
+        <div class="menu-rightarrow"></div>
+    </div>
+    <div id="div_addroom" class="RoomStateMenu menu-item" style="display: none; height: 20px;" name="" href="">
+        <div class="menu-text"></div>
+        <div class="menu-rightarrow"></div>
+    </div>
+    <span style="border-top: 1px solid #fff; width: 90%; line-height: 1px; height: 1px; float: left; margin-left: 23px; display: inline; margin-bottom: 5px">&nbsp;</span>
+    <div name="" href="" class="menu-item" style="height: 20px;">
+        <div class="menu-text"></div>
+        <div class="menu-rightarrow"></div>
+    </div>
+    <div name="" href="" class="menu-item" style="height: 20px;">
+        <div class="menu-text"></div>
+        <div class="menu-rightarrow"></div>
+    </div>
+</div>
+<div class="menu-text menu" style="display: none;">
+    <span>更多操作</span>
+
+</div>
+<div class="menu-rightarrow menu" style="display: none;"></div>
+<div class="menu-text menu" style="display: none;">
+    <span>修改房态</span>
+
+</div>
+<div class="menu-rightarrow menu" style="display: none;"></div>
+<div class="menu-text menu" style="display: none;">加开房间</div>
+<div class="menu-text menu" style="display: none;">取消预订</div>
+<div class="menu-text menu" style="display: none;">预订转入住</div>
+<div class="menu-text menu" style="display: none;">联房开房</div>
+<div class="menu-text menu" style="display: none;">
+    <span>账务相关</span>
+
+</div>
+<div class="menu-rightarrow menu" style="display: none;"></div>
+<div class="menu-text menu" style="display: none;">续住</div>
+<div class="menu-text menu" style="display: none;">换房</div>
+<div class="menu-text menu" style="display: none;">房价调整</div>
+<div class="menu-text menu" style="display: none;">
+    <span>门锁</span>
+
+</div>
+<div class="menu-rightarrow menu" style="display: none;"></div>
+<div class="menu-text menu" style="display: none;">预订转入住</div>
+<div class="menu-text menu" style="display: none;">结账</div>
+<div class="menu-text menu" style="display: none;">团队开房</div>
+<div class="menu-text menu" style="display: none;">开房</div>
+</body>
+</html>

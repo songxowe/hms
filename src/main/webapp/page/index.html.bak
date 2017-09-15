@@ -1,0 +1,235 @@
+﻿<!DOCTYPE html>
+
+<html>
+
+<head>
+	<TITLE>工厂实训框架 by SONG</TITLE>
+	<script type="text/javascript" src="easyui/jquery.min.js"></script>
+
+	<script type="text/javascript" src="easyui/jquery.easyui.min.js"></script>
+
+	<script type="text/javascript" src="easyui/locale/easyui-lang-zh_CN.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="easyui/themes/metro/easyui.css">
+
+	<link rel="stylesheet" type="text/css" href="easyui/themes/icon.css">
+	<script src="js/Clock.js"></script>
+	<script src="js/index.js"></script>
+	<style>
+		#logorighttop {
+			PADDING-RIGHT: 50px;
+			BACKGROUND-POSITION: right 50%;
+			DISPLAY: block;
+			PADDING-LEFT: 0px;
+			BACKGROUND-IMAGE: url(images/bg_banner_menu.gif);
+			PADDING-BOTTOM: 0px;
+			PADDING-TOP: 3px;
+			BACKGROUND-REPEAT: no-repeat;
+			HEIGHT: 30px;
+			TEXT-ALIGN: right;
+			position: absolute;
+			top: 0px;
+			right: 0px;
+			width: 345px;
+		}
+		
+		#logorighttop A {
+			color: white;
+			text-decoration: none;
+		}
+		
+		#logomenu {
+			BACKGROUND-IMAGE: url(images/bg_nav.gif);
+			BACKGROUND-REPEAT: repeat-x;
+			HEIGHT: 30px;
+			color: white;
+		}
+		
+		#logomenu A {
+			color: white;
+		}
+	</style>
+	<script type="text/javascript">
+		//询问是否退出系统
+		function exitSystem() {
+			var flag = confirm("真的要退出系统吗？");
+			if (flag)
+				window.location = "userController_logout.html";
+		}
+
+		function showDivChangePassword() {
+			$("#passDiv").window({
+				title: "修改密码",
+				width: 550,
+				height: 250,
+				modal: true,
+				minimizable: false,
+				href: "changePassUI.jsp"
+			});
+		}
+	</script>
+	<script type="text/javascript">
+		/*
+		*	通过点击超链接，添加选项页
+		*	title选项页标题
+		*   href内容链接url
+		*/
+		function addTabs(title, href) {
+			var tab = $("#divtabs");
+			//判断选项页是否存在
+			if (tab.tabs('exists', title)) {
+				tab.tabs('select', title);
+				return;
+			}
+			var content;
+			if (href) {
+				content = "<iframe src='" + href + "' style='width:100%;height:100%'></iframe>";
+			} else {
+				content = "该功能尚在开发中....";
+			}
+			//添加新选项页
+			tab.tabs('add', {
+				title: title,
+				content: content,
+				closable: true
+			});
+		}
+	</script>
+</head>
+
+<!--c:if test="${false}">
+	  <c:redirect url="login.jsp"/>
+	</c:if-->
+
+
+<body class="easyui-layout">
+	<div data-options="region:'north',split:true" style="height: 133px; BACKGROUND-IMAGE: url(images/bg.gif);">
+		<img src="images/logo.png" border="0" />
+		<DIV id="logorighttop">
+			<IMG src="images/menu_seprator.gif" align=absMiddle>
+			<A id=HyperLink2 href="javascript:showDivChangePassword()">修改密码</A>
+			<IMG src="images/menu_seprator.gif" align=absMiddle>
+			<A id=HyperLink3 href="javascript:exitSystem()">退出系统</A>
+		</DIV>
+		<!-- 显示修改密码div -->
+		<div id="passDiv"></div>
+		<DIV id="logomenu">
+			<TABLE cellSpacing="0" cellPadding="0" width="100%">
+				<TBODY>
+					<TR>
+						<TD>
+							<DIV>
+								<IMG src="images/nav_pre.gif" align=absMiddle> 欢迎
+								<SPAN id=lblBra>牛耳软件工厂</SPAN> admin 光临
+							</DIV>
+						</TD>
+						<TD align=right width="70%">
+							<SPAN style="PADDING-RIGHT: 50px"><!--<A href="" target=_top>
+										
+										<IMG src="images/nav_changePassword.gif" align=absMiddle
+											border=0>重新登录 </A> 
+										 -->
+										<IMG src="images/menu_seprator.gif" align=absMiddle><SPAN
+									id="clock"></SPAN>
+							</SPAN>
+
+						</TD>
+					</TR>
+				</TBODY>
+			</TABLE>
+		</DIV>
+		<SCRIPT type=text/javascript>
+			var clock = new Clock();
+	clock.display(document.getElementById("clock"));
+		</SCRIPT>
+	</div>
+	<!-- 左边导航菜单 -->
+	<div data-options="region:'west',title:'导航菜单',split:true" style="width: 240px;">
+		<ul id="tree" class="easyui-tree">
+			<li>
+				<span><a href="javascript:addTabs('客人查询','page/Customer/customer_list.html')">客人查询</a></span>
+			</li>
+			<li>
+				<span><a href="javascript:addTabs('会员查询','page/Member/vip_manage.html')">会员查询</a></span>
+			</li>
+			<li>
+				<span>设置</span>
+				<ul>
+					<li>
+						<span><a href="javascript:addTabs('酒店信息','page/Set/company.html')">酒店信息</a></span>
+					</li>
+					<li>
+						<span><a href="javascript:addTabs('房间信息','page/Set/room.html')">房间信息</a></span>
+					</li>
+					<li>
+						<span><a href="javascript:addTabs('房价方案设置','#')">房价方案设置</a></span>
+					</li>
+					<li>
+						<span><a href="javascript:addTabs('门锁码设置','#')">门锁码设置</a></span>
+					</li>
+					<li>
+						<span><a href="javascript:addTabs('商品设置','#')">商品设置</a></span>
+					</li>
+					<li>
+						<span><a href="javascript:addTabs('费用设置','#')">费用设置</a></span>
+					</li>
+					<li>
+						<span><a href="javascript:addTabs('积分设置','#')">积分设置</a></span>
+					</li>
+					<li>
+						<span><a href="javascript:addTabs('其他资料','#')">其他资料</a></span>
+					</li>
+					<li>
+						<span><a href="javascript:addTabs('员工信息','#')">员工信息</a></span>
+					</li>
+					<li>
+						<span><a href="javascript:addTabs('账号管理','#')">账号管理</a></span>
+					</li>
+					<li>
+						<span><a href="javascript:addTabs('黑名单','#')">黑名单</a></span>
+					</li>
+					<li>
+						<span><a href="javascript:addTabs('班次管理','#')">班次管理</a></span>
+					</li>
+					<li>
+						<span><a href="javascript:addTabs('权限管理','#')">权限管理</a></span>
+					</li>
+					<li>
+						<span><a href="javascript:addTabs('修改密码','#')">修改密码</a></span>
+					</li>
+					<li>
+						<span><a href="javascript:addTabs('系统设置','#')">系统设置</a></span>
+					</li>
+					<li>
+						<span><a href="javascript:addTabs('渠道设置','#')">渠道设置</a></span>
+					</li>
+
+					<li>
+						<span>Sub Folder 1</span>
+						<ul>
+							<li>
+								<span><a href="javascript:addTabs('权限设置','#')">File 11</a></span>
+							</li>
+							<li>
+								<span><a href="javascript:addTabs('权限设置1','#')">File 12</a></span>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</li>
+			<li>
+				<span>File21</span>
+			</li>
+
+		</ul>
+	</div>
+	<!-- 右边内容部分 -->
+	<div data-options="region:'center'" style="padding: 5px; background: #eee;">
+		<div id="divtabs" class="easyui-tabs" data-options="fit:true,border:false">
+
+		</div>
+
+	</div>
+</body>
+
+</html>

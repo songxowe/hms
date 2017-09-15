@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hms.dao.RoomTypeMapper">
+
+    <resultMap id="roomtype-result" type="com.hms.pojo.RoomType">
+        <id property="roomTypeId" column="roomType_id"/>
+        <result property="roomTypeName" column="roomType_Name"/>
+        <result property="roomTypeRemark" column="roomType_Remark"/>
+        <result property="otherOne" column="other_One"/>
+        <result property="otherTwoo" column="ther_Two"/>
+        <result property="otherThree" column="other_Three"/>
+    </resultMap>
+
+
+    <select id="find" resultMap="roomtype-result">
+        SELECT * FROM roomtype
+    </select>
+
+
+</mapper>

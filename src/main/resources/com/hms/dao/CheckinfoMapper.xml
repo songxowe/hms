@@ -1,0 +1,155 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.hms.dao.CheckinfoMapper">
+
+    <resultMap type="com.hms.pojo.Checkinfo" id="checkinfo-result">
+        <id property="checkId" column="check_Id"/>
+        <result property="memberId" column="member_Id"/>
+        <result property="diyId" column="diy_Id"/>
+        <result property="guestType" column="guest_Type"/>
+        <result property="checkType" column="check_Type"/>
+        <result property="roomPrice" column="room_Price"/>
+        <result property="inTime" column="in_Time"/>
+        <result property="stayHours" column="stay_Hours"/>
+        <result property="preoutTime" column="preout_Time"/>
+        <result property="mainpayRoom" column="mainpay_Room"/>
+        <result property="payType" column="pay_Type"/>
+        <result property="operater" column="operater"/>
+        <result property="sumRoomprice" column="sum_Roomprice"/>
+        <result property="checkRemark" column="check_Remark"/>
+        <result property="secret" column="secret"/>
+        <result property="otherOne" column="other_One"/>
+        <result property="otherTwo" column="otherTwo"/>
+        <result property="otherThree" column="other_Three"/>
+        <result property="groupId" column="group_Id"/>
+        <association property="roomCase" column="roomcase_id" javaType="com.hms.pojo.RoomCase">
+            <id property="roomCaseId" column="roomcase_id"/>
+        </association>
+        <association property="room" column="room_id" javaType="com.hms.pojo.Room">
+            <id property="roomId" column="room_id"/>
+            <result property="roomNo" column="room_no"/>
+        </association>
+    </resultMap>
+
+
+    <insert id="add" useGeneratedKeys="true" keyProperty="checkId" parameterType="com.hms.pojo.Checkinfo">
+		insert into checkinfo(diy_id, member_id, roomcase_id, guest_type, check_type,
+             room_price, in_time, stay_hours, preout_time, mainpay_room,
+             pay_type, operater, sum_roomprice, check_remark, secret,
+             other_one, other_two, other_three, group_id, room_id)
+            VALUES(#{diyId,jdbcType=INTEGER},#{memberId,jdbcType=INTEGER},#{roomCase.roomCaseId,jdbcType=INTEGER}
+            ,#{guestType,jdbcType=VARCHAR},#{checkType,jdbcType=VARCHAR},#{roomPrice,jdbcType=DOUBLE}
+            ,#{inTime,jdbcType=TIMESTAMP},#{stayHours,jdbcType=INTEGER},#{preoutTime,jdbcType=TIMESTAMP}
+            ,#{mainpayRoom,jdbcType=INTEGER},#{payType,jdbcType=VARCHAR},#{operater,jdbcType=VARCHAR}
+            ,#{sumRoomprice,jdbcType=DOUBLE},#{checkRemark,jdbcType=VARCHAR},#{secret,jdbcType=VARCHAR}
+            ,'在住',#{otherTwo,jdbcType=VARCHAR},#{otherThree,jdbcType=VARCHAR}
+            ,#{groupId,jdbcType=INTEGER},#{room.roomId,jdbcType=INTEGER}
+            )
+	</insert>
+
+    <select id="findById" parameterType="int" resultMap="checkinfo-result">
+        SELECT * FROM checkinfo where check_id=#{checkId}
+    </select>
+
+    <select id="findByGroupId" parameterType="int" resultMap="checkinfo-result">
+        SELECT * FROM checkinfo where group_id=#{groupId}
+    </select>
+
+    <update id="modify" parameterType="com.hms.pojo.Checkinfo">
+        UPDATE checkinfo SET
+             diy_id=#{diyId,jdbcType=INTEGER}, member_id=#{memberId,jdbcType=INTEGER}, roomcase_id=#{roomCase.roomCaseId,jdbcType=INTEGER},
+             guest_type=#{guestType,jdbcType=VARCHAR}, check_type=#{checkType,jdbcType=VARCHAR},
+             room_price=#{roomPrice,jdbcType=DOUBLE}, in_time=#{inTime,jdbcType=TIMESTAMP}, stay_hours=#{stayHours,jdbcType=INTEGER},
+             preout_time=#{preoutTime,jdbcType=TIMESTAMP}, mainpay_room=#{mainpayRoom,jdbcType=INTEGER},
+             pay_type=#{payType,jdbcType=VARCHAR}, operater=#{operater,jdbcType=VARCHAR}, sum_roomprice=#{sumRoomprice,jdbcType=DOUBLE},
+             check_remark=#{checkRemark,jdbcType=VARCHAR}, secret=#{secret,jdbcType=VARCHAR},
+             other_one=#{otherOne,jdbcType=VARCHAR}, other_two=#{otherTwo,jdbcType=VARCHAR}, other_three=#{otherThree,jdbcType=VARCHAR},
+             group_Id=#{groupId,jdbcType=INTEGER},room_Id=#{room.roomId,jdbcType=INTEGER}
+      where check_id = #{checkId}
+    </update>
+    <select id="findByTime" resultType="int">
+        SELECT count(DISTINCT c.room_id) FROM checkinfo c , room r
+        WHERE c.room_id=r.room_id
+        and c.other_one = '在住'
+        <if test="checkId != null">
+            and c.check_id != #{checkId}
+        </if>
+        <if test="inTime != null">
+            <![CDATA[AND c.preout_time > #{inTime}]]>
+        </if>
+        <if test="roomTypeId != null">
+            and r.roomtype_id = #{roomTypeId}
+        </if>
+
+    </select>
+
+    <!--8-27新增方法 by zjh-->
+    <select id="findByRoomId" parameterType="int" resultMap="checkinfo-result">
+        SELECT * FROM checkinfo where room_id=#{roomId} and other_one like '%在住%'
+    </select>
+
+
+    <select id="findByBegintime" parameterType="java.util.Date" resultMap="checkinfo-result">
+      SELECT * FROM checkinfo where preout_time>#{beginTime} and other_one LIKE '%在住%'
+     </select>
+
+
+    <select id="findByCheckState" resultMap="checkinfo-result">
+        SELECT * FROM checkinfo c , room r
+        WHERE c.room_id=r.room_id AND c.other_One='在住'
+    </select>
+
+
+    <!--<select id="canCheckinNum" resultType="int">-->
+        <!--SELECT (-->
+        <!--SELECT count(DISTINCT (room_id)) from room-->
+
+        <!--WHERE roomtype_id=#{roomTypeId}-->
+        <!--AND room_status='启用'-->
+        <!--)-(-->
+        <!--SELECT count(DISTINCT (c.room_id)) FROM checkinfo c, room r-->
+        <!--where c.room_id = r.room_id-->
+        <!--and 1=1-->
+        <!--and r.roomtype_id=#{roomTypeId}-->
+        <!--<![CDATA[AND c.preout_time > #{inTime}]]>-->
+        <!--)-(-->
+        <!--SELECT IFNULL(sum(br.room_amount),0) from book b,bookroom br-->
+        <!--where b.book_id = br.book_id-->
+        <!--and 1=1-->
+        <!--AND b.book_status LIKE '%预定%'-->
+        <!--and br.roomtype_id=#{roomTypeId}-->
+        <!--and b.come_time BETWEEN #{inTime} and #{preoutTime}-->
+
+        <!--)-->
+
+    <!--</select>-->
+
+    <!--<select id="canAddTime" resultType="int">-->
+        <!--SELECT (-->
+        <!--SELECT count(DISTINCT (room_id)) from room-->
+
+        <!--WHERE roomtype_id=#{roomTypeId}-->
+        <!--AND room_status='启用'-->
+        <!--)-(-->
+        <!--SELECT count(DISTINCT (c.room_id)) FROM checkinfo c, room r-->
+        <!--where c.room_id = r.room_id-->
+        <!--and 1=1-->
+        <!--and r.roomtype_id=#{roomTypeId}-->
+        <!--<![CDATA[AND c.preout_time > #{inTime}]]>-->
+        <!--)-(-->
+        <!--SELECT IFNULL(sum(br.room_amount),0) from book b,bookroom br-->
+        <!--where b.book_id = br.book_id-->
+        <!--and 1=1-->
+        <!--AND b.book_status LIKE '%预定%'-->
+        <!--and br.roomtype_id=#{roomTypeId}-->
+        <!--and b.come_time BETWEEN #{inTime} and #{preoutTime}-->
+
+        <!--)-->
+
+    <!--</select>-->
+
+</mapper>
